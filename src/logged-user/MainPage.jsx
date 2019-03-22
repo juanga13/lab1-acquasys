@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import background from './resources/background.jpg';
+import background from '../resources/background.jpg';
 
 export default class MainPage extends Component {
   getStyle() {
