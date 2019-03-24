@@ -19,9 +19,9 @@ class SinglePageExample extends Component {
 								<li><NavLink to="/other">Other</NavLink></li>
 							</ul>
 							<div>
-								<Route exact path="/" component={Home}/>
-								<Route path="/something" component={Something}/>
-								<Route path="/other" component={Other}/>
+								{/*<Route exact path="/" component={Home}/>*/}
+								{/*<Route path="/something" component={Something}/>*/}
+								{/*<Route path="/other" component={Other}/>*/}
 							</div>
 						</div>
 					</HashRouter>

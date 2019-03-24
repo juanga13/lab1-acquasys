@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import MainPage from "./logged-user/MainPage";
+import InitialPage from "./InitialPage";
 import {Navbar, Nav, NavbarBrand} from 'react-bootstrap';
 import logo from './resources/logo.png';
 import RegisterPage from "./RegisterPage";
+import background from './resources/background.jpg';
+import MainContainer from "./MainContainer";
 
 export default class App extends Component {
   handleLogin = () => {
@@ -11,7 +13,14 @@ export default class App extends Component {
 
   render() {
     return (
-      <React.Fragment>
+      <div
+        style={{
+          backgroundImage: 'url(' + background + ')',
+          height: '1000px',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'fill'
+        }}>
         {/*<Navbar bg="info" variant="dark">*/}
           {/*<NavbarBrand href="/home">*/}
             {/*<img*/}
@@ -28,8 +37,8 @@ export default class App extends Component {
             {/*<Nav.Link href="/contacto">Contacto</Nav.Link>*/}
           {/*</Nav>*/}
         {/*</Navbar>*/}
-        <RegisterPage/>
-      </React.Fragment>
+        <MainContainer/>
+      </div>
     );
   }
 }

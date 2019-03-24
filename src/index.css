@@ -1,31 +1,4 @@
-.body {
-    background-image: url("/resources/background.jpg");
-    background-color: greenyellow;
-}
-
-ul.navbar {
-    display: flex;
-    list-style-type: none;
-    max-height: 200px;
-    background-color: lightblue;
-    background-clip: padding-box;
-}
-
-ul.navbar li {
-    font-family: Lato, serif;
-    font-size: large;
-    padding: 5px;
-}
-
-
-div.main-page {
-    background-color: lightcoral;
-}
-
-
-div.text-card {
-    padding-bottom: 10px;
-    width: 500px;
-    border-radius: 10px;
-    background-color: greenyellow;
+body, html {
+    height: 100%;
+    margin: 0;
 }

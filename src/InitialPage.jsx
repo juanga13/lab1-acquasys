@@ -1,23 +1,9 @@
 import React, {Component} from 'react';
-import background from '../resources/background.jpg';
 
-export default class MainPage extends Component {
-  getStyle() {
-    return {
-
-    };
-  }
-
+export default class InitialPage extends Component {
   render() {
     return (
-      <div
-        style={{
-          backgroundImage: 'url(' + background + ')',
-          backgroundSize: 'cover',
-          overflow: 'hidden',
-        }}
-        className="bg-dark text-light">
-
+      <div>
         <h1>Main Page</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ac sapien nec nulla tincidunt vestibulum id ac nibh. Cras neque felis, pulvinar et risus non, fermentum malesuada purus. Etiam sagittis non felis sed pharetra. Quisque quis orci a nibh mattis tincidunt. Mauris vel nunc sit amet ante posuere porttitor. Suspendisse pellentesque libero neque, pulvinar egestas mi pulvinar at. Curabitur porttitor lacinia urna sagittis placerat. Donec eu magna purus. Etiam scelerisque tortor justo, vel ullamcorper odio tincidunt vitae.</p>
         <p>Integer a justo tempor, pulvinar lacus in, dapibus nisi. Curabitur in urna fermentum, egestas ex eget, consectetur metus. Integer condimentum pellentesque scelerisque. Nam et lobortis turpis. Aenean maximus rutrum arcu ac rutrum. Ut molestie id metus nec gravida. Nam semper, sapien eget eleifend pellentesque, nulla felis hendrerit urna, vitae rhoncus turpis massa sit amet odio. Sed id luctus sapien. In libero libero, vehicula at ligula vel, vulputate ultrices arcu. Vivamus ultricies venenatis dui a blandit. In lacus dolor, tincidunt quis neque a, laoreet convallis orci.</p>
