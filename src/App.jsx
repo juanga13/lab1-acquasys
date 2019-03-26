@@ -15,28 +15,14 @@ export default class App extends Component {
     return (
       <div
         style={{
+          display: 'flex',
+          justifyContent: 'center',
           backgroundImage: 'url(' + background + ')',
-          height: '1000px',
+          maxHeight: '100%',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'fill'
         }}>
-        {/*<Navbar bg="info" variant="dark">*/}
-          {/*<NavbarBrand href="/home">*/}
-            {/*<img*/}
-              {/*alt=""*/}
-              {/*src={logo}*/}
-              {/*width="30"*/}
-              {/*height="30"*/}
-              {/*className="d-inline-block align-top"*/}
-            {/*/>*/}
-            {/*{' Mundo Acqua'}*/}
-          {/*</NavbarBrand>*/}
-          {/*<Nav className="mr-auto">*/}
-            {/*<Nav.Link onClick={this.handleLogin} href="/ingresar">Ingresar</Nav.Link>*/}
-            {/*<Nav.Link href="/contacto">Contacto</Nav.Link>*/}
-          {/*</Nav>*/}
-        {/*</Navbar>*/}
         <MainContainer/>
       </div>
     );
