@@ -8,13 +8,14 @@ export default class MainContainer extends Component {
       <div
         style={{
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: 'rgba(255,255,255,0.5)',
+          overflow: 'auto',
+          backgroundColor: 'rgba(255,255,255,0.7)',
           padding: '10px',
           paddingLeft: '20px',
           paddingRight: '20px',
-          borderRadius: "20px",
+          borderRadius: "5px",
+          position: 'relative',
+          top: '5%',
         }}
       >
         <RegisterPage/>

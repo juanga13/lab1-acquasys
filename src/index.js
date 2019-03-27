@@ -5,3 +5,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 
 ReactDOM.render(<App/>, document.getElementById('root'));
+
+// import FormExample from './other/FormExample';
+// ReactDOM.render(<FormExample/>, document.getElementById('root'));
