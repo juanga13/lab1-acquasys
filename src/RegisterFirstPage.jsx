@@ -6,25 +6,19 @@ export default class RegisterFirstPage extends Component {
     super(props);
 
     this.areInputsValid = false;
-    this.state = {};
-  }
-
+    }
 
   postData(url: '', data= {}) {
     return fetch(url, {
       method: "POST",
-      mode: "cors", // no-cors, cors, *same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
-      headers: {
-        "Content-Type": "application/json",
-        // "Content-Type": "application/x-www-form-urlencoded",
-      },
-      redirect: "follow", // manual, *follow, error
-      referrer: "no-referrer", // no-referrer, *client
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
-    })
-      .then(response => response.json)
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {"Content-Type": "application/json"},
+      redirect: "follow",
+      referrer: "no-referrer",
+      body: JSON.stringify(data),
+    }).then(response => response.json)
   };
 
   handleSubmit = event => {
@@ -50,7 +44,7 @@ export default class RegisterFirstPage extends Component {
   render() {
     return (
       <div className='RegisterPage'>
-        {/*<h1>First Page</h1>*/}
+        <h1>First Page</h1>
         <form onSubmit={this.handleSubmit}>
           <FormGroup>
             <FormLabel>Username</FormLabel>
