@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from './version2/App';
 import 'bootstrap/dist/css/bootstrap.css';
-import './index.css';
+import {BrowserRouter as Router} from "react-router-dom";
+// import './version1/index.css';
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render(<Router><App/></Router>,
+  document.getElementById('root'));
 
-// import FormExample from './other/FormExample';
-// ReactDOM.render(<FormExample/>, document.getElementById('root'));
