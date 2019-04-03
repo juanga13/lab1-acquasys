@@ -18,6 +18,7 @@ export default class RegisterPage extends Component {
   handleSubmit = event => {
     event.preventDefault();
     console.log("submit!")
+
   };
 
   render() {

@@ -1,23 +1,25 @@
-"id": null, (NO)
-"username": null,
-"name": "Gato",
-"surname": "Gatosso",
-"dni": 12345678,
-"sex": null,
+
+
+============================"id": null, (NO)
+============================"username": null,
+============================"name": "Gato",
+============================"surname": "Gatosso",
+============================"dni": 12345678,
+============================"sex": null,
 "avatarUrl": null,
-"phoneNumber": null,
-"email": null,
-"password": "$2a$10$wNC8vtGhB7LpQbD6fLp84OUTKhJpqLWplStRVgzVFklIKjx4chfpy",
-"role": "TEACHER"
-String fatherName;
-String fatherSurname;
-String fatherPhoneNumber;
-String fatherEmail;
-String motherName;
-String motherSurname;
-String motherPhoneNumber;
-String motherEmail;
-String socialPlan;
-String affiliateNumber;
-String address;
-String birthday;
+============================"phoneNumber": null,
+============================"email": null,
+============================"password": "$2a$10$wNC8vtGhB7LpQbD6fLp84OUTKhJpqLWplStRVgzVFklIKjx4chfpy",
+============================"role": "TEACHER"
+============================String fatherName;
+============================String fatherSurname;
+============================String fatherPhoneNumber;
+============================String fatherEmail;
+============================String motherName;
+============================String motherSurname;
+============================String motherPhoneNumber;
+============================String motherEmail;
+============================String socialPlan;
+============================String affiliateNumber;
+============================String address;
+============================String birthday;

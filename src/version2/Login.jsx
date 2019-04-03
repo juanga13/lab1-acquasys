@@ -5,7 +5,7 @@ import logo2 from "../resources/logo2.jpg";
 export default class Login extends Component {
   handleSubmit = event => {
     event.preventDefault();
-
+    this.postData("", {});
   };
 
   postData(url: '', data= {}) {
