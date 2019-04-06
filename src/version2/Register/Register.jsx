@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import {Pagination, Form, Row, Col, Button} from "react-bootstrap";
-import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 export default class Register extends Component {
   constructor(props) {
     super(props);
-
+    this.xd = [];
     // default values so that does not break on first time
     this.state = {
+      paginationItems: this.renderPaginationItems(),
       username: "juanga13",
       password: "",
       name: "",
@@ -29,27 +30,42 @@ export default class Register extends Component {
       motherSurname: "",
       motherPhoneNumber: "",
       motherEmail: ""
-    }
+    };
   }
 
-  renderPagination() {
-    let active = 1;
+  handlePaginationItemClick = number => {
+    console.log(this.state.paginationItems);
+    for (let i = 0; i < this.state.paginationItems.length; i++) {
+      let temp = this.state.paginationItems[i].props;
+      temp.readOnly = false;
+      console.log(temp.active);
+      if (i + 1 == number) {
+        temp.active = true;
+      } else {
+        temp.active = false;
+      }
+      this.state.paginationItems[i] = temp;
+    }
+
+  };
+
+  renderPaginationItems = () => {
+    let active = 2;
     let items = [];
     for (let number = 1; number <= 3; number++) {
-      items.push(
-        <Pagination.Item
-          key={number}
-          active={number===active}
-          className="text-dark"
-        >
-          <NavLink to={"/register/" + number}>
-            {number}
-          </NavLink>
-        </Pagination.Item>
-        );
+      items.push(<Button>Hi</Button>);
+        {/*<Pagination.Item key={number}*/}
+                         {/*active={number === active}*/}
+                         {/*onClick={() => this.handlePaginationItemClick(number)}*/}
+        {/*>*/}
+          {/*{number}*/}
+        {/*</Pagination.Item>,*/}
+
     }
+    // console.log(items);
+    // this.xd = items;
     return items;
-  }
+  };
 
   postData(url: '', data= {}) {
     return fetch(url, {
@@ -62,9 +78,7 @@ export default class Register extends Component {
       referrer: "no-referrer",
       body: JSON.stringify(data),
     })
-       .then(response => console.log(response.ok))
-      .then(data => console.log(JSON.stringify(data)))
-      .catch(error => console.error(error));
+      .then(response => console.log(response.ok))
   };
 
   handleSubmit = event => {
@@ -284,6 +298,13 @@ export default class Register extends Component {
     );
   };
 
+  onChange = (page) => {
+    console.log(page);
+    this.setState({
+      current: page,
+    });
+  };
+
   /**
    * render method
    */
@@ -292,12 +313,7 @@ export default class Register extends Component {
       <div style={{padding: "10px"}}>
         <Router>
           <h2>REGISTER PAGE</h2>
-          <Pagination >{this.renderPagination()}</Pagination>
-          {/*<ul className="header">*/}
-            {/*<li><NavLink to="/register/1"></NavLink></li>*/}
-            {/*<li><NavLink to="/register/2">{this.renderSecondPage}</NavLink></li>*/}
-            {/*<li><NavLink to="/register/3">{this.renderThirdPage}</NavLink></li>*/}
-          {/*</ul>*/}
+          <Pagination style={{paddingRight: "10px"}}>{this.state.paginationItems}</Pagination>
           <div>
             <Route path="/register/1" component={this.renderFirstPage}/>
             <Route path="/register/2" component={this.renderSecondPage}/>
