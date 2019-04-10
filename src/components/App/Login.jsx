@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Form, Button, Row, Col} from 'react-bootstrap';
-import logo2 from "../resources/logo2.jpg";
+import logo2 from "../../logo2.jpg";
 
 export default class Login extends Component {
   handleSubmit = event => {
