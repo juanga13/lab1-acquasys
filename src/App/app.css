@@ -1,0 +1,6 @@
+.app-navbar {
+    display: flex;
+    flex-wrap: wrap;
+    flow-direction: row;
+    justify-content: space-between;
+}

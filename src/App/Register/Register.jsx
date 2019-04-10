@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
-import {Form, Row, Col, Button, Nav} from "react-bootstrap";
-import {BrowserRouter as Router, Route, NavLink} from 'react-router-dom';
+import {Form, Row, Col, Button} from "react-bootstrap";
+import {HashRouter as Router, Route, NavLink} from 'react-router-dom';
 import './register.css';
-import PaginationButton from "./PaginationButton";
 import Pagination from "react-bootstrap/Pagination";
 
 export default class Register extends Component {
@@ -68,7 +67,7 @@ export default class Register extends Component {
 
   renderFirstPage = () => {
     return(
-      <div>
+      <div className={"register-page-sub"}>
         <h3>First Register Page</h3>
         <Form>
           <Form.Group as={Row}>
@@ -162,7 +161,7 @@ export default class Register extends Component {
 
   renderSecondPage = () => {
     return(
-      <div>
+      <div className={"register-page-sub"}>
         <h3>Second Register Page</h3>
         <Form.Group as={Row}>
           <Form.Label column>DNI</Form.Label>
@@ -196,7 +195,7 @@ export default class Register extends Component {
 
   renderThirdPage = () => {
     return(
-      <div>
+      <div className={"register-page-sub"}>
         <h3>Third Register Page</h3>
         <Form onSubmit={this.handleSubmit}>
           <Form.Group as={Row}>
@@ -269,12 +268,16 @@ export default class Register extends Component {
     );
   };
 
+  /**
+   * renders pagination buttons which have an active state
+   *
+   * @returns {Array} of NavLinks
+   */
   renderPaginationItems = () => {
     let items = [];
     for (let number = 1; number <= 3; number++) {
       items.push(
-        <NavLink className={"btn btn-info"}
-                 style={{marginRight: "5px"}}
+        <NavLink className={"btn btn-info outline-none navlink-pagination"}
                  to={"/register/" + number}
                  active={number === this.state.active}>
           {number}
@@ -285,16 +288,18 @@ export default class Register extends Component {
   };
 
   /**
-   * render method
+   *
+   * @returns html
    */
   render() {
     return(
-      <div style={{padding: "10px"}}>
+      <div className={"register-page"}>
         <Router>
           <h2>REGISTER PAGE</h2>
           <Pagination>
             {this.renderPaginationItems()}
           </Pagination>
+          <hr className={"separator"}/>
           <div>
             <Route path="/register/1" component={this.renderFirstPage}/>
             <Route path="/register/2" component={this.renderSecondPage}/>

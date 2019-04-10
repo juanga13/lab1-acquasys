@@ -4,7 +4,7 @@ export default class Hub extends Component {
   render() {
     return(
       <div>
-        <h2>HUB</h2>
+        <h3>HUB div</h3>
       </div>
     );
   };
