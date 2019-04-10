@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Form, Button, Row, Col} from 'react-bootstrap';
 import logo2 from "../../logo2.jpg";
+import './login.css';
 
 export default class Login extends Component {
   handleSubmit = event => {
@@ -24,33 +25,28 @@ export default class Login extends Component {
 
   render() {
     return(
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '20px',
-        }}
-      >
-        <img alt='' src={logo2} width='200' height='200'/>
-        <br/>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Group as={Row}>
-            <Form.Label column>Nombre de usuario</Form.Label>
-            <Col><Form.Control id="username"
-                               type="name"
-                               placeholder="Nombre de usuario"
-                               onChange={this.handleChange}/></Col>
-          </Form.Group>
-          <Form.Group as={Row}>
-            <Form.Label column>Contraseña</Form.Label>
-            <Col><Form.Control id="password"
-                               type="password"
-                               placeholder="Contraseña"
-                               onChange={this.handleChange}/></Col>
-          </Form.Group>
-          <Button className="btn-info" type="submit">Entrar</Button>
-        </Form>
+      <div className='login'>
+        <div className='login-box'>
+          <img alt='' src={logo2} width='200' height='200'/>
+          <br/>
+          <Form onSubmit={this.handleSubmit}>
+            <Form.Group as={Row}>
+              <Form.Label column>Nombre de usuario</Form.Label>
+              <Col><Form.Control id="username"
+                                 type="name"
+                                 placeholder="Nombre de usuario"
+                                 onChange={this.handleChange}/></Col>
+            </Form.Group>
+            <Form.Group as={Row}>
+              <Form.Label column>Contraseña</Form.Label>
+              <Col><Form.Control id="password"
+                                 type="password"
+                                 placeholder="Contraseña"
+                                 onChange={this.handleChange}/></Col>
+            </Form.Group>
+            <Button className="btn-info" type="submit">Entrar</Button>
+          </Form>
+        </div>
       </div>
     );
   };

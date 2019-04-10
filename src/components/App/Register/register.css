@@ -1,15 +1,26 @@
 .navlink-pagination {
+    ;
     margin-right: 5px;
-    outline: 0;
+    outline: none;
 }
 
 .register-page {
-    display: flex;
-    width: 60%;
-    flex-direction: column;
+    background-color: #5e6f92;
+    background-image: url("../background.jpg");
+    background-size: cover;
     justify-content: center;
-    padding-top: 15px;
-    margin: auto;
+    overflow: auto;
+}
+
+.register-box{
+    background-color: #F5F5F5CC;
+    display: flex;
+    width: 70%;
+    position: center;
+    flex-direction: column;
+    margin: 30px auto;
+    padding: 30px 100px 10px;
+    border-radius: 15px;
 }
 
 .register-page-sub {

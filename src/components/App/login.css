@@ -1,0 +1,20 @@
+.login {
+    font-family: Lato, sans-serif;
+    background-color: #5e6f92;
+    background-image: url("./background.jpg");
+    background-size: cover;
+    overflow: auto;
+    min-height: 89vh;
+}
+
+.login-box {
+    font-family: Lato, sans-serif;
+    background-color: #eaf0ffCC;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    margin: 30px auto;
+    width: 40%;
+    border-radius: 15px;
+}

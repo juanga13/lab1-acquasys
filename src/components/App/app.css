@@ -1,4 +1,5 @@
 .app-navbar {
+    font-family: Lato, sans-serif;
     /*TODO why flex wrap does not work?*/
     display: flex;
     flex-wrap: wrap;
