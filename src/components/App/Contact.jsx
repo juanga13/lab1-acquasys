@@ -21,7 +21,7 @@ export default class Contact extends Component {
             <h6>Telefono</h6>
           </Col>
           <Col>
-            <br></br>
+            <br/>
             <h6>juanito.juanitez@gmail.com</h6>
             <h6>+5301596848</h6>
           </Col>

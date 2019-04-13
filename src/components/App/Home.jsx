@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import News from "./News";
 import Hub from "./Hub";
-import Contact from "./Contact";
 import './home.css';
 
 /**
@@ -15,7 +14,6 @@ export default class Home extends Component {
       <div className='home'>
         <News/>
         <Hub/>
-        <Contact/>
       </div>
     );
   };

@@ -5,7 +5,6 @@ import Pagination from "react-bootstrap/Pagination";
 import FirstPage from './FirstPage';
 import SecondPage from './SecondPage';
 import ThirdPage from './ThirdPage';
-import Contact from "../Home/Contact";
 
 
 export default class Register extends Component {
@@ -108,23 +107,20 @@ export default class Register extends Component {
    */
   render() {
     return(
-      <div className={"register-page"}>
-        <div className={"register-box"}>
-          <Router>
-            <h2>Registrarse</h2>
-            <Pagination>
-              {this.renderPaginationItems()}
-            </Pagination>
-            <hr className={"separator"}/>
-            <div>
-              {/*TODO: save info data to state?*/}
-              <Route path="/1" component={FirstPage}/>
-              <Route path="/2" component={SecondPage}/>
-              <Route path="/3" component={ThirdPage}/>
-            </div>
-          </Router>
-        </div>
-        <Contact/>
+      <div className={"register-box"}>
+        <Router>
+          <h2>Registrarse</h2>
+          <Pagination>
+            {this.renderPaginationItems()}
+          </Pagination>
+          <hr className={"separator"}/>
+          <div>
+            {/*TODO: save info data to state?*/}
+            <Route path="/1" component={FirstPage}/>
+            <Route path="/2" component={SecondPage}/>
+            <Route path="/3" component={ThirdPage}/>
+          </div>
+        </Router>
       </div>
 
     );

@@ -1,7 +1,7 @@
 .home {
     font-family: Lato, sans-serif;
     background-color: #5e6f92;
-    background-image: url("../background.jpg");
+    background-image: url("background.jpg");
     background-size: cover;
     overflow: auto;
     min-height: 89vh;

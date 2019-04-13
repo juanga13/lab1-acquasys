@@ -8,5 +8,14 @@
 }
 
 .app-link {
-    font-size: 20px;
+    font-size: 18px;
+}
+
+.app-container {
+    font-family: Lato, sans-serif;
+    background-color: #5e6f92;
+    background-image: url("./background.jpg");
+    background-size: cover;
+    overflow: auto;
+    min-height: 89vh;
 }

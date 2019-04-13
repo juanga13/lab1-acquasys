@@ -44,7 +44,7 @@ export default class Login extends Component {
                                  placeholder="Contraseña"
                                  onChange={this.handleChange}/></Col>
             </Form.Group>
-            <Button className="btn-info" type="submit">Entrar</Button>
+            <div className="login-button"><Button className="btn-info loin-button" type="submit">Entrar</Button></div>
           </Form>
         </div>
       </div>
