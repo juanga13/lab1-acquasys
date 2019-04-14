@@ -1,23 +1,19 @@
 import React, {Component} from 'react';
 import News from "./News";
 import Hub from "./Hub";
-import Contact from "./Contact";
+import './home.css';
 
 /**
  * Home Component
  *
- * Description: --
- * 
- * TODO: this component may be useless, check App.jsx
+ * Description: Homepage container component
  **/
 export default class Home extends Component {
   render() {
     return(
-      <div>
-        <h3>This is homepage div</h3>
+      <div className='home'>
         <News/>
         <Hub/>
-        <Contact/>
       </div>
     );
   };

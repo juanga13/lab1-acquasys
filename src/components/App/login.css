@@ -1,0 +1,15 @@
+.login-box {
+    background-color: #eaf0ffCC;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    margin: 30px auto;
+    width: 40%;
+    border-radius: 15px;
+}
+
+.login-button {
+    display: flex;
+    justify-content: center;
+}

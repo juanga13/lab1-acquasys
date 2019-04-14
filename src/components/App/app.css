@@ -1,0 +1,21 @@
+.app-navbar {
+    font-family: Lato, sans-serif;
+    /*TODO why flex wrap does not work?*/
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #16b1d9;
+    height: 70px;
+}
+
+.app-link {
+    font-size: 18px;
+}
+
+.app-container {
+    font-family: Lato, sans-serif;
+    background-color: #5e6f92;
+    background-image: url("./background.jpg");
+    background-size: cover;
+    overflow: auto;
+    min-height: 89vh;
+}
