@@ -9,6 +9,11 @@ import Contact from "./Contact";
 
 
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+    sessionStorage.setItem("token", "");
+  };
+
   render() {
     return (
       <Fragment>
@@ -21,5 +26,5 @@ export default class App extends Component {
         <Contact/>
       </Fragment>
     );
-  }
+  };
 }

@@ -2,13 +2,8 @@ import React, {Component} from 'react';
 import {Form, Col, Row, Button} from 'react-bootstrap';
 
 export default class SecondPage extends Component {
-  get id() {
-    return this._id;
-  }
   constructor(props) {
     super(props);
-
-    super._id = 5;
     this.state = {
       validated: false
     };

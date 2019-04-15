@@ -1,14 +1,9 @@
 import React, {Component} from 'react';
-import {Form, Col, Row, Button} from 'react-bootstrap';
+import {Form, Col, Row} from 'react-bootstrap';
 
 export default class FirstPage extends Component {
-  get id() {
-    return this._id;
-  }
   constructor(props) {
     super(props);
-
-    super._id = 3;
     this.state = {
       validated: false
     };

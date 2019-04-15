@@ -4,6 +4,10 @@ import {NavLink} from "react-router-dom";
 import logo from "../../logo.png";
 
 export default class AppNavbar extends Component {
+  constructor(props) {
+    super(props);
+  };
+
   render() {
     return (
       <Navbar className={"app-navbar"}>

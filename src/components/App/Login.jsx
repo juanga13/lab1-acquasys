@@ -4,24 +4,15 @@ import logo2 from "../../logo2.jpg";
 import './login.css';
 
 export default class Login extends Component {
+  constructor(props) {
+    super(props);
+  };
+
   handleSubmit = event => {
     event.preventDefault();
+    sessionStorage.setItem("token", "loginWasClicked");
     this.postData("", {});
   };
-
-  postData(url: '', data= {}) {
-    return fetch(url, {
-      method: "POST",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {"Content-Type": "application/json"},
-      redirect: "follow",
-      referrer: "no-referrer",
-      body: JSON.stringify(data),
-    }).then(response => response.json)
-  };
-
 
   render() {
     return(

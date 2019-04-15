@@ -10,7 +10,6 @@ import ThirdPage from './ThirdPage';
 export default class Register extends Component {
   constructor(props) {
     super(props);
-
     this.pages = [FirstPage, SecondPage, ThirdPage];
     console.log(this.pages[0].id);
     // default values so that does not break on first time
