@@ -11,7 +11,6 @@ import Contact from "./Contact";
 export default class App extends Component {
   constructor(props) {
     super(props);
-    sessionStorage.setItem("token", "");
   };
 
   render() {

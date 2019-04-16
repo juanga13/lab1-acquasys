@@ -10,8 +10,6 @@ import ThirdPage from './ThirdPage';
 export default class Register extends Component {
   constructor(props) {
     super(props);
-    this.pages = [FirstPage, SecondPage, ThirdPage];
-    console.log(this.pages[0].id);
     // default values so that does not break on first time
     this.state = {
       active: 1,
@@ -64,7 +62,7 @@ export default class Register extends Component {
       event.stopPropagation();
     }
     this.setState({ validated: true });
-    // this.postData('http://172.22.41.200:8080/api/user/register', this.state.data);
+    this.postData('http://172.22.41.200:8080/api/user/register', this.state.data);
   };
 
   /**

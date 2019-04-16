@@ -6,12 +6,33 @@ import './login.css';
 export default class Login extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      data: {
+        username: "",
+        password: "",
+      }
+    }
+  };
+
+  getData(url: '') {
+    return fetch(url,
+      {
+        method: "GET",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {"Content-Type": "application/json"},
+        redirect: "follow",
+        referrer: "no-referrer"
+      })
+      .then(results => {return results.json();})
+      // .then(data => this.setState({name : data}))
   };
 
   handleSubmit = event => {
     event.preventDefault();
-    sessionStorage.setItem("token", "loginWasClicked");
-    this.postData("", {});
+    this.postData("", this.state.data);
   };
 
   render() {
