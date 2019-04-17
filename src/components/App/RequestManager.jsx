@@ -1,3 +1,5 @@
+import { useCookies } from 'react-cookie';
+
 class RequestManager {
     static postData(url: '', data = {}) {
         return fetch(url, {
@@ -44,3 +46,4 @@ class RequestManager {
             .then(data => this.setState({name: data}))
     };
 }
+export default RequestManager;
