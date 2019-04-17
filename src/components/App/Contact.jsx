@@ -10,6 +10,11 @@ import Row from "react-bootstrap/Row";
  * and social links)
  **/
 export default class Contact extends Component {
+  constructor(props) {
+    super(props);
+    console.log("token is: " + this.props.token);
+  };
+
   render() {
     return(
       <div className='contact'>

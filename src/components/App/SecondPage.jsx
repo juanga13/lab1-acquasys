@@ -2,13 +2,8 @@ import React, {Component} from 'react';
 import {Form, Col, Row, Button} from 'react-bootstrap';
 
 export default class SecondPage extends Component {
-  get id() {
-    return this._id;
-  }
   constructor(props) {
     super(props);
-
-    super._id = 4;
     this.state = {
       validated: false
     };
@@ -18,6 +13,7 @@ export default class SecondPage extends Component {
     return(
       <div className={"register-page-sub"}>
         <h3>Second Register Page</h3>
+        <h6>{this.state.token}</h6>
         <Form.Group as={Row}>
           <Form.Label column>Nombre</Form.Label>
           <Col><Form.Control value={this.state.name}

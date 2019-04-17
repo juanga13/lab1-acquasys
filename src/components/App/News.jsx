@@ -3,6 +3,10 @@ import {Button} from 'react-bootstrap';
 import './home.css';
 
 export default class News extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   render() {
     return(
       <div className='news'>
