@@ -6,6 +6,32 @@ import logo from "../../logo.png";
 export default class AppNavbar extends Component {
   constructor(props) {
     super(props);
+    this.isLogged = props.isLogged;
+    this.state = {
+      navItems: [],
+    }
+  };
+
+  componentDidMount() {
+    this.renderNavItems();
+  }
+
+  renderNavItems = () => {
+    const isLogged = this.props.isLogged;
+    console.log("isLogged? " + this.isLogged);
+    let navItems = [];
+    if (!isLogged) {
+      navItems = [
+        <NavItem><NavLink className='nav-link app-link' to="/">Inicio</NavLink></NavItem>,
+        <NavItem><NavLink className='nav-link app-link' to="/login">Ingresar</NavLink></NavItem>,
+        <NavItem><NavLink className='nav-link app-link' to="/register#/1">Registrar</NavLink></NavItem>];
+    } else {
+      navItems = [
+        <NavItem><NavLink className='nav-link app-link' to="/">Inicio</NavLink></NavItem>,
+        <NavItem><NavLink className='nav-link app-link' to="/my-accound">Mi Cuenta</NavLink></NavItem>
+      ];
+    }
+    this.setState({navItems: navItems});
   };
 
   render() {
@@ -17,11 +43,7 @@ export default class AppNavbar extends Component {
             {' Mundo Acqua'}
           </NavLink></NavbarBrand>
         </Nav>
-        <Nav>
-          <NavItem><NavLink className='nav-link app-link' to="/">Inicio</NavLink></NavItem>
-          <NavItem><NavLink className='nav-link app-link' to="/login">Ingresar</NavLink></NavItem>
-          <NavItem><NavLink className='nav-link app-link' to="/register#/1">Registrar</NavLink></NavItem>
-        </Nav>
+        {this.state.navItems}
       </Navbar>
     );
   };

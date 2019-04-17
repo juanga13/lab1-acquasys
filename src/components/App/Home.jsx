@@ -15,15 +15,10 @@ export default class Home extends Component {
     super(props);
   }
 
-  handleClick = () => {
-    console.log(sessionStorage.getItem("tokenSss"));
-  };
-
   render() {
     return(
       <div className='home'>
-        <Button onClick={this.handleClick}>Click me</Button>
-        <News/>
+        <News cookies={this.props.cookies}/>
         <Hub/>
       </div>
     );

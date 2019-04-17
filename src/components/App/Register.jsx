@@ -72,9 +72,13 @@ export default class Register extends Component {
   handleChange = event => {
     event.preventDefault();
     console.log(event);
-    this.setState({
-      [event.target.id]: event.target.value
-    });
+    this.setState(
+      {
+        data: {
+          [event.target.id]: event.target.value
+        }
+      }
+    );
   };
 
 

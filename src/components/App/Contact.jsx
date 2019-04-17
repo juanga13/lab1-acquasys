@@ -12,7 +12,6 @@ import Row from "react-bootstrap/Row";
 export default class Contact extends Component {
   constructor(props) {
     super(props);
-    console.log("token is: " + this.props.token);
   };
 
   render() {
