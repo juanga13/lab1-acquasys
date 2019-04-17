@@ -2,32 +2,30 @@ import React, {Component} from 'react';
 import {Form, Button, Row, Col} from 'react-bootstrap';
 import logo2 from "../../logo2.jpg";
 import './login.css';
+import RequestManager from './RequestManager'
+import {instanceOf} from "prop-types";
+import {Cookies} from "react-cookie";
 
 export default class Login extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      data: {
-        username: "",
-        password: "",
-      }
-    }
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
   };
 
-  getData(url: '') {
-    return fetch(url,
-      {
-        method: "GET",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {"Content-Type": "application/json"},
-        redirect: "follow",
-        referrer: "no-referrer"
-      })
-      .then(results => {return results.json();})
-      // .then(data => this.setState({name : data}))
+  constructor(props) {
+    super(props);
+    const { cookies } = props;
+    this.state = {
+      token: cookies.get('token') || null
+    };
+  }
+  handleSubmit = event => {
+    event.preventDefault();
+    let username = "facundo";//placeholder
+    let password = "asd123"; //placeholder
+    let url = "http://localhost:8080/oauth/token";
+    const { cookies } = this.props;
+    let tokenObject = JSON.parse(RequestManager.getToken(url,username,password));
+    cookies.set('token', tokenObject.access_token, { path: '/' });
   };
 
   handleSubmit = event => {
