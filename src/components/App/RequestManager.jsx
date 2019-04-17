@@ -1,4 +1,4 @@
-import { useCookies } from 'react-cookie';
+const baseUrl = "http://localhost:8080";
 
 class RequestManager {
     static postData(url: '', data = {}) {
@@ -14,13 +14,13 @@ class RequestManager {
         }).then(response => response.json)
     };
 
-    static getToken(url, username, password) {
-        var urlen = "grant_type=password&password=" + password + "&username=" + username;
-        var xhr = new XMLHttpRequest();
+    static getToken( username, password) {
+        let urlen = "grant_type=password&password=" + password + "&username=" + username;
+        let xhr = new XMLHttpRequest();
         xhr.withCredentials = true;
         xhr.datatype = 'json';
 
-        xhr.open("POST", url, false);
+        xhr.open("POST", baseUrl + "/oauth/token", false);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.setRequestHeader("Authorization", "Basic Y2xpZW50aWQ6Y2xpZW50c2VjcmV0");//ClientId y clientsecret hardcodeado
         xhr.setRequestHeader("cache-control", "no-cache");
@@ -45,5 +45,17 @@ class RequestManager {
             })
             .then(data => this.setState({name: data}))
     };
+
+    static getUserInfo(token) {
+        return fetch(baseUrl + "/oauth/check_token?token=" + token,
+            {
+                method: "GET",
+                mode: "cors",
+                cache: "no-cache",
+            }).then(results => {
+            return results.json()
+        });
+    }
 }
+
 export default RequestManager;
