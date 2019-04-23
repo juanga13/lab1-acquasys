@@ -1,26 +1,33 @@
 import React, {Component, Fragment} from 'react';
 import AppNavbar from './AppNavbar';
 import './app.css';
-import {Route} from "react-router";
+import {Route, Redirect} from "react-router";
 import Home from "./Home";
 import Login from "./Login";
 import Register from "./Register";
 import Contact from "./Contact";
 import { withCookies } from 'react-cookie';
 
+const roles = {
+  OWNER: 'owner',
+  TEACHER: 'teacher',
+  STUDENT: 'student',
+  NONE: 'none',
+};
 
 class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      navbar: <AppNavbar isLogged={false}/>,
+    this.state = {  // friendly reminder: never put components in state :)
+      // navbar: <AppNavbar isLogged={false}/>,  // TODO change to boolean
+      logged: false,
+      role: roles.NONE,
     }
   }
 
   renderNavbar = () => {
-    console.log("ON LOGGED CLICKED");
-    this.setState({navbar: <AppNavbar isLogged={true}/>});
+    return <AppNavbar role={this.state.role} logged={this.state.logged}/>
   };
 
   render() {
@@ -32,6 +39,7 @@ class App extends Component {
           <Route path='/login' render={() => (<Login onLogged={this.renderNavbar}
                                                      cookies={this.props.cookies}/>)}/>
           <Route path='/register' render={() => (<Register cookies={this.props.cookies}/>)}/>
+          {/*<PrivateRoute path='/my-account' render={() => (<AccountSettings cookies={this.props.cookies}/>)}/>*/}
         </div>
         <Contact/>
       </Fragment>
@@ -39,3 +47,20 @@ class App extends Component {
   }
 }
 export default withCookies(App);
+
+/*
+function PrivateRoute ({ component: Component, ...rest }) {
+  const {cookies} = this.props;
+  const token = cookies.get('token');
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        //server.authenticateToken(token)  Tudu token server authentication
+        token !== ""
+          ? <Component {...props} />
+          : <Redirect to='/login'/>
+      }
+    />)
+}
+*/

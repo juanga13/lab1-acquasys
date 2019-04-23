@@ -1,0 +1,8 @@
+Redux 3 principles:
+1) single source of truth --> single state and single store has everything i want.
+2) state is read-only --> state should not be mutable (we need to use actions).
+3) Changes are made with pure functions --> take the state and return the NEXT state (new
+                                            state, not changing the previous one).
+Store --> orchestrates all the things that happends in redux.
+Reducers --> they give use the next state we wont, taking two parameters (state and action).
+Actions --> type and what they do.

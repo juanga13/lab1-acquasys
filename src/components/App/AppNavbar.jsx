@@ -6,19 +6,20 @@ import logo from "../../logo.png";
 export default class AppNavbar extends Component {
   constructor(props) {
     super(props);
-    this.isLogged = props.isLogged;
+    // this.renderNavItems(false);
     this.state = {
-      navItems: [],
-    }
+      navItems: [this.renderNavItems(false)],
+    };
+    console.log(this.state);
   };
 
-  componentDidMount() {
-    this.renderNavItems();
-  }
+  componentWillReceiveProps(newProps) {
+    console.log("component will recieve props");
+    this.setState({navItems: this.renderNavItems(newProps.isLogged)});
+  };
 
-  renderNavItems = () => {
-    const isLogged = this.props.isLogged;
-    console.log("isLogged? " + this.isLogged);
+  renderNavItems = isLogged => {
+    console.log("nani");
     let navItems = [];
     if (!isLogged) {
       navItems = [
@@ -28,10 +29,10 @@ export default class AppNavbar extends Component {
     } else {
       navItems = [
         <NavItem><NavLink className='nav-link app-link' to="/">Inicio</NavLink></NavItem>,
-        <NavItem><NavLink className='nav-link app-link' to="/my-accound">Mi Cuenta</NavLink></NavItem>
+        <NavItem><NavLink className='nav-link app-link' to="/my-account">Mi Cuenta</NavLink></NavItem>
       ];
     }
-    this.setState({navItems: navItems});
+    return navItems;
   };
 
   render() {
@@ -43,7 +44,9 @@ export default class AppNavbar extends Component {
             {' Mundo Acqua'}
           </NavLink></NavbarBrand>
         </Nav>
-        {this.state.navItems}
+        <Nav>
+          {this.state.navItems}
+        </Nav>
       </Navbar>
     );
   };

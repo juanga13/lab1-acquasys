@@ -10,8 +10,7 @@ export default class AccountSettings extends React.Component {
 
   handleLogout = () => {
     const {cookies} = this.props;
-    cookies.delete('token');
-    sessionStorage.setItem("isLogged", false);
+    cookies.remove('token');  // only sets the token value to empty TODO delete token?
   };
 
   render() {

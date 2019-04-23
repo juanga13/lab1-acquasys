@@ -12,10 +12,9 @@ export default class Register extends Component {
     super(props);
     // default values so that does not break on first time
     this.state = {
-      active: 1,
       validated: false,
       data: {
-        username: "juanga13",
+        username: "",
         password: "",
         name: "",
         surname: "",
@@ -60,9 +59,10 @@ export default class Register extends Component {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    } else {
+      this.setState({ validated: true });
+      this.postData('http://172.22.41.200:8080/api/user/register', this.state.data);
     }
-    this.setState({ validated: true });
-    this.postData('http://172.22.41.200:8080/api/user/register', this.state.data);
   };
 
   /**
@@ -72,13 +72,7 @@ export default class Register extends Component {
   handleChange = event => {
     event.preventDefault();
     console.log(event);
-    this.setState(
-      {
-        data: {
-          [event.target.id]: event.target.value
-        }
-      }
-    );
+    this.setState({data: {[event.target.id]: event.target.value}});
   };
 
 
@@ -94,7 +88,7 @@ export default class Register extends Component {
       items.push(
         <NavLink className={"btn btn-outline-info outline-none navlink-pagination"}
                  to={"/" + number}
-                 active={number === this.state.active}>
+                 active={number === 1}>
           {number}
         </NavLink>
       );
@@ -116,7 +110,6 @@ export default class Register extends Component {
           </Pagination>
           <hr className={"separator"}/>
           <div>
-            {/*TODO: save info data to state?*/}
             <Route path="/1" component={FirstPage}/>
             <Route path="/2" component={SecondPage}/>
             <Route path="/3" component={ThirdPage}/>

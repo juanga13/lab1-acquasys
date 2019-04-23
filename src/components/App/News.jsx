@@ -15,8 +15,9 @@ export default class News extends Component {
 
   handleClick = () => {
     const {cookies} = this.props;
-    console.log(cookies);
-    if (cookies === undefined) {
+    console.log(cookies.cookies.token);
+
+    if (cookies.cookies.token === undefined) {
       alert("feelsbadman");
     } else {
       alert("LOGGED with this is token: " + cookies.get("token"));

@@ -22,14 +22,11 @@ export default class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    // let username = "facundo";//placeholder
-    // let password = "asd123"; //placeholder
-
-    let url = "http://172.22.44.128:8080/oauth/token";
     const {cookies} = this.props;
     console.log(this.state);
-    let tokenObject = JSON.parse(RequestManager.getToken(url, this.state.username, this.state.password));
-    cookies.set('token', tokenObject.access_token, {path: '/'});
+    // let tokenObject = JSON.parse(RequestManager.getToken(this.state.username, this.state.password));
+    // cookies.set('token', tokenObject.access_token, {path: '/'});
+    cookies.set('token', 'test')
   };
 
   handleChange = event => {
