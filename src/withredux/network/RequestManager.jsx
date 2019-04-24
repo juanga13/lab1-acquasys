@@ -1,18 +1,25 @@
 const baseUrl = "http://172.22.44.128:8080";
 
 class RequestManager {
-    static postData(url: '', data = {}) {
-        return fetch(url, {
-            method: "POST",
-            mode: "cors",
-            cache: "no-cache",
-            credentials: "same-origin",
-            headers: {"Content-Type": "application/json"},
-            redirect: "follow",
-            referrer: "no-referrer",
-            body: JSON.stringify(data),
-        }).then(response => response.json)
-    };
+  static postData(url: '', data= {}) {
+    let responseStatus;
+    fetch(url, {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {"Content-Type": "application/json"},
+      redirect: "follow",
+      referrer: "no-referrer",
+      body: JSON.stringify(data),
+    }).then(response => {
+      responseStatus = response.status;
+      console.log("responseStatus: " + responseStatus);
+      return response;
+    }).then(response => {return response.text()})
+      .then((text) => {alert(text)});
+    return responseStatus;
+  };
 
     static getToken( username, password) {
         let urlen = "grant_type=password&password=" + password + "&username=" + username;

@@ -25,7 +25,7 @@ export default class AppNavbar extends Component {
       navItems = [
         <NavItem><NavLink className='nav-link app-link' to="/">Inicio</NavLink></NavItem>,
         <NavItem><NavLink className='nav-link app-link' to="/login">Ingresar</NavLink></NavItem>,
-        <NavItem><NavLink className='nav-link app-link' to="/register#/1">Registrar</NavLink></NavItem>];
+        <NavItem><NavLink className='nav-link app-link' to="/register">Registrar</NavLink></NavItem>];
     } else {
       navItems = [
         <NavItem><NavLink className='nav-link app-link' to="/">Inicio</NavLink></NavItem>,

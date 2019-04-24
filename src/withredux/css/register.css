@@ -1,28 +1,19 @@
-.navlink-pagination {
-    margin-right: 5px;
-    outline: none;
-}
-
-.register-box{
+.register {
     background-color: #F5F5F5CC;
     display: flex;
     width: 70%;
     position: center;
     flex-direction: column;
     margin: 30px auto;
-    padding: 30px 100px 10px;
+    padding: 30px 100px 30px;
     border-radius: 15px;
 }
 
-.register-page-sub {
-    display: flex;
-    width: 60%;
-    flex-direction: column;
-    justify-content: center;
-    margin: auto;
+.register h5 {
+    text-align: center;
 }
 
-.separator {
+.register hr {
     margin-left: 0;
     padding-bottom: 10px;
     text-align: left;

@@ -23,5 +23,5 @@
     background-image: url("../app/background.jpg");
     background-size: cover;
     overflow: auto;
-    min-height: 89vh;
+    min-height: calc(100vh - 285px);
 }

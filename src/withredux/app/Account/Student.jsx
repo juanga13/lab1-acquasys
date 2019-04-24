@@ -5,6 +5,7 @@ class Student extends Component {
     return (
       <div>
         <p>
+          Mis datos
           SIN VERIFICAR:
           "La cuenta no esta verificada"
 

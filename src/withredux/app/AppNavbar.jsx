@@ -11,6 +11,7 @@ class AppNavbar extends Component {
 
     this.state = {
       token: null,
+      role: null,
     };
 
     store.subscribe(() => {

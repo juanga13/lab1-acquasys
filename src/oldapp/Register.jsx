@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
-import {HashRouter as Router, Route, NavLink} from 'react-router-dom';
+import {HashRouter as Router, Route, NavLink, Redirect} from 'react-router-dom';
 import './register.css';
-import Pagination from "react-bootstrap/Pagination";
-import FirstPage from './FirstPage';
-import SecondPage from './SecondPage';
-import ThirdPage from './ThirdPage';
+import {Button, Col, Form, Row} from "react-bootstrap";
 
 
 export default class Register extends Component {
@@ -13,34 +10,17 @@ export default class Register extends Component {
     // default values so that does not break on first time
     this.state = {
       validated: false,
+      redirect: false,
       data: {
-        username: "",
-        password: "",
-        name: "",
-        surname: "",
-        address: "",
         email: "",
-        sex: "",
-        phoneNumber: "",
-        birthday: "",
-        avatarUrl: "",
-        dni: "",
-        socialPlan: "",
-        affiliateNumber: "",
-        fatherName: "",
-        fatherSurname: "",
-        fatherPhoneNumber: "",
-        fatherEmail: "",
-        motherName: "",
-        motherSurname: "",
-        motherPhoneNumber: "",
-        motherEmail: ""
+        password: "",
       }
     };
   }
 
   postData(url: '', data= {}) {
-    return fetch(url, {
+    let responseStatus;
+    fetch(url, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -49,20 +29,28 @@ export default class Register extends Component {
       redirect: "follow",
       referrer: "no-referrer",
       body: JSON.stringify(data),
-    })
-      .then(response => console.log(response.ok))
+    }).then(response => {
+      responseStatus = response.status;
+      console.log("responseStatus: " + responseStatus);
+      return response;
+    }).then(response => {return response.text()})
+      .then((text) => {alert(text)});
+    return responseStatus;
   };
 
   handleSubmit = event => {
     console.log(this.state);
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    } else {
-      this.setState({ validated: true });
-      this.postData('http://172.22.41.200:8080/api/user/register', this.state.data);
+    // const form = event.currentTarget;
+    // if (form.checkValidity() === false) {
+    //   event.preventDefault();
+    //   event.stopPropagation();
+    // } else {
+    event.preventDefault();
+    this.setState({ validated: true });
+    if (this.postData('http://172.22.44.128:8080/api/user/register', this.state.data) === 200) {
+      this.setState({ redirect: true })
     }
+    // }
   };
 
   /**
@@ -71,29 +59,16 @@ export default class Register extends Component {
    */
   handleChange = event => {
     event.preventDefault();
-    console.log(event);
     this.setState({data: {[event.target.id]: event.target.value}});
+    console.log(this.state.data);
   };
 
-
-
-  /**
-   * renders pagination buttons which have an active state
-   *
-   * @returns {Array} of NavLinks
-   */
-  renderPaginationItems = () => {
-    let items = [];
-    for (let number = 1; number <= 3; number++) {
-      items.push(
-        <NavLink className={"btn btn-outline-info outline-none navlink-pagination"}
-                 to={"/" + number}
-                 active={number === 1}>
-          {number}
-        </NavLink>
-      );
+  renderRedirect = () => {
+    console.log("haro");
+    if (this.state.redirect) {
+      this.setState({ redirect: false });
+      return <Redirect to='/'/>
     }
-    return items;
   };
 
   /**
@@ -104,15 +79,33 @@ export default class Register extends Component {
     return(
       <div className={"register-box"}>
         <Router>
-          <h2>Registrarse</h2>
-          <Pagination>
-            {this.renderPaginationItems()}
-          </Pagination>
+          <h3>Registro</h3>
           <hr className={"separator"}/>
-          <div>
-            <Route path="/1" component={FirstPage}/>
-            <Route path="/2" component={SecondPage}/>
-            <Route path="/3" component={ThirdPage}/>
+          <div className={"register-page-sub"}>
+            <h4>Datos de usuario</h4>
+            <Form onSubmit={this.handleSubmit}>
+              <Form.Group as={Row}>
+                <Form.Label column>E-mail</Form.Label>
+                <Col><Form.Control
+                  value={this.state.email}
+                  id="email"
+                  type="email"
+                  placeholder="E-mail"
+                  autoFocus
+                  onChange={this.handleChange}/></Col>
+              </Form.Group>
+              <Form.Group as={Row}>
+                <Form.Label column>Contraseña</Form.Label>
+                <Col><Form.Control
+                  value={this.state.password}
+                  id="password"
+                  type="password"
+                  placeholder="Contraseña"
+                  onChange={this.handleChange}/></Col>
+              </Form.Group>
+              <Button type="submit">Registrarse</Button>
+              {this.renderRedirect()}
+            </Form>
           </div>
         </Router>
       </div>
