@@ -7,6 +7,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Contact from "./Contact";
 import { withCookies } from 'react-cookie';
+import AccountSettings from "./AccountSettings";
 
 const roles = {
   OWNER: 'owner',
@@ -20,14 +21,19 @@ class App extends Component {
     super(props);
 
     this.state = {  // friendly reminder: never put components in state :)
-      // navbar: <AppNavbar isLogged={false}/>,  // TODO change to boolean
+      navbar: <AppNavbar isLogged={this.props.cookies.cookies.token !== undefined}/>,  // TODO change to boolean
       logged: false,
       role: roles.NONE,
     }
   }
 
   renderNavbar = () => {
-    return <AppNavbar role={this.state.role} logged={this.state.logged}/>
+    // return <AppNavbar role={this.state.role} logged={this.state.logged}/>
+    this.setState({navbar: <AppNavbar isLogged={true}/>})
+  };
+
+  handleLogout = () => {
+    this.setState({navbar: <AppNavbar isLogged={false}/>})
   };
 
   render() {
@@ -39,6 +45,8 @@ class App extends Component {
           <Route path='/login' render={() => (<Login onLogged={this.renderNavbar}
                                                      cookies={this.props.cookies}/>)}/>
           <Route path='/register' render={() => (<Register cookies={this.props.cookies}/>)}/>
+          <Route path='/my-account' render={() => (<AccountSettings cookies={this.props.cookies}
+                                                                    onLogout={this.handleLogout}/>)}/>
           {/*<PrivateRoute path='/my-account' render={() => (<AccountSettings cookies={this.props.cookies}/>)}/>*/}
         </div>
         <Contact/>

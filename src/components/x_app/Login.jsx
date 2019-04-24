@@ -6,6 +6,7 @@ import RequestManager from './RequestManager'
 import {instanceOf} from "prop-types";
 import {Cookies} from "react-cookie";
 import {Redirect} from "react-router";
+import {NavLink} from "react-router-dom";
 
 export default class Login extends Component {
   static propTypes = {
@@ -65,7 +66,7 @@ export default class Login extends Component {
               <Button className="btn-info"
                       type="submit"
                       onClick={this.props.onLogged}
-              >Entrar</Button>
+              ><NavLink className='login-text' to='/my-account'>Entrar</NavLink></Button>
             </div>
           </Form>
         </div>

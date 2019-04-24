@@ -1,4 +1,4 @@
-.login-box {
+.my-account {
     background-color: #eaf0ffCC;
     display: flex;
     flex-direction: column;
@@ -7,13 +7,9 @@
     margin: 30px auto;
     width: 40%;
     border-radius: 15px;
+
 }
 
-.login-button {
-    display: flex;
-    justify-content: center;
-}
-
-.login-text {
+.logout-text {
     color: whitesmoke;
 }
