@@ -1,6 +1,14 @@
 import React from 'react';
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
+import uuid from 'uuid/v4';
+import { addArticle } from "../js/actions/index";
+import {connect} from "react-redux";
+
+function mapDispatchToProps(dispatch) {
+  // now props has redux action (ADD_ARTICLE)
+  return { addArticle: article => dispatch(addArticle(article)) };
+}
 
 class First extends React.Component {
   constructor(props) {
@@ -20,14 +28,16 @@ class First extends React.Component {
   handleChange = event => {
     event.preventDefault();
     console.log("HANDLING CHANGE");
-    this.setState({title: event.target.title});
+    this.setState({title: event.target.value});
   };
 
   handleSubmit = event => {
-    // console.log("submited nothing, hurray!!")
     event.preventDefault();
-    const { title } = this.state;
-    const id = uuidv1();
+    const { title } = this.state;  // get title from local state
+    const id = uuid();  // apparently a library for id's
+    console.log("id is: " + id);  // is id working?
+    this.props.addArticle({title, id});  // use redux action to save new article title in store
+    this.setState({title: '' });  // clear local state
   };
 
   render() {
@@ -50,4 +60,6 @@ class First extends React.Component {
   }
 }
 
-export default First;
+const Form2 = connect(null, mapDispatchToProps)(First);  // connect First component to a function
+
+export default Form2;

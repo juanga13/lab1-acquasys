@@ -1,4 +1,4 @@
-// src/js/reducers/index.js
+// src/js/reducers/action-types.js
 import {ADD_ARTICLE} from "../constants/action-types";
 
 const initialState = {
