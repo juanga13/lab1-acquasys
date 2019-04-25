@@ -1,0 +1,25 @@
+/*Container*/
+.app-link-container {
+    display: flex;
+    font-size: 18px;
+}
+
+/*Unactive link*/
+.app-link {
+    color: #1c2a31;
+    transition-timing-function: linear;
+    transition-duration: 300ms;
+}
+
+.app-link:hover {
+    color: #4a93bb;
+}
+
+/*Active link*/
+.app-link-active {
+    color: #e5f3ff;
+}
+
+.app-link-active:hover {
+    color: #e5f3ff;
+}

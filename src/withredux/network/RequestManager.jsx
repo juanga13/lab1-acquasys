@@ -2,8 +2,7 @@ const baseUrl = "http://172.22.44.128:8080";
 
 class RequestManager {
   static postData(url: '', data= {}) {
-    let responseStatus;
-    fetch(url, {
+    return fetch(url, {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -12,13 +11,13 @@ class RequestManager {
       redirect: "follow",
       referrer: "no-referrer",
       body: JSON.stringify(data),
-    }).then(response => {
-      responseStatus = response.status;
-      console.log("responseStatus: " + responseStatus);
-      return response;
-    }).then(response => {return response.text()})
-      .then((text) => {alert(text)});
-    return responseStatus;
+    })
+      .then(response => {
+        response.resolve(response.status);
+      })
+      .catch(error => {
+        console.log("Error: " + error)
+      })
   };
 
     static getToken( username, password) {

@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {HashRouter as Router} from "react-router-dom";
+import {BrowserRouter as Router} from "react-router-dom";
 import { Provider } from 'react-redux';
 import store from './withredux/app/redux/store'
 import App from './withredux/app/App';

@@ -10,10 +10,6 @@ import Row from "react-bootstrap/Row";
  * and social links)
  **/
 export default class Contact extends Component {
-  constructor(props) {
-    super(props);
-  };
-
   render() {
     return(
       <div className='contact'>

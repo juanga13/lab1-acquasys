@@ -3,6 +3,7 @@ import store from './redux/store';
 import { NavLink } from "react-router-dom";
 import {Nav, Navbar, NavbarBrand, NavItem} from "react-bootstrap";
 import logo from './logo.png';
+import '../css/app-navlink.css';
 
 
 class AppNavbar extends Component {
@@ -26,11 +27,11 @@ class AppNavbar extends Component {
   renderNavItems = () => {
     if (this.state.token === null) {
       return (
-        <Nav>
-          <NavItem><NavLink className='nav-link app-link' exact to='/'>Inicio</NavLink></NavItem>
-          <NavItem><NavLink className='nav-link app-link' to='/login'>Ingresar</NavLink></NavItem>
-          <NavItem><NavLink className='nav-link app-link' to='/register'>Registrarse</NavLink></NavItem>
-        </Nav>
+        <div className='app-link-container'>
+          <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' exact to='/'>Inicio</NavLink>
+          <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' to='/login'>Ingresar</NavLink>
+          <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' to='/register'>Registrarse</NavLink>
+        </div>
       );
     } else {
       return (
