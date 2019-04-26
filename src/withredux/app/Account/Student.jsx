@@ -4,17 +4,18 @@ class Student extends Component {
   render() {
     return (
       <div>
-        <p>
-          Mis datos
-          SIN VERIFICAR:
-          "La cuenta no esta verificada"
-
-          VERIFICADA:
-          Lista de clases
-          -----------------
-          Calendario
-          Mensajeria
-        </p>
+        <ul>
+          <li>Mis datos</li>
+          <li>SIN VERIFICAR:</li>
+          <li>"La cuenta no esta verificada"</li>
+        </ul>
+        <ul>
+          <li>VERIFICADA:</li>
+          <li>Lista de clases</li>
+          <li>-----------------</li>
+          <li>Calendario</li>
+          <li>Mensajeria</li>
+        </ul>
       </div>
     );
   }

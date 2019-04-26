@@ -1,11 +1,25 @@
 .app-navbar {
+    /*TODO import Lato from assets/fonts/*/
     font-family: Lato, sans-serif;
-    /*TODO why flex wrap does not work?*/
     display: flex;
     flex-wrap: wrap;
     background-color: #16b1d9;
     height: 70px;
+    /*animation: 1s linear slideInFromLeft;*/
 }
+/*TODO add animation when navbar is updat1ed*/
+/*@keyframes slideInFromLeft {*/
+    /*0% {*/
+        /*background-color: #16b1d9;*/
+    /*}*/
+    /*50% {*/
+        /*background-color: #78c5d9;*/
+    /*}*/
+    /*100% {*/
+        /*background-color: #16b1d9;*/
+    /*}*/
+/*}*/
+
 
 .app-navbar img {
     width: 50px;

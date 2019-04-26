@@ -1,24 +1,41 @@
+/**
+ * imports:
+ * -  react
+ * --  react-router
+ * --  react-redux
+ * --  react-bootstrap
+ * -  project components
+ * -  css
+ */
 import React, {Component} from 'react';
-import {Button, Form} from "react-bootstrap";
-import '../css/login.css';
+
 import {Redirect} from "react-router";
+
+import {connect} from "react-redux";
+import store from "./redux/store";
+import { setTokenData } from './redux/actions';
+
+import {Button, Form} from "react-bootstrap";
+
 import RequestManager from "../network/RequestManager";
 
+import '../css/login.css';
 
 class Login extends Component {
   constructor(props) {
     super(props);
 
-    this.response = -1;
+    this.test = {
+      response: -1,  // test
+        role: '',
+    };
     this.state = {
       validated: false,
       redirect: false,
-      status: '',  // test
-      counter: 0,
       data: {
         email: '',
         password: '',
-      }
+      },
     };
   }
 
@@ -34,12 +51,24 @@ class Login extends Component {
     this.setState({ validated: true });
     let response = RequestManager.postData('http://172.22.44.128:8080/api/user/register', this.state.data);
     console.log(response);
+    // if (response === 200) {
+    //   // handle successfull login
+    //
+    // } else if (response > 399) {
+    //   // handle failed login
+    //
+    // }
 
     /**TEST*/
-    if (this.response !== -1) {  // if you click on test buttons, begin a fake login
-      response = this.response;
-      if (response > 399) this.setState({status: 'failure'});
-      else this.setState({redirect: true, status: 'success'})
+    if (this.test.response !== -1) {  // if you click on test buttons, begin a fake login
+      response = this.test.response;
+      if (response > 399) {
+        this.setState({status: 'failure'});
+      }
+      else {
+        this.setState({redirect: true, status: 'success'});
+        store.dispatch(setTokenData("test_token", this.test.role));
+      }
     }
   };
 
@@ -100,12 +129,18 @@ class Login extends Component {
         {/**TEST*/}
         <div className="border border-secondary m-2 p-2">
           <h6>test, set response status manually</h6>
-          <Button onClick={() => (this.response = 200)} className="btn btn-success m-1">200</Button>
-          <Button onClick={() => (this.response = 400)} className="btn btn-danger m-1">400</Button>
+          <Button onClick={() => (this.test.response = 200)} className="btn btn-success m-1">200</Button>
+          <Button onClick={() => (this.test.response = 400)} className="btn btn-danger m-1">400</Button>
+          <h6>set the role</h6>
+          <Button onClick={() => (this.test.role = 'owner')} className="btn btn-secondary m-1">Owner</Button>
+          <Button onClick={() => (this.test.role = 'teacher')} className="btn btn-secondary m-1">Teacher</Button>
+          <Button onClick={() => (this.test.role = 'student')} className="btn btn-secondary m-1">Student</Button>
+          <Button onClick={() => (this.test.role = 'unverified-student')} className="btn btn-secondary m-1">Unverified Student</Button>
         </div>
       </div>
     );
   }
 }
+Login = connect()(Login);
 
 export default Login;

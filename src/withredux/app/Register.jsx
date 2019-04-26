@@ -4,6 +4,22 @@ import {Button, Form} from "react-bootstrap";
 import '../css/register.css';
 
 class Register extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      email: '',
+      password: '',
+      name: '',
+      surname: '',
+    }
+  }
+
+  handleChange = event => {
+    event.preventDefault();
+    this.setState({data: {[event.target.id]: event.target.value}});
+  };
+  //TODO AYLMAO FALTA LAS REQUEST Y EL HANDLE SUBMIT
   render() {
     return (
       <div className='register'>
