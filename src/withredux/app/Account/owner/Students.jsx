@@ -1,9 +1,8 @@
-
+import React from 'react';
 
 const Students = props => (
   <div>
-    <h2>Lista de alumnos:</h2>
-    {}
+    <h2>Lista de alumnos</h2>
   </div>
 );
 

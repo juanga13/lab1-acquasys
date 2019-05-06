@@ -1,36 +1,27 @@
-/**
- * imports:
- * -  react
- * --  react-router
- * --  react-redux
- * --  react-bootstrap
- * -  project components
- * -  css
- */
 import React, {Component} from 'react';
-
 import {Redirect} from "react-router";
-
 import {connect} from "react-redux";
 import store from "./redux/store";
 import { setTokenData } from './redux/actions';
-
 import {Button, Form} from "react-bootstrap";
-
 import RequestManager from "../network/RequestManager";
-
 import '../css/login.css';
 
+/**
+ * Login 
+ * two forms data, uploads and redirects, 
+ * has state.
+ */
 class Login extends Component {
   constructor(props) {
     super(props);
 
     this.test = {
-      response: -1,  // test
-        role: '',
+      response: -1,
+      role: '',
     };
     this.state = {
-      validated: false,
+      validated: false,  // TODO formik?
       redirect: false,
       data: {
         email: '',
@@ -39,24 +30,38 @@ class Login extends Component {
     };
   }
 
+  /**
+   * called when any form input text changes
+   * saves change into state so that submit 
+   * gets it later.
+   */
   handleChange = event => {
     event.preventDefault();
+    console.log(event.target.value);
     this.setState({data: {[event.target.id]: event.target.value}});
   };
 
+  /**
+   * TODO checks if data is valid
+   * sends data to servers and depending on
+   * response:
+   *   successful -> redirects to home
+   *   failure -> alert 
+   */
   handleSubmit = event => {
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) event.stopPropagation();
     this.setState({ validated: true });
-    let response = RequestManager.postData('http://172.22.44.128:8080/api/user/register', this.state.data);
+    // let response = RequestManager.postData('http://172.22.44.128:8080/api/user/register', this.state.data);
+    let response = RequestManager.postData('http://172.0.0.1:3306/api/user/register', this.state.data);
     console.log(response);
     // if (response === 200) {
     //   // handle successfull login
-    //
+    
     // } else if (response > 399) {
     //   // handle failed login
-    //
+    
     // }
 
     /**TEST*/
@@ -72,6 +77,10 @@ class Login extends Component {
     }
   };
 
+  /**
+   * renders an alert depending on response given
+   * after requesting login to server
+   */
   renderAlert() {
     if (this.state.status === 'success') {
       return (
@@ -85,9 +94,12 @@ class Login extends Component {
           <h6>Failed to login</h6>
         </div>
       );
-    } else return (null);
+    } else return null;
   }
 
+  /**
+   * checks whether if a redirect is needed 
+   */
   renderRedirect = () => {
     if (this.state.redirect) {
       this.setState({ redirect: false });
@@ -100,7 +112,7 @@ class Login extends Component {
       <div className='login'>
         <h5>Ingrese a Mundo Acqua</h5>
         <hr/>
-        {this.renderAlert()}
+        {this.renderAlert()} 
         {/*TODO use Formik to validate data before submitting*/}
         <Form onSubmit={this.handleSubmit}>
           <Form.Group>

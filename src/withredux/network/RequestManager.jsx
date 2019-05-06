@@ -1,5 +1,5 @@
-const baseUrl = "http://172.22.44.128:8080";
-
+// const baseUrl = "http://172.22.44.128:8080";
+const baseUrl = "http://127.0.0.1:8080"
 class RequestManager {
   static postData(url: '', data= {}) {
     return fetch(url, {

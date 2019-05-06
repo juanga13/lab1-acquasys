@@ -30,10 +30,9 @@ const mapStateToProps = state => {
   return ({
     token: state.token,
     role: state.role,
-    teacherList: status.teacherList,
-    studentList: status.studentList,
-    classesList: status.classesList,
-
+    // teacherList: status.teacherList,
+    // studentList: status.studentList,
+    // classesList: status.classesList,
   })
 };
 
