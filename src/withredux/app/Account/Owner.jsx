@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
+import AddModal from './owner/AddModal';
 
-import {Button} from 'react-bootstrap';
+import {Button, Row} from 'react-bootstrap';
 // import Modal from 'react-modal';
+import '../../css/account-owner.css';
 
-const popup = {
-  NEW_STUDENT: "new_student",
-  NEW_TEACHER: "new_teacher",
-  NEW_CLASS: "new_class",
+const type = {
+  STUDENT: "student",
+  TEACHER: "teacher",
+  CLASS: "class",
 }
 
 class Owner extends Component {
@@ -15,72 +17,62 @@ class Owner extends Component {
 
     this.state = {
       isModalOpen: false,
-      showModal: popup.STUDENT,
+      showModal: type.STUDENT,
     };
   };
 
-  addStudentPopup = event => {
+  handleModal = (event) => {
     event.preventDefault();
-    console.log("e");
-    this.setState({isModalOpen: true, showModal: popup.NEW_STUDENT});
-  };
+    const type = event.target.id;
+    console.log(event.target.id);
+    if (type === "addStudent") this.setState({isModalOpen: true, showModal: type.STUDENT});
+    else if (type === "addTeacher") this.setState({isModalOpen: true, showModal: type.TEACHER});
+    else if (type === "addClass") this.setState({isModalOpen: true, showModal: type.CLASS});
+    else console.log("error on handle modal");
+    console.log(this.state.isModalOpen);
+  }
 
-  addTeacherPopup = event => {
+  handleCloseModal = event => {
     event.preventDefault();
-    this.setState({isModalOpen: true, showModal: popup.NEW_TEACHER});
-  };
-
-  addClassPopup = event => {
-    event.preventDefault();
-    this.setState({isModalOpen: true, showModal: popup.NEW_CLASS});
-  };
-  
-  closeModal = event => {
-    event.preventDefault();
-    this.setState({isModalOpen: false})
-  };
+    this.setState({isModalOpen: false});
+  }
 
   render() {
     return (
-      <div>
-        <ul>
-          <li>Crear Alumno</li>
-          <li>Crear Profesor</li>
-          <li>Creat Clase</li>
-          <li>--------------</li>
-          <li>Lista de alumnos (todos)</li>
-          <li>    - Clases</li>
-          <li>    - Asistencias</li>
-          <li>Lista de profesores</li>
-          <li>Lista de clases</li>
-          <li>  - Lista de alumnos (parcial)</li>
-          <li>---------------</li>
-          <li>Calendario</li>
-          <li>Mensajeria</li>
-        </ul>
-        <div className="">
-          <Button onClick={this.addStudentPopup}>Crear un nuevo alumno</Button>
-          <Button onClick={this.addTeacherPopup}>Crear un nuevo profesor</Button>
-          <Button onClick={this.addClassPopup}>Crear una nueva clase</Button>
+      <div className="account-owner-container">
+        <div className="button-container">
+          <Button id="addStudent" onClick={this.handleModal}>Crear un nuevo alumno</Button>
+          <Button id="addTeacher" onClick={this.handleModal}>Crear un nuevo profesor</Button>
+          <Button id="addClass" onClick={this.handleModal}>Crear una nueva clase</Button>
         </div>
-        {/* <Modal
-          isOpen={this.state.modalIsOpen}
-          onRequestClose={this.closeModal}
-          // style={customStyles}
-          contentLabel="Example Modal"
-        >
- 
-          <h2 ref={subtitle => this.subtitle = subtitle}>Hello</h2>
-          <button onClick={this.closeModal}>close</button>
-          <div>I am a modal</div>
-          <form>
-            <input />
-            <button>tab navigation</button>
-            <button>stays</button>
-            <button>inside</button>
-            <button>the modal</button>
-          </form>
-        </Modal> */}
+        <Row className="container-lists">
+          <div className="list-container">
+            <input
+              // id="students"
+              placeholder="Filtrar alumnos"
+              onChange={() => this.handleSearchChange(type.STUDENT)}
+            >
+            </input>
+            <h3>lista de alumnos</h3>
+            <h5>alumno 1</h5>
+            <h5>alumno 1</h5>
+          </div>
+          <div className="list-container">
+            <h3>lista de profesores</h3>
+            <h5>alumno 1</h5>
+            <h5>alumno 1</h5>
+          </div>
+          <div className="list-container">
+            <h3>lista de clases</h3>
+            <h5>alumno 1</h5>
+            <h5>alumno 1</h5>
+          </div>
+        </Row>
+
+        <AddModal
+          onCloseModal={this.handleCloseModal}
+          isOpen={this.state.isModalOpen}
+        />
       </div>
     );
   }

@@ -1,6 +1,6 @@
-/**
- *  Main
- */
+// /**
+//  *  Main
+//  */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router} from "react-router-dom";
@@ -18,17 +18,12 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root'));
 
-/**
- *  Test
- */
-// import index from './other/redux/js/index';
-// import App from "./other/redux/app/index";
-// import { Provider } from 'react-redux';
-// import store from "./other/redux/js/store";
-//
+// /**
+//  *  Test
+//  */
+// import App from './other/App.jsx';
+
 // ReactDOM.render(
-//   <Provider store={store}>
-//     <App/>
-//   </Provider>,
+//   <App/>,
 //   document.getElementById('root'));
 

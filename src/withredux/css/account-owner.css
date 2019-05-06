@@ -1,0 +1,31 @@
+.account-owner-container {
+    background-color: #eaf0ffCC;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    margin: 30px auto;
+    width: 70%;
+    border-radius: 15px;
+}
+
+.button-container {
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 0 20px 0;
+}
+
+.container-lists {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between; 
+}
+
+.list-container {
+    /* padding: 5px; */
+}

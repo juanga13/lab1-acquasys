@@ -21,12 +21,9 @@ class Login extends Component {
       role: '',
     };
     this.state = {
-      validated: false,  // TODO formik?
       redirect: false,
-      data: {
-        email: '',
-        password: '',
-      },
+      email: '',
+      password: '',
     };
   }
 
@@ -36,9 +33,12 @@ class Login extends Component {
    * gets it later.
    */
   handleChange = event => {
-    event.preventDefault();
     console.log(event.target.value);
-    this.setState({data: {[event.target.id]: event.target.value}});
+    event.preventDefault();
+    // let data = {};
+    // data[event.target.name] = event.target.value;
+    this.setState({[event.target.id]: event.target.value});
+    console.log(this.state);
   };
 
   /**
@@ -50,30 +50,23 @@ class Login extends Component {
    */
   handleSubmit = event => {
     event.preventDefault();
+    console.log(this.state);
     const form = event.currentTarget;
     if (form.checkValidity() === false) event.stopPropagation();
     this.setState({ validated: true });
-    // let response = RequestManager.postData('http://172.22.44.128:8080/api/user/register', this.state.data);
-    let response = RequestManager.postData('http://172.0.0.1:3306/api/user/register', this.state.data);
-    console.log(response);
-    // if (response === 200) {
-    //   // handle successfull login
-    
-    // } else if (response > 399) {
-    //   // handle failed login
-    
-    // }
-
-    /**TEST*/
-    if (this.test.response !== -1) {  // if you click on test buttons, begin a fake login
-      response = this.test.response;
-      if (response > 399) {
-        this.setState({status: 'failure'});
-      }
-      else {
-        this.setState({redirect: true, status: 'success'});
-        store.dispatch(setTokenData("test_token", this.test.role));
-      }
+    let response = RequestManager.getToken(this.state.email, this.state.password); 
+    console.log("token is: " + response.access_token);
+    if (response.access_token !== undefined) {
+      this.setState({waitUserInfo: true});
+      // console.log();
+     
+      RequestManager.getUserInfo(response.access_token)
+      .then(function(data) {
+        console.log("NANI");
+        console.log(data);
+        store.dispatch(setTokenData(response.access_token,  data.authorities[0]));
+      })
+      .then(this.setState({redirect: true}));
     }
   };
 
@@ -103,7 +96,8 @@ class Login extends Component {
   renderRedirect = () => {
     if (this.state.redirect) {
       this.setState({ redirect: false });
-      return <Redirect exact to='/'/>
+      // return <Redirect exact to='/'/>
+      return <Redirect exact to='/my-account'/>
     }
   };
 
@@ -141,13 +135,11 @@ class Login extends Component {
         {/**TEST*/}
         <div className="border border-secondary m-2 p-2">
           <h6>test, set response status manually</h6>
-          <Button onClick={() => (this.test.response = 200)} className="btn btn-success m-1">200</Button>
-          <Button onClick={() => (this.test.response = 400)} className="btn btn-danger m-1">400</Button>
           <h6>set the role</h6>
-          <Button onClick={() => (this.test.role = 'owner')} className="btn btn-secondary m-1">Owner</Button>
-          <Button onClick={() => (this.test.role = 'teacher')} className="btn btn-secondary m-1">Teacher</Button>
-          <Button onClick={() => (this.test.role = 'student')} className="btn btn-secondary m-1">Student</Button>
-          <Button onClick={() => (this.test.role = 'unverified-student')} className="btn btn-secondary m-1">Unverified Student</Button>
+          <Button onClick={() => (this.test.role = 'owner')} className="btn btn-primary m-1">Owner</Button>
+          <Button onClick={() => (this.test.role = 'teacher')} className="btn btn-warning m-1">Teacher</Button>
+          <Button onClick={() => (this.test.role = 'student')} className="btn btn-success m-1">Student</Button>
+          <Button onClick={() => (this.test.role = 'unverified-student')} className="btn btn-danger m-1">Unverified Student</Button>
         </div>
       </div>
     );

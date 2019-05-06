@@ -11,28 +11,30 @@ import UnverifiedStudent from './UnverifiedStudent';
 
 class Account extends Component {
   render() {
+    console.log("[Account] rendering");
+    console.log(this.props);
     if (this.props.token === null) {
-      return (<Redirect to='/login'/>)
+      console.log("xd");
+      // return (<Redirect to='/login'/>);
+      return (<h1>xd</h1>)
     }
-    if (this.props.role === 'owner') {
+    if (this.props.role === "ROLE_ADMIN") {
       return (<Owner/>);
-    } else if (this.props.role === 'teacher') {
+    } else if (this.props.role === "ROLE_TEACHER") {
       return (<Teacher/>);
-    } else if (this.props.role === 'student') {
+    } else if (this.props.role === "ROLE_STUDENT") {
       return (<Student/>);
-    } else if (this.props.role === 'unverified-student') {
-      return (<UnverifiedStudent/>)
-    }
-  }
+  }}
+  // return (<div>
+  //   <h1>xd</h1>
+  // </div>);
+  // };
 }
 
 const mapStateToProps = state => {
   return ({
     token: state.token,
     role: state.role,
-    // teacherList: status.teacherList,
-    // studentList: status.studentList,
-    // classesList: status.classesList,
   })
 };
 

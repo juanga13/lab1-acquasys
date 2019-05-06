@@ -1,5 +1,5 @@
-// const baseUrl = "http://172.22.44.128:8080";
-const baseUrl = "http://127.0.0.1:8080"
+const baseUrl = "http://172.22.44.128:8080";
+// const baseUrl = "http://127.0.0.1:8080"
 class RequestManager {
   static postData(url: '', data= {}) {
     return fetch(url, {
@@ -20,8 +20,8 @@ class RequestManager {
       })
   };
 
-    static getToken( username, password) {
-        let urlen = "grant_type=password&password=" + password + "&username=" + username;
+    static getToken(email, password) {
+        let urlen = "grant_type=password&password=" + password + "&username=" + email;
         let xhr = new XMLHttpRequest();
         xhr.withCredentials = true;
         xhr.datatype = 'json';
@@ -32,7 +32,7 @@ class RequestManager {
         xhr.setRequestHeader("cache-control", "no-cache");
 
         xhr.send(urlen);
-        return xhr.responseText
+        return JSON.parse(xhr.responseText);
     };
 
     static getData(url: '') {
