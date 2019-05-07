@@ -19,6 +19,7 @@ class Register extends Component {
     event.preventDefault();
     this.setState({data: {[event.target.id]: event.target.value}});
   };
+
   //TODO AYLMAO FALTA LAS REQUEST Y EL HANDLE SUBMIT
   render() {
     return (

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import ReactModal from 'react-modal';
-import {Button, Form, Row} from 'react-bootstrap';
+import {Form, Row} from 'react-bootstrap';
 
 class AddModal extends Component {
   render() {

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import AddModal from './owner/AddModal';
 
 import {Button, Row} from 'react-bootstrap';
-// import Modal from 'react-modal';
 import '../../css/account-owner.css';
 
 const type = {
@@ -30,12 +29,17 @@ class Owner extends Component {
     else if (type === "addClass") this.setState({isModalOpen: true, showModal: type.CLASS});
     else console.log("error on handle modal");
     console.log(this.state.isModalOpen);
-  }
+  };
 
   handleCloseModal = event => {
     event.preventDefault();
     this.setState({isModalOpen: false});
-  }
+  };
+
+  handleSearchChange = event => {
+    event.preventDefault();
+    // store.dispatch(setNewFilterToListX);
+  };
 
   render() {
     return (
@@ -48,7 +52,7 @@ class Owner extends Component {
         <Row className="container-lists">
           <div className="list-container">
             <input
-              // id="students"
+              id="students"
               placeholder="Filtrar alumnos"
               onChange={() => this.handleSearchChange(type.STUDENT)}
             >
@@ -68,7 +72,6 @@ class Owner extends Component {
             <h5>alumno 1</h5>
           </div>
         </Row>
-
         <AddModal
           onCloseModal={this.handleCloseModal}
           isOpen={this.state.isModalOpen}
