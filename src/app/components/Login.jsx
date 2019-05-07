@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Redirect} from "react-router";
 import {connect} from "react-redux";
-import store from "./redux/store";
+import store from "../store";
 import { setTokenData } from '../actions';
 import {Button, Form} from "react-bootstrap";
 import RequestManager from "../network/RequestManager";

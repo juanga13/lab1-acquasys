@@ -1,7 +1,7 @@
 const baseUrl = "http://172.22.44.128:8080";
 // const baseUrl = "http://127.0.0.1:8080"
 class RequestManager {
-  static postData(url: '', data= {}) {
+  static postData(url, data= {}) {
     return fetch(url, {
       method: "POST",
       mode: "cors",
@@ -35,7 +35,7 @@ class RequestManager {
         return JSON.parse(xhr.responseText);
     };
 
-    static getData(url: '') {
+    static getData(url) {
         return fetch(url,
             {
                 method: "GET",

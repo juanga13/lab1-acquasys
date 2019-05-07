@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import store from './redux/store';
+import store from '../store';
 import { NavLink } from "react-router-dom";
 import {Nav, Navbar, NavbarBrand} from "react-bootstrap";
-import logo from './logo.png';
+import logo from '../logo.png';
 import '../css/app-navlink.css';
 import {connect} from "react-redux";
 

@@ -9,7 +9,7 @@ const type = {
   STUDENT: "student",
   TEACHER: "teacher",
   CLASS: "class",
-}
+};
 
 class Owner extends Component {
   constructor(props) {

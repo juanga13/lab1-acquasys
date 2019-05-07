@@ -4,7 +4,7 @@
     display: flex;
     flex-wrap: wrap;
     background-color: #16b1d9;
-    height: 70px;
+    height: 60px;
     /*animation: 1s linear slideInFromLeft;*/
 }
 /*TODO add animation when navbar is updat1ed*/
@@ -30,8 +30,8 @@
     font-family: Lato, sans-serif;
     background-color: #5e6f92;
     /*background-image: url("/images/background.jpg"); TODO background in asset folder*/
-    background-image: url("../app/background.jpg");
+    background-image: url("../background.jpg");
     background-size: cover;
     overflow: auto;
-    min-height: calc(100vh - 285px);
+    min-height: calc(100vh - 280px);
 }
