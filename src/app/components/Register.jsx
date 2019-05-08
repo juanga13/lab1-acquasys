@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Button, Form} from "react-bootstrap";
 
 import '../css/register.css';
+import RequestManager from '../network/RequestManager';
 
 class Register extends Component {
   constructor(props) {
@@ -17,23 +18,35 @@ class Register extends Component {
 
   handleChange = event => {
     event.preventDefault();
-    this.setState({data: {[event.target.id]: event.target.value}});
+    this.setState({[event.target.id]: event.target.value});
   };
 
-  //TODO AYLMAO FALTA LAS REQUEST Y EL HANDLE SUBMIT
+  handleSubmit = event => {
+    event.preventDefault();
+    const form = event.target;
+    if (form.checkValidity() === true) {
+      // store.dispatch(userRegister())
+      let response = RequestManager.postData(this.state);
+      
+    } 
+    else event.stopPropagation();
+    
+  };
+
   render() {
     return (
       <div className='register'>
         <h5>Registra un nuevo usuario</h5>
         <hr/>
-        <Form>
+        <Form onSubmit={this.handleSubmit}>
           <Form.Group>
             <Form.Label>Correo electronico</Form.Label>
             <Form.Control
               id='email'
               type='email'
               placeholder='Email'
-              autoFocus/>
+              autoFocus
+              onChange={this.handleChange}/>
           </Form.Group>
         </Form>
         <Form>
@@ -42,7 +55,8 @@ class Register extends Component {
             <Form.Control
               id='password'
               type='password'
-              placeholder='Contraseña'/>
+              placeholder='Contraseña'
+              onChange={this.handleChange}/>
           </Form.Group>
         </Form>
         <Form>
