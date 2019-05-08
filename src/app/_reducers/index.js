@@ -1,4 +1,4 @@
-import { SET_TOKEN_DATA } from "../constants/action-types";
+import { SET_TOKEN_DATA } from "../_constants/action-types";
 
 const initialState = {
   token: null,

@@ -1,27 +1,64 @@
 import React, {Component} from 'react';
 import ReactModal from 'react-modal';
-import {Form, Row} from 'react-bootstrap';
+
+import NewStudent from './NewStudent';
+import NewTeacher from './NewTeacher';
+import NewClass from './NewClass';
 
 class AddModal extends Component {
-  render() {
-    console.log("AddModal render");
-    if (this.props.isModalOpen) return (
-      <ReactModal 
-        isOpen={this.props.isModalOpen}
-        onRequestClose={this.props.onModalClose}
-        contentLabel="Minimal Modal Example"
-      >
-        <Form>
-          <Form.Group as={Row}>
-            <Form.Label>
+  constructor(props) {
+    super(props);
+    console.log(props);
 
-            </Form.Label>
-            <Form.Control/>
-          </Form.Group>
-        </Form>
+    this.state = {
+      isOpen: false,
+      modalType: ""
+    };
+  }
+
+  componentWillReceiveProps(newProps) {
+    console.log("[AddModal] componentWillReceiveProps which is: ");
+    console.log(newProps);
+    this.setState({isOpen: newProps.isOpen, modalType: newProps.modalType});
+    console.log("ADADADADADDDADA " + this.state.isOpen);
+  }
+
+  handleModalType = () => {
+    
+    if (!this.state.isOpen) return (
+      <ReactModal 
+        isOpen={true}
+      >
+        <div>
+          <h1>modal should not be open</h1>
+          <button onClick={this.props.onRequestClose}>close</button>
+        </div>
       </ReactModal>
-   ) 
-   else return null;
+    );
+    const modalType = this.props.modalType;
+    if (modalType === "teacher") {
+      console.log("modal type is new TEACHER");
+      return (<NewTeacher/>);
+    } else if (modalType === "student") {
+      console.log("modal type is new STUDENT");
+      return (<NewStudent/>);
+    } else if (modalType === "class") {
+      console.log("modal type is new CLASS");
+      return (<NewClass/>);
+    }
+  }
+
+  render() {
+    console.log("[AddModal] rendering, state is {isOpen: " + this.state.isOpen + ", modalType: " + this.state.modalType + "}");
+    
+    return (
+      <ReactModal
+        isOpen={this.state.isOpen}
+        onRequestClose={this.props.onModalClose}
+      >
+        {this.handleModalType()}
+      </ReactModal>
+    )
   }
 }
 

@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Redirect} from "react-router";
 import {connect} from "react-redux";
-import store from "../store";
-import { setTokenData } from '../actions';
+import store from "../_store";
+import { setTokenData } from '../_actions';
 import {Button, Form} from "react-bootstrap";
 import RequestManager from "../network/RequestManager";
 import '../css/login.css';
@@ -16,12 +16,9 @@ class Login extends Component {
   constructor(props) {
     super(props);
 
-    this.test = {
-      response: -1,
-      role: '',
-    };
     this.state = {
       redirect: false,
+      loginResponse: null,
       email: '',
       password: '',
     };
@@ -33,12 +30,8 @@ class Login extends Component {
    * gets it later.
    */
   handleChange = event => {
-    console.log(event.target.value);
     event.preventDefault();
-    // let data = {};
-    // data[event.target.name] = event.target.value;
     this.setState({[event.target.id]: event.target.value});
-    console.log(this.state);
   };
 
   /**
@@ -50,20 +43,27 @@ class Login extends Component {
    */
   handleSubmit = event => {
     event.preventDefault();
-    console.log(this.state);
+    // console.log(this.state);
     const form = event.currentTarget;
+
+    console.log("handlesubmit login, printing form");
+    console.log(form);
+
     if (form.checkValidity() === false) event.stopPropagation();
-    this.setState({ validated: true });
-    let response = RequestManager.getToken(this.state.email, this.state.password); 
-    console.log("token is: " + response.access_token);
+    let response = RequestManager.getToken(this.state.email, this.state.password)
+    console.log(response);
+    if (response.error === "invalid_grant") {
+      this.setState({loginReponse: response.error_description})
+    } 
+    // console.log("token is: " + response.access_token);
+    
+
     if (response.access_token !== undefined) {
       this.setState({waitUserInfo: true});
-      // console.log();
-     
       RequestManager.getUserInfo(response.access_token)
       .then(function(data) {
-        console.log("NANI");
-        console.log(data);
+        // console.log("NANI");
+        // console.log(data);
         store.dispatch(setTokenData(response.access_token,  data.authorities[0]));
       })
       .then(this.setState({redirect: true}));
@@ -75,16 +75,10 @@ class Login extends Component {
    * after requesting login to server
    */
   renderAlert() {
-    if (this.state.status === 'success') {
+    if (this.state.loginReponse !== null) {
       return (
         <div className="border border-success alert-notification">
-          <h6>Login successful!</h6>
-        </div>
-      );
-    } else if (this.state.status === 'failure') {
-      return (
-        <div className="border border-danger alert-notification">
-          <h6>Failed to login</h6>
+          <h6>{this.state.loginResponse}</h6>
         </div>
       );
     } else return null;
