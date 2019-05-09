@@ -46,7 +46,7 @@ class AddModal extends Component {
       console.log("modal type is new CLASS");
       return (<NewClass/>);
     }
-  }
+  };
 
   render() {
     console.log("[AddModal] rendering, state is {isOpen: " + this.state.isOpen + ", modalType: " + this.state.modalType + "}");

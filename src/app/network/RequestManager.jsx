@@ -1,5 +1,6 @@
-const baseUrl = "http://172.22.44.128:8080";
-// const baseUrl = "http://127.0.0.1:8080"
+// const baseUrl = "http://172.22.44.128:8080";
+// const baseUrl = "http://127.0.0.1:8080";
+const baseUrl = "http://127.0.0.1:3306";
 class RequestManager {
   static postData(url, data= {}) {
     return fetch(url, {
@@ -20,7 +21,31 @@ class RequestManager {
       })
   };
 
-    static getToken(email, password) {
+    static userLogin(email, password) {
+        let response;
+        const data = {email, password};
+        // const url = "grant_type=password&password=" + password + "&username=" + email;
+        fetch(baseUrl + "/oauth/token", {
+            method: 'POST',
+            headers: new Headers({
+                // 'Authorization': 'Basic '+btoa('username:password'),
+                'Authorization': "Basic Y2xpZW50aWQ6Y2xpZW50c2VjcmV0",
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'cache-control': 'no-cache'
+            }),
+            body: JSON.stringify(data)
+        })
+            .then(reponse => {
+                if (!reponse.ok) console.log("error: " + response);
+                else console.log("response: " + response);
+            })
+            .then()
+            .catch(error => {
+                console.log("userLogin error is: " + error)
+            });
+    }
+
+    static getTokenSyncIsBad(email, password) {
         let urlen = "grant_type=password&password=" + password + "&username=" + email;
         let xhr = new XMLHttpRequest();
         xhr.withCredentials = true;

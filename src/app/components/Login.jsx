@@ -16,6 +16,10 @@ class Login extends Component {
   constructor(props) {
     super(props);
 
+    this.test = {
+      role: '',
+    };
+
     this.state = {
       redirect: false,
       loginResponse: null,
@@ -47,26 +51,32 @@ class Login extends Component {
     const form = event.currentTarget;
 
     console.log("handlesubmit login, printing form");
-    console.log(form);
+    // console.log(form);
 
-    if (form.checkValidity() === false) event.stopPropagation();
-    let response = RequestManager.getToken(this.state.email, this.state.password)
-    console.log(response);
-    if (response.error === "invalid_grant") {
-      this.setState({loginReponse: response.error_description})
-    } 
-    // console.log("token is: " + response.access_token);
-    
+    // if (form.checkValidity() === false) event.stopPropagation();
+    // let response = RequestManager.getTokenSyncIsBad(this.state.email, this.state.password)
+    RequestManager.userLogin(this.state.email, this.state.password);
+    // console.log(response);
+    // if (response.error === "invalid_grant") {
+    //   this.setState({loginReponse: response.error_description})
+    // }
+    // if (response.access_token !== undefined) {
+    //   this.setState({waitUserInfo: true});
+    //   RequestManager.getUserInfo(response.access_token)
+    //   .then(function(data) {
+    //     // console.log("NANI");
+    //     // console.log(data);
+    //     store.dispatch(setTokenData(response.access_token,  data.authorities[0]));
+    //   })
+    //   .then(this.setState({redirect: true}));
+    // }
 
-    if (response.access_token !== undefined) {
-      this.setState({waitUserInfo: true});
-      RequestManager.getUserInfo(response.access_token)
-      .then(function(data) {
-        // console.log("NANI");
-        // console.log(data);
-        store.dispatch(setTokenData(response.access_token,  data.authorities[0]));
-      })
-      .then(this.setState({redirect: true}));
+    /**
+     * test
+     */
+    if (this.test.role !== '') {
+      store.dispatch(setTokenData("testToken", this.test.role));
+      this.setState({redirect: true});
     }
   };
 
@@ -130,10 +140,10 @@ class Login extends Component {
         <div className="border border-secondary m-2 p-2">
           <h6>test, set response status manually</h6>
           <h6>set the role</h6>
-          <Button onClick={() => (this.test.role = 'owner')} className="btn btn-primary m-1">Owner</Button>
-          <Button onClick={() => (this.test.role = 'teacher')} className="btn btn-warning m-1">Teacher</Button>
-          <Button onClick={() => (this.test.role = 'student')} className="btn btn-success m-1">Student</Button>
-          <Button onClick={() => (this.test.role = 'unverified-student')} className="btn btn-danger m-1">Unverified Student</Button>
+          <Button onClick={() => (this.test.role = 'ROLE_OWNER')} className="btn btn-primary m-1">Owner</Button>
+          <Button onClick={() => (this.test.role = 'ROLE_TEACHER')} className="btn btn-warning m-1">Teacher</Button>
+          <Button onClick={() => (this.test.role = 'ROLE_STUDENT')} className="btn btn-success m-1">Student</Button>
+          {/*<Button onClick={() => (this.test.role = 'unverified-student')} className="btn btn-danger m-1">Unverified Student</Button>*/}
         </div>
       </div>
     );
