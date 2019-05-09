@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import store from '../_store';
 import { NavLink } from "react-router-dom";
-import {Nav, Navbar, NavbarBrand} from "react-bootstrap";
+import { Nav, Navbar, NavbarBrand } from "react-bootstrap";
 import logo from '../logo.png';
 import '../css/app-navlink.css';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 
 class AppNavbar extends Component {

@@ -1,5 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
+
+import store from '../_store';
+import { connect } from 'react-redux';
 
 import AppNavbar from './AppNavbar';
 import Home from "./Home";
@@ -11,6 +14,17 @@ import Account from "./Account";
 import '../css/app.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {token : ""};
+
+    store.subscribe(() => {
+      const newState = store.getState();
+      this.setState({token: newState.token});
+    });
+  }
+
   render() {
     return (
       <Fragment>
@@ -21,12 +35,24 @@ class App extends Component {
           <Route path='/register' component={Register}/>
           {/*my-account should be private route so you
           cant access by hitting the url*/}
-          <Route path='/my-account' component={Account}/>
+          <PrivateRoute path='/my-account' component={Account}/>
         </div>
         <Contact/>
       </Fragment>
     );
   }
 }
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={(props) => (
+    this.state.token != ""
+      ? <Component {...props} />
+      : <Redirect to='/login' />
+  )} />
+)
+
+const mapStateToProps = state => {return ({token: state.token})};
+
+AppNavbar = connect(mapStateToProps)(App);
 
 export default App;
