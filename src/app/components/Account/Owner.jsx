@@ -1,7 +1,15 @@
 import React, {Component} from 'react';
-import AddModal from './owner/AddModal';
+
+import {HashRouter as Router, Route} from 'react-router-dom';
 
 import {Button, Row} from 'react-bootstrap';
+
+import AddModal from './owner/AddModal';
+import NewStudent from './owner/NewStudent';
+import NewTeacher from './owner/NewTeacher';
+import NewClass from './owner/NewClass';
+import OwnerNavbar from './owner/OwnerNavbar';
+
 import '../../css/account-owner.css';
 
 class Owner extends Component {
@@ -35,45 +43,16 @@ class Owner extends Component {
     // store.dispatch(setNewFilterToListX);
   };
 
-
-
   render() {
     console.log("[Owner] rendering, isOpen? " + this.state.isOpen);
     return (
-      <div className="account-owner-container">
-        <div className="button-container">
-          <Button id="addStudent" onClick={this.handleModal}>Crear un nuevo alumno</Button>
-          <Button id="addTeacher" onClick={this.handleModal}>Crear un nuevo profesor</Button>
-          <Button id="addClass" onClick={this.handleModal}>Crear una nueva clase</Button>
+      <div>
+        <OwnerNavbar/>
+        <div>
+          <Route path="/new-student" component={NewStudent}/>
+          <Route path="/new-class" component={NewClass}/>
+          <Route path="/new-teacher" component={NewTeacher}/>
         </div>
-        <Row className="container-lists">
-          <div className="list-container">
-            <input
-              id="students"
-              placeholder="Filtrar alumnos"
-              // onChange={() => this.handleSearchChange(NEW_STUDENT)}
-            >
-            </input>
-            <h3>lista de alumnos</h3>
-            <h5>alumno 1</h5>
-            <h5>alumno 1</h5>
-          </div>
-          <div className="list-container">
-            <h3>lista de profesores</h3>
-            <h5>alumno 1</h5>
-            <h5>alumno 1</h5>
-          </div>
-          <div className="list-container">
-            <h3>lista de clases</h3>
-            <h5>alumno 1</h5>
-            <h5>alumno 1</h5>
-          </div>
-        </Row>
-        <AddModal
-          isOpen={this.state.isOpen}
-          onRequestClose={this.handleCloseModal}
-          modalType={this.state.modalType}
-        />     
       </div>
     );
   }
