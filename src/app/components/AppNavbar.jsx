@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import store from '../store';
+import React, { Component } from 'react';
+import store from '../_store';
 import { NavLink } from "react-router-dom";
-import {Nav, Navbar, NavbarBrand} from "react-bootstrap";
+import { Nav, Navbar, NavbarBrand } from "react-bootstrap";
 import logo from '../logo.png';
 import '../css/app-navlink.css';
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 
 
 class AppNavbar extends Component {
@@ -26,7 +26,6 @@ class AppNavbar extends Component {
   }
 
   renderNavItems = () => {
-    console.log("rendering navbar items, token is: " + this.state.token + ", role: " + this.state.role);
     if (this.state.token === null) return (
       <div className='app-link-container'>
         <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' exact to='/'>Inicio</NavLink>
@@ -58,7 +57,6 @@ class AppNavbar extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log("[AppNavbar:mapStateToProps] " + state.token + ", " + state.role);
   return ({
     token: state.token,
     role: state.role,

@@ -2,8 +2,7 @@ import React, {Component} from 'react';
 import {Button, Form} from "react-bootstrap";
 
 import '../css/register.css';
-import RequestManager from "../network/RequestManager";
-import {Redirect} from "react-router";
+import RequestManager from '../network/RequestManager';
 
 class Register extends Component {
     constructor(props) {
@@ -36,6 +35,13 @@ class Register extends Component {
     handleSubmit = event => {
         event.preventDefault();
         const form = event.target;
+        this.validateInputs();
+        if (this.state.errors.email || this.state.errors.password ||
+            this.state.errors.name || this.state.errors.surname) {
+            event.stopPropagation();
+            return;
+        }
+
         return fetch(RequestManager.baseUrl + "/api/user/register", {
             method: "POST",
             mode: "cors",
@@ -59,6 +65,7 @@ class Register extends Component {
             })
 
     };
+
     renderRedirect = () => {
         if (this.state.redirect) {
             this.setState({ redirect: false });
@@ -73,13 +80,51 @@ class Register extends Component {
             </div>
         }
     };
+    renderNameError = () => {
+        // console.log("error in email?: " + this.state.errors.email);
+        if (this.state.errors.email) {
+            return (
+                <h6 className="text-danger">
+                    Invalid email!
+                </h6>);
+        } else return null;
+    };
 
+    renderSurnameError = () => {
+        // console.log("error in password?: " + this.state.errors.password);
+        if (this.state.errors.surname) {
+            return (
+                <h6 className="text-danger">
+                    El apellido debe tener
+                </h6>);
+        } else return null;
+    };
+    renderEmailError = () => {
+        // console.log("error in email?: " + this.state.errors.email);
+        if (this.state.errors.email) {
+            return (
+                <h6 className="text-danger">
+                    Invalid email!
+                </h6>);
+        } else return null;
+    };
+
+    renderPasswordError = () => {
+        // console.log("error in password?: " + this.state.errors.password);
+        if (this.state.errors.password) {
+            return (
+                <h6 className="text-danger">
+                    Password must be 6 characters or more
+                </h6>);
+        } else return null;
+    };
     render() {
         return (
             <div className='register'>
                 <h5>Registra un nuevo usuario</h5>
                 <hr/>
                 <Form onSubmit={this.handleSubmit}>
+                    {this.renderEmailError()}
                     <Form.Group>
                         <Form.Label>Correo electronico</Form.Label>
                         <Form.Control
@@ -89,6 +134,7 @@ class Register extends Component {
                             autoFocus
                             onChange={this.handleChange}/>
                     </Form.Group>
+                    {this.renderPasswordError()}
                     <Form.Group>
                         <Form.Label>Contraseña</Form.Label>
                         <Form.Control
@@ -97,6 +143,7 @@ class Register extends Component {
                             placeholder='Contraseña'
                             onChange={this.handleChange}/>
                     </Form.Group>
+                    {this.renderNameError()}
                     <Form.Group>
                         <Form.Label>Nombre</Form.Label>
                         <Form.Control
@@ -106,6 +153,7 @@ class Register extends Component {
                             onChange={this.handleChange}/>
 
                     </Form.Group>
+                    {this.renderSurnameError()}
                     <Form.Group>
                         <Form.Label>Apellido</Form.Label>
                         <Form.Control

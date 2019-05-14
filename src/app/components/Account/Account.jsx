@@ -9,11 +9,11 @@ import Student from "./Student";
 class Account extends Component {
   render() {
     console.log("[Account] rendering");
-    console.log(this.props);
+    // console.log(this.props);
     if (this.props.token === null) {
       console.log("xd");
       // return (<Redirect to='/login'/>);
-      return (<h1>xd</h1>)
+      return (<h3>null token, you *should* not be here!</h3>)
     }
     if (this.props.role === "ROLE_ADMIN") {
       return (<Owner/>);

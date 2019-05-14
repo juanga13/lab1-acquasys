@@ -4,19 +4,13 @@ import AddModal from './owner/AddModal';
 import {Button, Row} from 'react-bootstrap';
 import '../../css/account-owner.css';
 
-const type = {
-  STUDENT: "student",
-  TEACHER: "teacher",
-  CLASS: "class",
-};
-
 class Owner extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isModalOpen: false,
-      showModal: type.STUDENT,
+      isOpen: false,
+      modalType: "xd",
     };
   };
 
@@ -24,24 +18,27 @@ class Owner extends Component {
     event.preventDefault();
     const type = event.target.id;
     console.log(event.target.id);
-    if (type === "addStudent") this.setState({isModalOpen: true, showModal: type.STUDENT});
-    else if (type === "addTeacher") this.setState({isModalOpen: true, showModal: type.TEACHER});
-    else if (type === "addClass") this.setState({isModalOpen: true, showModal: type.CLASS});
+    if (type === "addStudent") this.setState({isOpen: true, modalType: "student"});
+    else if (type === "addTeacher") this.setState({isOpen: true, modalType: "teacher"});
+    else if (type === "addClass") this.setState({isOpen: true, modalType: "class"});
     else console.log("error on handle modal");
-    console.log(this.state.isModalOpen);
   };
 
   handleCloseModal = event => {
     event.preventDefault();
-    this.setState({isModalOpen: false});
-  };
+    console.log("handle close modal");
+    this.setState({isOpen: false});
+  };1
 
   handleSearchChange = event => {
     event.preventDefault();
     // store.dispatch(setNewFilterToListX);
   };
 
+
+
   render() {
+    console.log("[Owner] rendering, isOpen? " + this.state.isOpen);
     return (
       <div className="account-owner-container">
         <div className="button-container">
@@ -54,7 +51,7 @@ class Owner extends Component {
             <input
               id="students"
               placeholder="Filtrar alumnos"
-              onChange={() => this.handleSearchChange(type.STUDENT)}
+              // onChange={() => this.handleSearchChange(NEW_STUDENT)}
             >
             </input>
             <h3>lista de alumnos</h3>
@@ -73,9 +70,10 @@ class Owner extends Component {
           </div>
         </Row>
         <AddModal
-          onCloseModal={this.handleCloseModal}
-          isOpen={this.state.isModalOpen}
-        />
+          isOpen={this.state.isOpen}
+          onRequestClose={this.handleCloseModal}
+          modalType={this.state.modalType}
+        />     
       </div>
     );
   }
