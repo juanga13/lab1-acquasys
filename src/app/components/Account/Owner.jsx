@@ -49,8 +49,8 @@ class Owner extends Component {
   render() {
     return (
       <div className="owner-container">
+        <h1>ESTAS LOGEADO COMO DUENO</h1>
         <Router>
-          {/* <h1>Owner</h1> */}
           <OwnerNavbar/>
           {this.renderRoutes()}
         </Router>  

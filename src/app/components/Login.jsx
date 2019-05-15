@@ -6,6 +6,7 @@ import {setTokenData} from '../actions';
 import {Button, Form} from "react-bootstrap";
 import RequestManager from "../network/RequestManager";
 import '../css/login.css';
+import Owner from "./Account/Account";
 
 class Login extends Component {
     constructor(props) {
@@ -49,7 +50,6 @@ class Login extends Component {
     handleSubmit = event => {
         event.preventDefault();
 
-        console.log("email " + this.state.errors.email + " password " + this.state.errors.password);
         if (this.validateInputs()) {
             event.stopPropagation();
             return;
@@ -72,17 +72,18 @@ class Login extends Component {
                 if (this.readyState === 4) {
                     let response = JSON.parse(this.responseText);
                     if (response.error === "invalid_grant") {
-                        login.setState({loginReponse: "Contrasenia incorrecta (no tengo enie profe, no me ponga 0)"});
-                        console.log(response);
+                        login.setState({loginReponse: "Contrasena incorrecta "});
                         return;
                     }
                     if (response.access_token !== undefined) {
                         login.setState({waitUserInfo: true});
                         RequestManager.getUserInfo(response.access_token)
-                            .then(function (data) {
+                            .then((data) => {
+                                document.cookie = "token =" + response.access_token;
+                                document.cookie = "role=" + data.authorities[0];
                                 store.dispatch(setTokenData(response.access_token, data.authorities[0]));
-                            })
-                            .then(login.setState({redirect: true}));
+                                login.setState({redirect: true})
+                            });
                     }
                 } else {
                     console.log(this.readyState);
@@ -90,14 +91,13 @@ class Login extends Component {
             }
         );
         xhr.send(urlen);
-
     };
 
     renderRedirect = () => {
         if (this.state.redirect) {
-            console.log('ola');
             this.setState({redirect: false});
-            return <Redirect exact to='/my-account/new-teacher'/>;
+           return <Redirect exact to='/my-account'/>;
+
         }
     };
 
