@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+/*import React, {Component} from 'react';
 import {Button, Form} from 'react-bootstrap';
 
 class NewClass extends Component {
@@ -185,4 +185,4 @@ class NewClass extends Component {
   }
 }
 
-export default NewClass;
+export default NewClass;*/

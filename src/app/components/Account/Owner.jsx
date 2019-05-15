@@ -7,8 +7,10 @@ import NewStudent from './owner/NewStudent';
 import NewTeacher from './owner/NewTeacher';
 import NewClass from './owner/NewLesson';
 import OwnerNavbar from './owner/OwnerNavbar';
-
+import store from "../../store";
 import '../../css/owner.css';
+import {setTokenData} from "../../actions";
+import {Button} from "react-bootstrap";
 
 class Owner extends Component {
   constructor(props) {
@@ -53,9 +55,19 @@ class Owner extends Component {
         <Router>
           <OwnerNavbar/>
           {this.renderRoutes()}
-        </Router>  
+        </Router>
+        <Button onClick={this.handleLogout}>Logout</Button>
       </div>
     );
+  }
+
+  handleLogout = (event) => {
+    event.preventDefault()
+    document.cookie = "token = ;";
+    document.cookie = "role = ;";
+    store.dispatch(setTokenData(null,null));
+    window.location.href = "http://localhost:3000";
+
   }
 }
 
