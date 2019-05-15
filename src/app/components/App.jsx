@@ -17,7 +17,7 @@ class App extends Component {
           <Route exact path='/' component={Home}/>
           <Route path='/login' component={Login}/>
           <Route path='/register' component={Register}/>
-          <Route path="/my-account/new-student" component={Account}/>
+          <Route path="/my-account" component={Account}/>
         </div>
         <Contact/>
       </Fragment>

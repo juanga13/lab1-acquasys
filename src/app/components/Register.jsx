@@ -17,8 +17,24 @@ class Register extends Component {
                 surname: '',
             },
             redirect : false,
-            error : null
+            error : null,
+            errors:{
+                email: false,
+                password: false,
+                name: false,
+                surname: false
+            }
         }
+    }
+    validateInputs() {
+        const email = this.state.user.email;
+        const password = this.state.user.password;
+        this.setState({errors: {
+                email: ((email.length === 0 ||
+                    !email.includes("@") ||
+                    !email.includes("."))),
+                password: (password.length < 6),
+            }});
     }
 
     handleChange = event => {
@@ -36,6 +52,7 @@ class Register extends Component {
     handleSubmit = event => {
         event.preventDefault();
         const form = event.target;
+
         this.validateInputs();
         if (this.state.errors.email || this.state.errors.password ||
             this.state.errors.name || this.state.errors.surname) {
