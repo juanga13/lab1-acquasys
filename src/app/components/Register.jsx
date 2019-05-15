@@ -3,6 +3,7 @@ import {Button, Form} from "react-bootstrap";
 
 import '../css/register.css';
 import RequestManager from '../network/RequestManager';
+import {Redirect} from "react-router";
 
 class Register extends Component {
     constructor(props) {
