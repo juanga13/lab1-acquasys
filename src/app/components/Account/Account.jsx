@@ -1,31 +1,22 @@
 import React, {Component} from 'react';
-
 import {connect} from "react-redux";
-
+import {Redirect} from "react-router-dom";
 import Owner from "./Owner";
 import Teacher from "./Teacher";
 import Student from "./Student";
 
 class Account extends Component {
   render() {
-    console.log("[Account] rendering");
-    // console.log(this.props);
     if (this.props.token === null) {
-      console.log("xd");
-      // return (<Redirect to='/login'/>);
-      return (<h3>null token, you *should* not be here!</h3>)
+      return (<Redirect to='/login'/>);
     }
-    if (this.props.role === "ROLE_ADMIN") {
+    if (this.props.role === "ROLE_OWNER") {
       return (<Owner/>);
     } else if (this.props.role === "ROLE_TEACHER") {
       return (<Teacher/>);
     } else if (this.props.role === "ROLE_STUDENT") {
       return (<Student/>);
   }}
-  // return (<div>
-  //   <h1>xd</h1>
-  // </div>);
-  // };
 }
 
 const mapStateToProps = state => {

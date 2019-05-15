@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import store from '../_store';
+import store from '../store';
 import { NavLink } from "react-router-dom";
 import { Nav, Navbar, NavbarBrand } from "react-bootstrap";
 import logo from '../logo.png';
@@ -36,7 +36,7 @@ class AppNavbar extends Component {
     else return (
       <div className='app-link-container'>
         <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' exact to='/'>Inicio</NavLink>
-        <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' to='/my-account'>Mi Cuenta</NavLink>
+        <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' to='/my-account/new-student'>Mi Cuenta</NavLink>
       </div>
     );
   };

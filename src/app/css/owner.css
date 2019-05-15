@@ -1,0 +1,44 @@
+.owner-container {
+    background: #eaf0ffCC;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    margin: 20px auto;
+    border-radius: 15px;
+}
+
+.owner-navbar {
+    font-size: 17px;
+    background: rgba(48, 181, 199, 0.8);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: no-wrap;
+    border-radius: 5px;
+}
+
+.vertical-separator {
+    border-left-color: black;
+    border-left-width: 1px;
+}
+
+/*Unactive link*/
+.app-link {
+    color: #1c2a31;
+    transition-timing-function: linear;
+    transition-duration: 300ms;
+}
+
+.app-link:hover {
+    color: #4a93bb;
+}
+
+/*Active link*/
+.app-link-active {
+    color: #e5f3ff;
+}
+
+.app-link-active:hover {
+    color: #e5f3ff;
+}

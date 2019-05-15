@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
 
-import {HashRouter as Router, Route} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 
-import {Button, Row} from 'react-bootstrap';
-
-import AddModal from './owner/AddModal';
 import NewStudent from './owner/NewStudent';
 import NewTeacher from './owner/NewTeacher';
 import NewClass from './owner/NewClass';
 import OwnerNavbar from './owner/OwnerNavbar';
 
-import '../../css/account-owner.css';
+import '../../css/owner.css';
 
 class Owner extends Component {
   constructor(props) {
@@ -18,7 +16,7 @@ class Owner extends Component {
 
     this.state = {
       isOpen: false,
-      modalType: "xd",
+      modalType: ""
     };
   };
 
@@ -36,26 +34,33 @@ class Owner extends Component {
     event.preventDefault();
     console.log("handle close modal");
     this.setState({isOpen: false});
-  };1
-
-  handleSearchChange = event => {
-    event.preventDefault();
-    // store.dispatch(setNewFilterToListX);
   };
 
-  render() {
-    console.log("[Owner] rendering, isOpen? " + this.state.isOpen);
-    return (
-      <div>
-        <OwnerNavbar/>
-        <div>
-          <Route path="/new-student" component={NewStudent}/>
-          <Route path="/new-class" component={NewClass}/>
-          <Route path="/new-teacher" component={NewTeacher}/>
+  renderRoutes = () => {
+    return (this.props.token !== "") 
+      ? <div>
+          <Route path="/my-account/new-student" component={NewStudent}/>
+          <Route path="/my-account/new-teacher" component={NewTeacher}/>
+          <Route path="/my-account/new-class" component={NewClass}/>
         </div>
+      : <Redirect exact to="/login"/>
+  }
+
+  render() {
+    return (
+      <div className="owner-container">
+        <Router>
+          {/* <h1>Owner</h1> */}
+          <OwnerNavbar/>
+          {this.renderRoutes()}
+        </Router>  
       </div>
     );
   }
 }
+
+const mapStateToProps = state => {return ({token: state.token})};
+
+Owner = connect(mapStateToProps)(Owner);
 
 export default Owner;
