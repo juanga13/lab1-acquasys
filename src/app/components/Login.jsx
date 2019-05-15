@@ -87,8 +87,9 @@ class Login extends Component {
       return;
     }
     // form data is verified, request login to server
-    /**
-    let response = RequestManager.getTokenSyncIsBad(this.state.email, this.state.password)
+    
+    let response = RequestManager.getToken(this.state.email, this.state.password)
+    
     // RequestManager.userLogin(this.state.email, this.state.password);
     if (response.error === "invalid_grant") {
       this.setState({loginReponse: response.error_description})
@@ -103,8 +104,7 @@ class Login extends Component {
       })
       .then(this.setState({redirect: true}));
     } 
-    */
-
+    
     /** test */
     if (this.test.role !== '') {
       store.dispatch(setTokenData("testToken", this.test.role));
