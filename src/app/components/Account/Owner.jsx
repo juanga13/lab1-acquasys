@@ -5,7 +5,7 @@ import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 
 import NewStudent from './owner/NewStudent';
 import NewTeacher from './owner/NewTeacher';
-import NewClass from './owner/NewClass';
+import NewClass from './owner/NewLesson';
 import OwnerNavbar from './owner/OwnerNavbar';
 
 import '../../css/owner.css';

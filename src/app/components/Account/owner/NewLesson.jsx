@@ -1,31 +1,29 @@
-import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import { Button, Form, Row } from 'react-bootstrap';
-import ReactModal from 'react-modal';
-import '../../../css/modal-form.css'
-import RequestManager from '../../../network/RequestManager';
+import React, {Component} from 'react';
+import {Button, Form} from 'react-bootstrap';
 
-class NewTeacher extends Component {
+class NewClass extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       errors: {
-        email: false,
-        password: false,
         name: false,
-        surname: false
+        duration: false,
+        weekday: false,
+        hour: false, 
+        minutes: false,
       },
       token: this.props.token,
       isModalOpen: false,
-      email: "",  // "Natacion bebes 2"
-      password: "",  //  "14:00"
-      name: "",  //  "45" en minutos
-      surname: ""  // "jueves"  nombres en espaniol, lowercase
+      name: "",
+      duration: -1,
+      weekday: -1,
+      hour: -1,
+      minutes: -1,
     }
   }
 
-  handleAddTeacher = event => {
+  handleAddStudent = event => {
     event.preventDefault();
     this.setState({ isModalOpen: true });
   }
@@ -33,10 +31,11 @@ class NewTeacher extends Component {
   cancelModal = () => {
     this.setState({
       isModalOpen: false,
-      email: '',
-      password: '',
-      name: '',
-      surname: ''
+      name: "",
+      duration: -1,
+      weekday: -1,
+      hour: -1,
+      minutes: -1
     })
   }
 
@@ -47,17 +46,16 @@ class NewTeacher extends Component {
 
   validateInputs() {
     console.log("current state: " + this.state.email);
-    const email = this.state.email;
-    const password = this.state.password;
     const name = this.state.name;
-    const surname = this.state.surname;
+    const duration = this.state.duration;
+    const weekday = this.state.weekday;
+    const hour = this.state.hour;
+    const minutes = this.state.minutes;
     this.setState({ errors: {
-      email: (email.length === 0 ||
-        !email.includes("@") ||
-        !email.includes(".")),
-      password: (password.length < 6),
-      name: (name.length === 0),
-      surname: (surname.length === 0)
+      email: (name.length === 0),
+      duration: (duration.length === -1),
+      name: (weekday === -1),
+      surname: (surname.length === -1)
     }})
   }
 
@@ -103,7 +101,6 @@ class NewTeacher extends Component {
         console.log("Error: " + error)
       })
   }
-
   renderNotification = () => {
     if (this.state.registerSuccess) {
       this.setState({ registerSuccess: false });
@@ -119,10 +116,10 @@ class NewTeacher extends Component {
   render() {
     return (
       <div>
-        <h2>Profesores</h2>
+        <h2>Alumnos</h2>
         {this.renderNotification()}
-        <Button onClick={this.handleAddTeacher}>Agregar nueva clase</Button>
-        <ReactModal 
+        <Button onClick={this.handleAddStudent}>Agregar un nuevo alumno</Button>
+        <ReactModal
           className="modal-form"
           isOpen={this.state.isModalOpen}
           onRequestClose={this.cancelModal}
@@ -188,8 +185,4 @@ class NewTeacher extends Component {
   }
 }
 
-const mapStateToProps = state => {return ({token: state.token})};
-
-NewTeacher = connect(mapStateToProps)(NewTeacher);
-
-export default NewTeacher;
+export default NewClass;
