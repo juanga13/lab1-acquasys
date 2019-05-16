@@ -6,8 +6,8 @@ class Teacher extends Component {
       <div>
         <ul>
           <li>Lista de clases</li>
-          <li>  - Alumnos</li>
-          <li>  - Asistencias</li>
+          <li> - Alumnos</li>
+          <li> - Asistencias</li>
           <li>---------------</li>
           <li>Calendario</li>
           <li>Mensajeria</li>

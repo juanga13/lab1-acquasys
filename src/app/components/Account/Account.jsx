@@ -14,6 +14,7 @@ class Account extends Component {
       role: getCookie("role")
     };
   }
+
   render() {
     if (this.state.token === null) {
       return (<Redirect to='/login'/>);
@@ -24,7 +25,8 @@ class Account extends Component {
       return (<Teacher/>);
     } else if (this.state.role === "ROLE_STUDENT") {
       return (<Student/>);
-  }  return null;
+    }
+    return null;
   }
 }
 
@@ -32,7 +34,7 @@ function getCookie(cname) {
   var name = cname + "=";
   var decodedCookie = decodeURIComponent(document.cookie);
   var ca = decodedCookie.split(';');
-  for(var i = 0; i <ca.length; i++) {
+  for (var i = 0; i < ca.length; i++) {
     var c = ca[i];
     while (c.charAt(0) == ' ') {
       c = c.substring(1);

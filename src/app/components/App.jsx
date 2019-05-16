@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { Route } from 'react-router-dom';
+import React, {Component, Fragment} from 'react';
+import {Route} from 'react-router-dom';
 import AppNavbar from './AppNavbar';
 import Home from "./Home";
 import Login from "./Login";

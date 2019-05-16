@@ -10,10 +10,10 @@ class StudentList extends Component {
   render() {
 
     return (
-        <div>
-          {/*{this.props.studentList}*/}
-          <h1>Student List</h1>
-        </div>
+      <div>
+        {/*{this.props.studentList}*/}
+        <h1>Student List</h1>
+      </div>
     );
   };
 }

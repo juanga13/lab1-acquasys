@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import '../css/contact.css';
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -11,7 +11,7 @@ import Row from "react-bootstrap/Row";
  **/
 export default class Contact extends Component {
   render() {
-    return(
+    return (
       <div className='contact'>
         <h5 className='contact-title'>Informacion de contacto</h5>
         <Row className='contact-row'>

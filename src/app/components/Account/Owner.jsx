@@ -39,12 +39,12 @@ class Owner extends Component {
   };
 
   renderRoutes = () => {
-    return (this.props.token !== "") 
+    return (this.props.token !== "")
       ? <div>
-          <Route path="/my-account/new-student" component={NewStudent}/>
-          <Route path="/my-account/new-teacher" component={NewTeacher}/>
-          <Route path="/my-account/new-class" component={NewClass}/>
-        </div>
+        <Route path="/my-account/new-student" component={NewStudent}/>
+        <Route path="/my-account/new-teacher" component={NewTeacher}/>
+        <Route path="/my-account/new-class" component={NewClass}/>
+      </div>
       : <Redirect exact to="/login"/>
   }
 
@@ -65,13 +65,15 @@ class Owner extends Component {
     event.preventDefault()
     document.cookie = "token = ;";
     document.cookie = "role = ;";
-    store.dispatch(setTokenData(null,null));
+    store.dispatch(setTokenData(null, null));
     window.location.href = "http://localhost:3000";
 
   }
 }
 
-const mapStateToProps = state => {return ({token: state.token})};
+const mapStateToProps = state => {
+  return ({token: state.token})
+};
 
 Owner = connect(mapStateToProps)(Owner);
 
