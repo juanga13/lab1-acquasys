@@ -5,6 +5,7 @@ import Owner from "./Owner";
 import Teacher from "./Teacher";
 import Student from "./Student";
 import store from "../../store";
+import UnverifiedStudent from "./UnverifiedStudent";
 
 class Account extends Component {
   constructor(props) {
@@ -24,7 +25,9 @@ class Account extends Component {
       return (<Teacher/>);
     } else if (this.state.role === "ROLE_STUDENT") {
       return (<Student/>);
-  }  return null;
+    } else if (this.state.role === "ROLE_UNREGISTERED") {
+      return (<UnverifiedStudent/>);
+    } else return null
   }
 }
 
