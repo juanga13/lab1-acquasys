@@ -46,7 +46,7 @@ class Owner extends Component {
         <Route path="/my-account/new-class" component={NewClass}/>
       </div>
       : <Redirect exact to="/login"/>
-  }
+  };
 
   render() {
     return (
@@ -62,7 +62,7 @@ class Owner extends Component {
   }
 
   handleLogout = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     document.cookie = "token = ;";
     document.cookie = "role = ;";
     store.dispatch(setTokenData(null, null));

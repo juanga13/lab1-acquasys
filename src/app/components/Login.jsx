@@ -3,7 +3,7 @@ import {Redirect} from "react-router";
 import {connect} from "react-redux";
 import store from "../store";
 import {setTokenData} from '../actions';
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, Row, Col} from "react-bootstrap";
 import RequestManager from "../network/RequestManager";
 import '../css/login.css';
 import Owner from "./Account/Account";
@@ -26,6 +26,10 @@ class Login extends Component {
       email: '',
       password: '',
     };
+  }
+
+  componentWillUnmount() {
+    sessionStorage.removeItem("registerStatus");
   }
 
   validateInputs() {
@@ -54,7 +58,6 @@ class Login extends Component {
       event.stopPropagation();
       return;
     }
-
     // form data is verified, request login to server
     // let response = RequestManager.getToken(this.state.email, this.state.password)
 
@@ -101,42 +104,58 @@ class Login extends Component {
     }
   };
 
+  renderRegisterStatus = () => {
+    return  (sessionStorage.getItem("registerStatus") === "success")
+      ? <h5 className="text-success">Se ha registrado con exito!</h5> : null;
+  };
+
   renderEmailError = () => {
-    return (this.state.errors.email) && <h6 className="text-danger">Invalid email!</h6>
+    return (
+      <div className="login-validation-text">
+        {(this.state.errors.email) && <h6 className="text-danger login-validation-text">Invalid email!</h6>}
+      </div>
+    )
   };
   renderPasswordError = () => {
-    return (this.state.errors.password) && <h6 className="text-danger">Password must be 6 characters or more</h6>
+    return (
+      <div className="login-validation-text">
+        {(this.state.errors.password) && <h6 className="text-danger">Password must be 6 characters or more</h6>}
+      </div>
+    )
   };
 
   render() {
     return (
       <div className='login'>
-        <h5>Ingrese a Mundo Acqua</h5>
+        {this.renderRegisterStatus()}
+
+        <h4>Ingrese a Mundo Acqua</h4>
         <hr/>
-        {/*TODO use Formik to validate data before submitting*/}
         <Form onSubmit={this.handleSubmit}>
-          <Form.Group>
-            <Form.Label>Correo electronico</Form.Label>
-            <Form.Control
+          <Form.Group as={Row}>
+            <Form.Label column sm='3'>Correo electronico</Form.Label>
+            <Col><Form.Control
+              sm='7'
               id='email'
               type='email'
               placeholder='Email'
               autoFocus
               autoComplete='on'
-              onChange={this.handleChange}/>
-            {this.renderEmailError()}
+              onChange={this.handleChange}/></Col>
           </Form.Group>
-          <Form.Group>
-            <Form.Label>Contraseña</Form.Label>
-            <Form.Control
+          {this.renderEmailError()}
+          <Form.Group as={Row}>
+            <Form.Label column sm='4'>Contraseña</Form.Label>
+            <Col><Form.Control
+              sm='6'
               id='password'
               type='password'
               placeholder='Contraseña'
               autoComplete='on'
-              onChange={this.handleChange}/>
+              onChange={this.handleChange}/></Col>
           </Form.Group>
           {this.renderPasswordError()}
-          <Button type='submit'>Ingresar</Button>
+          <Button className="login-button" type='submit'>Ingresar</Button>
 
         </Form>
         {this.renderRedirect()}

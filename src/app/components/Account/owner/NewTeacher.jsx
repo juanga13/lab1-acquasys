@@ -28,7 +28,7 @@ class NewTeacher extends Component {
   handleAddTeacher = event => {
     event.preventDefault();
     this.setState({ isModalOpen: true });
-  }
+  };
 
   cancelModal = () => {
     this.setState({
@@ -38,12 +38,12 @@ class NewTeacher extends Component {
       name: '',
       surname: ''
     })
-  }
+  };
 
   handleChange = event => {
     event.preventDefault();
     this.setState({ [event.target.id]: event.target.value });
-  }
+  };
 
   validateInputs() {
     console.log("current state: " + this.state.email);
@@ -63,7 +63,7 @@ class NewTeacher extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.validateInputs()
+    this.validateInputs();
     if (this.state.errors.email || this.state.errors.password ||
       this.state.errors.name || this.state.errors.surname) {
       event.stopPropagation();
@@ -102,14 +102,14 @@ class NewTeacher extends Component {
       .catch(error => {
         console.log("Error: " + error)
       })
-  }
+  };
 
   renderNotification = () => {
     if (this.state.registerSuccess) {
       this.setState({ registerSuccess: false });
       return <h6 className="text-success">Nuevo profesor registrado correctamente</h6>;
     }
-  }
+  };
 
   renderEmailError = () => { return (this.state.errors.email) && <h6 className="text-danger">Email invalido</h6> }
   renderPasswordError = () => { return (this.state.errors.password) && <h6 className="text-danger">Contrasena invalida</h6> }

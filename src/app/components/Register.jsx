@@ -75,6 +75,7 @@ class Register extends Component {
     })
       .then(response => {
         if (response.ok) {
+          sessionStorage.setItem("registerStatus", "success");
           this.setState({redirect: true});
         } else {
           this.setState({error: response.statusText});
@@ -143,7 +144,7 @@ class Register extends Component {
   render() {
     return (
       <div className='register'>
-        <h5>Registra un nuevo usuario</h5>
+        <h5>Registrese a Mundo Acqua</h5>
         <hr/>
         <Form onSubmit={this.handleSubmit}>
           {this.renderEmailError()}
