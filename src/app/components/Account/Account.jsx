@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {Redirect} from "react-router-dom";
-import Owner from "./Owner";
-import Teacher from "./Teacher";
-import Student from "./Student";
+import Owner from "./owner/Owner";
+import Teacher from "./teacher/Teacher";
+import Student from "./verified-student/Student";
 import store from "../../store";
-import UnverifiedStudent from "./UnverifiedStudent";
+import UnverifiedStudent from "./unverified-student/UnverifiedStudent";
 
 class Account extends Component {
   constructor(props) {

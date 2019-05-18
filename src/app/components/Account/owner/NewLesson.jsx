@@ -1,5 +1,6 @@
-/*import React, {Component} from 'react';
-import {Button, Form} from 'react-bootstrap';
+import React, {Component} from 'react';
+import {Button, Form, Row} from 'react-bootstrap';
+import ReactModal from 'react-modal';
 
 class NewClass extends Component {
   constructor(props) {
@@ -26,23 +27,24 @@ class NewClass extends Component {
   handleAddStudent = event => {
     event.preventDefault();
     this.setState({ isModalOpen: true });
-  }
+  };
 
   cancelModal = () => {
     this.setState({
       isModalOpen: false,
       name: "",
+      // default number value (invalid) is -1
       duration: -1,
       weekday: -1,
       hour: -1,
       minutes: -1
     })
-  }
+  };
 
   handleChange = event => {
     event.preventDefault();
     this.setState({ [event.target.id]: event.target.value });
-  }
+  };
 
   validateInputs() {
     console.log("current state: " + this.state.email);
@@ -52,16 +54,17 @@ class NewClass extends Component {
     const hour = this.state.hour;
     const minutes = this.state.minutes;
     this.setState({ errors: {
-      email: (name.length === 0),
+      name: (name.length === 0),
       duration: (duration.length === -1),
-      name: (weekday === -1),
-      surname: (surname.length === -1)
+      weekday: (weekday === -1),
+      hour: (hour === -1),
+      minutes: (minutes === -1)
     }})
   }
 
   handleSubmit = event => {
     event.preventDefault();
-    this.validateInputs()
+    this.validateInputs();
     if (this.state.errors.email || this.state.errors.password ||
       this.state.errors.name || this.state.errors.surname) {
       event.stopPropagation();
@@ -75,7 +78,7 @@ class NewClass extends Component {
       surname: this.state.surname
     };
 
-    console.log("token: " + this.state.token)
+    console.log("token: " + this.state.token);
     fetch("http://172.22.44.128:8080/api/admin/createTeacher", {
       method: "POST",
       mode: "cors",
@@ -100,18 +103,22 @@ class NewClass extends Component {
       .catch(error => {
         console.log("Error: " + error)
       })
-  }
+  };
   renderNotification = () => {
     if (this.state.registerSuccess) {
       this.setState({ registerSuccess: false });
       return <h6 className="text-success">Nuevo profesor registrado correctamente</h6>;
     }
-  }
+  };
 
-  renderEmailError = () => { return (this.state.errors.email) && <h6 className="text-danger">Email invalido</h6> }
-  renderPasswordError = () => { return (this.state.errors.password) && <h6 className="text-danger">Contrasena invalida</h6> }
-  renderNameError = () => { return (this.state.errors.name) && <h6 className="text-danger">Nombre invalido</h6> }
-  renderSurnameError = () => { return (this.state.errors.surname) && <h6 className="text-danger">Apellido invalido</h6> }
+  renderEmailError = () => {
+    return (this.state.errors.email) && <h6 className="text-danger">Email invalido</h6> };
+  renderPasswordError = () => {
+    return (this.state.errors.password) && <h6 className="text-danger">Contrasena invalida</h6> };
+  renderNameError = () => {
+    return (this.state.errors.name) && <h6 className="text-danger">Nombre invalido</h6> };
+  renderSurnameError = () => {
+    return (this.state.errors.surname) && <h6 className="text-danger">Apellido invalido</h6> };
 
   render() {
     return (
@@ -185,4 +192,4 @@ class NewClass extends Component {
   }
 }
 
-export default NewClass;*/
+export default NewClass;

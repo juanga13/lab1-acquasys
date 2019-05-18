@@ -3,13 +3,13 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
 
-import NewStudent from './owner/NewStudent';
-import NewTeacher from './owner/NewTeacher';
-import NewClass from './owner/NewLesson';
-import OwnerNavbar from './owner/OwnerNavbar';
-import store from "../../store";
-import '../../css/owner.css';
-import {setTokenData} from "../../actions";
+import NewStudent from './NewStudent';
+import NewTeacher from './NewTeacher';
+import NewClass from './NewLesson';
+import OwnerNavbar from './OwnerNavbar';
+import store from "../../../store";
+import '../../../css/owner.css';
+import {setTokenData} from "../../../actions";
 import {Button} from "react-bootstrap";
 
 class Owner extends Component {
