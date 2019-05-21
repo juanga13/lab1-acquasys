@@ -6,8 +6,6 @@ import {setTokenData} from '../actions';
 import {Button, Form, Row, Spinner} from "react-bootstrap";
 import RequestManager from "../network/RequestManager";
 import '../css/login.css';
-import Owner from "./Account/Account";
-import { domainToUnicode } from 'url';
 
 class Login extends Component {
   constructor(props) {
@@ -55,14 +53,10 @@ class Login extends Component {
       event.stopPropagation();
       return;
     }
-    document.cookie = "token =" + "test_token";
-    document.cookie = "role =" + "ROLE_ADMIN";
-    store.dispatch(setTokenData("test_token", "ROLE_ADMIN"));
-    this.setState({redirect: true});
     
     // form data is verified, request login to server
-    // let response = RequestManager.getToken(this.state.email, this.state.password)
-    /*
+    let response = RequestManager.getToken(this.state.email, this.state.password);
+
     let urlen = "grant_type=password&password=" + this.state.password + "&username=" + this.state.email;
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
@@ -96,7 +90,6 @@ class Login extends Component {
       }
     );
     xhr.send(urlen);
-    */
   };
 
   renderRedirect = () => {
