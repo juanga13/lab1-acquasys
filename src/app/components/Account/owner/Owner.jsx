@@ -1,15 +1,13 @@
 import React, {Component} from 'react';
-
 import {connect} from 'react-redux';
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
-
-import NewStudent from './owner/NewStudent';
-import NewTeacher from './owner/NewTeacher';
-import NewClass from './owner/NewLesson';
-import OwnerNavbar from './owner/OwnerNavbar';
-import store from "../../store";
-import '../../css/owner.css';
-import {setTokenData} from "../../actions";
+import NewStudent from './NewStudent';
+import NewTeacher from './NewTeacher';
+import NewClass from './NewLesson';
+import OwnerNavbar from './OwnerNavbar';
+import store from "../../../store";
+import '../../../css/owner.css';
+import {setTokenData} from "../../../actions";
 import {Button} from "react-bootstrap";
 
 class Owner extends Component {
@@ -17,6 +15,7 @@ class Owner extends Component {
     super(props);
 
     this.state = {
+      isFirstTime: true,
       isOpen: false,
       modalType: ""
     };
@@ -46,6 +45,13 @@ class Owner extends Component {
           <Route path="/my-account/new-class" component={NewClass}/>
         </div>
       : <Redirect exact to="/login"/>
+  };
+
+  renderFirstTimeRedirect = () => {
+    if (this.state.isFirstTime) {
+      this.setState({isFirstTime: false});
+      return (<Redirect to="/my-account/new-teacher"/>);
+    } else return null;
   }
 
   render() {
@@ -55,6 +61,7 @@ class Owner extends Component {
         <Router>
           <OwnerNavbar/>
           {this.renderRoutes()}
+          {this.renderFirstTimeRedirect()}
         </Router>
         <Button onClick={this.handleLogout}>Logout</Button>
       </div>
@@ -62,12 +69,11 @@ class Owner extends Component {
   }
 
   handleLogout = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     document.cookie = "token = ;";
     document.cookie = "role = ;";
     store.dispatch(setTokenData(null,null));
     window.location.href = "http://localhost:3000";
-
   }
 }
 

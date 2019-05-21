@@ -1,11 +1,14 @@
-/*import React, {Component} from 'react';
-import {Button, Form} from 'react-bootstrap';
+import React, {Component} from 'react';
+import {Button, Form, Row} from 'react-bootstrap';
+import ReactModal from 'react-modal';
 
 class NewClass extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      token: this.props.token,
+      isModalOpen: false,
       errors: {
         name: false,
         duration: false,
@@ -13,36 +16,37 @@ class NewClass extends Component {
         hour: false, 
         minutes: false,
       },
-      token: this.props.token,
-      isModalOpen: false,
       name: "",
       duration: -1,
       weekday: -1,
       hour: -1,
       minutes: -1,
+      date: '',
     }
   }
 
   handleAddStudent = event => {
     event.preventDefault();
     this.setState({ isModalOpen: true });
-  }
+  };
 
   cancelModal = () => {
     this.setState({
       isModalOpen: false,
       name: "",
+      // default number value (invalid) is -1
       duration: -1,
       weekday: -1,
       hour: -1,
       minutes: -1
     })
-  }
+  };
 
   handleChange = event => {
+    console.log(this.state.date);
     event.preventDefault();
     this.setState({ [event.target.id]: event.target.value });
-  }
+  };
 
   validateInputs() {
     console.log("current state: " + this.state.email);
@@ -52,30 +56,37 @@ class NewClass extends Component {
     const hour = this.state.hour;
     const minutes = this.state.minutes;
     this.setState({ errors: {
-      email: (name.length === 0),
-      duration: (duration.length === -1),
-      name: (weekday === -1),
-      surname: (surname.length === -1)
+      name: (name.length === 0),
+      duration: (duration.length === -1),  // minutes number input
+      weekday: (weekday === -1),  // dropdown of seven days
+      hour: (hour === -1),  // starting time, dropdown from 06:00 to 05:00
+      minutes: (minutes === -1)  // starting time, number input
     }})
+    return ( 
+      name.length === 0
+      || duration.length === -1
+      || weekday === -1
+      || hour === -1 
+      || minutes === -1
+    )
   }
 
   handleSubmit = event => {
     event.preventDefault();
-    this.validateInputs()
-    if (this.state.errors.email || this.state.errors.password ||
-      this.state.errors.name || this.state.errors.surname) {
+    if (this.validateInputs()) {
       event.stopPropagation();
       return;
     }
 
     const data = {
-      email: this.state.email,
-      password: this.state.password,
       name: this.state.name,
-      surname: this.state.surname
+      duration: this.state.duration,
+      weekday: this.state.weekday,
+      hour: this.state.hour,
+      minutes: this.state.minutes,
     };
 
-    console.log("token: " + this.state.token)
+    console.log("token: " + this.state.token);
     fetch("http://172.22.44.128:8080/api/admin/createTeacher", {
       method: "POST",
       mode: "cors",
@@ -100,18 +111,25 @@ class NewClass extends Component {
       .catch(error => {
         console.log("Error: " + error)
       })
-  }
+  };
+  
   renderNotification = () => {
     if (this.state.registerSuccess) {
       this.setState({ registerSuccess: false });
       return <h6 className="text-success">Nuevo profesor registrado correctamente</h6>;
     }
-  }
+  };
 
-  renderEmailError = () => { return (this.state.errors.email) && <h6 className="text-danger">Email invalido</h6> }
-  renderPasswordError = () => { return (this.state.errors.password) && <h6 className="text-danger">Contrasena invalida</h6> }
-  renderNameError = () => { return (this.state.errors.name) && <h6 className="text-danger">Nombre invalido</h6> }
-  renderSurnameError = () => { return (this.state.errors.surname) && <h6 className="text-danger">Apellido invalido</h6> }
+  // name, duration, weekday, hour, minutes
+  
+  // renderNameError = () => {
+  //   return (this.state.errors.name) && <h6 className="text-danger">Nombre invalido</h6> };
+  // renderDurationError = () => {
+  //   return (this.state.errors.email) && <h6 className="text-danger">Duracion invalida</h6> };
+  // renderPasswordError = () => {
+  //   return (this.state.errors.password) && <h6 className="text-danger">Contrasena invalida</h6> };
+  // renderSurnameError = () => {
+  //   return (this.state.errors.surname) && <h6 className="text-danger">Apellido invalido</h6> };
 
   render() {
     return (
@@ -119,6 +137,7 @@ class NewClass extends Component {
         <h2>Alumnos</h2>
         {this.renderNotification()}
         <Button onClick={this.handleAddStudent}>Agregar un nuevo alumno</Button>
+        
         <ReactModal
           className="modal-form"
           isOpen={this.state.isModalOpen}
@@ -137,7 +156,7 @@ class NewClass extends Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
-            {this.renderEmailError()}
+            {/* {this.renderEmailError()} */}
             <Form.Group>
               <Form.Label>Contraseña</Form.Label>
               <Form.Control
@@ -148,7 +167,7 @@ class NewClass extends Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
-            {this.renderPasswordError()}
+            {/* {this.renderPasswordError()} */}
             <Form.Group>
               <Form.Label>Nombre</Form.Label>
               <Form.Control
@@ -159,7 +178,7 @@ class NewClass extends Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
-            {this.renderNameError()}
+            {/* {this.renderNameError()} */}
             <Form.Group>
               <Form.Label>Apellido</Form.Label>
               <Form.Control
@@ -170,7 +189,7 @@ class NewClass extends Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
-            {this.renderSurnameError()}
+            {/* {this.renderSurnameError()} */}
             <Row className="modal-form-button-container">
               <Button type="submit">Agregar nuevo profesor</Button>
               <Button
@@ -185,4 +204,4 @@ class NewClass extends Component {
   }
 }
 
-export default NewClass;*/
+export default NewClass;

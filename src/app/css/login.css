@@ -5,13 +5,12 @@
     align-items: center;
     padding: 40px;
     margin: 30px auto;
-    width: 70%;
+    width: 60%;
     border-radius: 15px;
 }
 
 .login-button {
-    display: flex;
-    justify-content: center;
+    margin-top: 30px;
 }
 
 .login-text {
@@ -34,4 +33,10 @@
     border-radius: 10px;
     margin: 5px;
     transition-property: initial;
+}
+
+.login-validation-text {
+    width: 200px;
+    height: 10px;
+    margin: 15px 0;
 }

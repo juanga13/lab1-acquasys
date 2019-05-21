@@ -1,7 +1,7 @@
 //const baseUrl = "http://172.22.44.128:8080";
  const baseUrl = "http://127.0.0.1:8080";
 class RequestManager {
-    static baseUrl = "http://127.0.0.1:8080";
+    static baseUrl = "http://localhost:8080";
 
     static getToken(email, password) {
         let urlen = "grant_type=password&password=" + password + "&username=" + email;

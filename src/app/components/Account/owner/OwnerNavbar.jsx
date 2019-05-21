@@ -8,11 +8,11 @@ class OwnerNavbar extends Component {
     return (
       <Navbar>
         <div className='owner-navbar'>
-          <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' to='new-student'>Nuevo alumno</NavLink>
+          <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' to='/my-account/new-student'>Nuevo alumno</NavLink>
           {/* <vr className="vertical-separator"/> */}
-          <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' to='new-teacher'>Nuevo profesor</NavLink>
+          <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' to='/my-account/new-teacher'>Nuevo profesor</NavLink>
           {/* <vr className="vertical-separator"/> */}
-          <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' to='new-class'>Nueva clase</NavLink>
+          <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' to='/my-account/new-class'>Nueva clase</NavLink>
         </div>
       </Navbar>
     );
