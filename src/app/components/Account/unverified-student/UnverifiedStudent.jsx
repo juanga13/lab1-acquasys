@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Form, Row, Col} from "react-bootstrap";
-import '../../../css/unverified-student.css';
+import '../../../css/unregistered-student.css';
 import ReactModal from 'react-modal';
 import '../../../css/modal-form.css';
 import store from "../../../store";

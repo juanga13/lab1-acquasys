@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
-
 import {connect} from 'react-redux';
 import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
-
 import NewStudent from './NewStudent';
 import NewTeacher from './NewTeacher';
 import NewClass from './NewLesson';
@@ -17,6 +15,7 @@ class Owner extends Component {
     super(props);
 
     this.state = {
+      isFirstTime: true,
       isOpen: false,
       modalType: ""
     };
@@ -48,6 +47,13 @@ class Owner extends Component {
       : <Redirect exact to="/login"/>
   };
 
+  renderFirstTimeRedirect = () => {
+    if (this.state.isFirstTime) {
+      this.setState({isFirstTime: false});
+      return (<Redirect to="/my-account/new-teacher"/>);
+    } else return null;
+  }
+
   render() {
     return (
       <div className="owner-container">
@@ -55,6 +61,7 @@ class Owner extends Component {
         <Router>
           <OwnerNavbar/>
           {this.renderRoutes()}
+          {this.renderFirstTimeRedirect()}
         </Router>
         <Button onClick={this.handleLogout}>Logout</Button>
       </div>
@@ -67,7 +74,6 @@ class Owner extends Component {
     document.cookie = "role = ;";
     store.dispatch(setTokenData(null,null));
     window.location.href = "http://localhost:3000";
-
   }
 }
 

@@ -3,10 +3,11 @@ import {Redirect} from "react-router";
 import {connect} from "react-redux";
 import store from "../store";
 import {setTokenData} from '../actions';
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, Row, Spinner} from "react-bootstrap";
 import RequestManager from "../network/RequestManager";
 import '../css/login.css';
 import Owner from "./Account/Account";
+import { domainToUnicode } from 'url';
 
 class Login extends Component {
   constructor(props) {
@@ -49,15 +50,19 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-
+    // loading animation
     if (this.validateInputs()) {
       event.stopPropagation();
       return;
     }
-
+    document.cookie = "token =" + "test_token";
+    document.cookie = "role =" + "ROLE_ADMIN";
+    store.dispatch(setTokenData("test_token", "ROLE_ADMIN"));
+    this.setState({redirect: true});
+    
     // form data is verified, request login to server
     // let response = RequestManager.getToken(this.state.email, this.state.password)
-
+    /*
     let urlen = "grant_type=password&password=" + this.state.password + "&username=" + this.state.email;
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
@@ -91,6 +96,7 @@ class Login extends Component {
       }
     );
     xhr.send(urlen);
+    */
   };
 
   renderRedirect = () => {
@@ -147,8 +153,10 @@ class Login extends Component {
               onChange={this.handleChange}/>
           </Form.Group>
           {this.renderPasswordError()}
-          <Button type='submit'>Ingresar</Button>
-
+          <Row>
+            <Button type='submit'>Ingresar</Button>
+          </Row>
+          
         </Form>
         {this.renderRedirect()}
       </div>
