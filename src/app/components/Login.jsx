@@ -17,7 +17,7 @@ class Login extends Component {
 
     this.state = {
       redirect: false,
-      loginResponse: null,
+      loginResponse: '',
       errors: {
         email: false,
         password: false,
@@ -55,8 +55,6 @@ class Login extends Component {
     }
     
     // form data is verified, request login to server
-    let response = RequestManager.getToken(this.state.email, this.state.password);
-
     let urlen = "grant_type=password&password=" + this.state.password + "&username=" + this.state.email;
     let xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
@@ -71,15 +69,15 @@ class Login extends Component {
         if (this.readyState === 4) {
           let response = JSON.parse(this.responseText);
           if (response.error === "invalid_grant") {
-            login.setState({loginReponse: "Contrasena incorrecta "});
+            login.setState({loginResponse: "Los datos ingresados no son validos"});
             return;
           }
           if (response.access_token !== undefined) {
             login.setState({waitUserInfo: true});
             RequestManager.getUserInfo(response.access_token)
               .then((data) => {
-                document.cookie = "token =" + response.access_token;
-                document.cookie = "role=" + data.authorities[0];
+                localStorage.setItem("token",response.access_token);
+                localStorage.setItem("role",data.authorities[0]);
                 store.dispatch(setTokenData(response.access_token, data.authorities[0]));
                 login.setState({redirect: true})
               });
@@ -118,6 +116,10 @@ class Login extends Component {
     return (this.state.errors.password) && <h6 className="text-danger">Password must be 6 characters or more</h6>
   };
 
+  renderLoginResponse = () =>{
+      return <h6 className="text-danger">{this.state.loginResponse}</h6>;
+  };
+
   render() {
     return (
       <div className='login'>
@@ -146,10 +148,11 @@ class Login extends Component {
               onChange={this.handleChange}/>
           </Form.Group>
           {this.renderPasswordError()}
-          <Row>
+            {this.renderLoginResponse()}
+            <Row>
             <Button type='submit'>Ingresar</Button>
           </Row>
-          
+
         </Form>
         {this.renderRedirect()}
       </div>

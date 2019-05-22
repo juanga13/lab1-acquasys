@@ -11,8 +11,8 @@ class Account extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: getCookie("token"),
-      role: getCookie("role")
+      token: localStorage.getItem("token"),
+      role: localStorage.getItem("role")
     };
   }
   render() {
@@ -29,22 +29,6 @@ class Account extends Component {
       return (<UnverifiedStudent/>);
     } else return null
   }
-}
-
-function getCookie(cname) {
-  var name = cname + "=";
-  var decodedCookie = decodeURIComponent(document.cookie);
-  var ca = decodedCookie.split(';');
-  for(var i = 0; i <ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
 }
 
 export default Account;
