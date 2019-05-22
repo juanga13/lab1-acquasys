@@ -6,6 +6,8 @@ import {setTokenData} from '../actions';
 import {Button, Form, Row, Spinner} from "react-bootstrap";
 import RequestManager from "../network/RequestManager";
 import '../css/login.css';
+import Owner from "./Account/Account";
+import { domainToUnicode } from 'url';
 
 class Login extends Component {
   constructor(props) {
@@ -17,7 +19,7 @@ class Login extends Component {
 
     this.state = {
       redirect: false,
-      loginResponse: '',
+      loginResponse: null,
       errors: {
         email: false,
         password: false,

@@ -1,13 +1,21 @@
 import React, {Component} from 'react';
 import {Button, Form, Row, Dropdown, Col} from 'react-bootstrap';
 import ReactModal from 'react-modal';
+import RequestManager from '../../../network/RequestManager.jsx'
+import DatePicker from 'react-datepicker';
+import { registerLocale, setDefaultLocale } from "react-datepicker";
+import moment from 'moment';
+import 'react-datepicker/dist/react-datepicker.css';
+import es from 'date-fns/locale/es';
+registerLocale('es', es);
+setDefaultLocale('es');
 
 class NewClass extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      token: this.props.token,
+      token: localStorage.getItem("token"),
       isModalOpen: false,
       errors: {
         name: false,
@@ -17,11 +25,13 @@ class NewClass extends Component {
         minutes: false,
       },
       name: "",
-      duration: '',
-      weekday: "Seleccione un dia",
-      hour: '',
-      minutes: '',
+      duration: -1,
+      weekday: -1,
+      hour: -1,
+      minutes: -1,
       date: '',
+      startDate : new Date("1970/01/01"),
+      endDate: new Date("1970/01/01")
     }
   }
 
@@ -29,6 +39,21 @@ class NewClass extends Component {
     event.preventDefault();
     this.setState({ isModalOpen: true });
   };
+
+  handleDateChange = ({ startDate, endDate }) => {
+    startDate = startDate || this.state.startDate;
+    endDate = endDate || this.state.endDate;
+
+    if (startDate.getMilliseconds() > endDate.getMilliseconds()) {
+      endDate = startDate;
+    }
+
+    this.setState({ startDate, endDate });
+  };
+
+  handleChangeStart = startDate => this.handleDateChange({ startDate });
+
+  handleChangeEnd = endDate => this.handleDateChange({ endDate });
 
   cancelModal = () => {
     this.setState({
@@ -46,7 +71,7 @@ class NewClass extends Component {
     console.log(event.target.value);
     console.log(event.target.id === "minutes" && parseInt(event.target.value) > 59);
     event.preventDefault();
-    if (event.target.id === "hour" && parseInt(event.target.value) > 23) 
+    if (event.target.id === "hour" && parseInt(event.target.value) > 23)
       this.setState({hour: 23});
     else if (event.target.id === "minutes" && parseInt(event.target.value) >59)
       this.setState({minutes: 59});
@@ -66,7 +91,7 @@ class NewClass extends Component {
       weekday: (weekday === 'Seleccione un dia'),  // dropdown of seven days
       hour: (hour === ''),  // starting time, dropdown from 06:00 to 05:00
       minutes: (minutes === '')  // starting time, number input
-    }})
+    }});
     return ( 
       name.length === 0
       || duration.length === 0
@@ -89,16 +114,21 @@ class NewClass extends Component {
       weekday: this.state.weekday,
       hour: this.state.hour,
       minutes: this.state.minutes,
+      startDate: this.state.startDate.getTime(),
+      endDate: this.state.endDate.getTime()
     };
 
+    console.log(data);
     console.log("token: " + this.state.token);
-    fetch("http://172.22.44.128:8080/api/admin/createLesson", {
+
+    fetch(RequestManager.baseUrl + "/api/admin/createLesson", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
       credentials: "same-origin",
       headers: 
-        { "Content-Type": "application/json",
+        {
+          "Content-Type": "application/json",
           "Authorization": "Bearer " + this.state.token
         },
       redirect: "follow",
@@ -124,7 +154,7 @@ class NewClass extends Component {
   renderNotification = () => {
     if (this.state.registerSuccess) {
       this.setState({ registerSuccess: false });
-      return <h6 className="text-success">Nuevo profesor registrado correctamente</h6>;
+      return <h6 className="text-success">Nueva clase registrada correctamente</h6>;
     }
   };
 
@@ -139,23 +169,16 @@ class NewClass extends Component {
       return (this.state.errors.hour || this.state.errors.minutes) && <h6 className="text-danger">Horario invalido</h6> };
 
   handleWeekDayChange = event => {
-    // event.preventDefault();
     console.log(event);
     this.setState({weekday: event});
-  }
+  };
 
   render() {
     return (
       <div>
-        <h2>Alumnos</h2>
+        <h2>Clases</h2>
         {this.renderNotification()}
-        <Button onClick={this.handleAddStudent}>Agregar un nuevo alumno</Button>
-        {/* name: "",
-      duration: -1,
-      weekday: -1,
-      hour: -1,
-      minutes: -1,
-      date: '', */}
+        <Button onClick={this.handleAddStudent}>Agregar una nueva clase</Button>
         <ReactModal
           className="modal-form"
           isOpen={this.state.isModalOpen}
@@ -176,14 +199,14 @@ class NewClass extends Component {
             </Form.Group>
             {this.renderNameError()}
             <Form.Group>
-              <Dropdown 
-                title={this.state.weekday} 
+              <Dropdown
+                title={this.state.weekday}
                 className={(this.state.errors.weekday) && "border border-danger"}
               >
                 {["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"].map(
-                  (weekday) => 
-                    <Dropdown.Item 
-                      className="bg-default border border-dark" 
+                  (weekday) =>
+                    <Dropdown.Item
+                      className="bg-default border border-dark"
                       onClick={() => this.handleWeekDayChange(weekday)}
                     >
                       {weekday}
@@ -203,8 +226,6 @@ class NewClass extends Component {
               />
             </Form.Group>
             {this.renderDurationError()}
-            {/* const hourRange = [0, 23];}*/}
-            {/*const minutesRange = [0, 59]; */}
             <Form.Group as={Row}>
               <Form.Label column>Hora de inicio</Form.Label>
               <Col><Form.Control
@@ -226,8 +247,25 @@ class NewClass extends Component {
               /></Col>
             </Form.Group>
             {this.renderHourMinutesError()}
+            <Form.Group as={Row}>
+              <DatePicker
+                  selected={this.state.startDate}
+                  selectsStart
+                  startDate={this.state.startDate}
+                  endDate={this.state.endDate}
+                  onChange={this.handleChangeStart}
+              />
+
+              <DatePicker
+                  selected={this.state.endDate}
+                  selectsEnd
+                  startDate={this.state.startDate}
+                  endDate={this.state.endDate}
+                  onChange={this.handleChangeEnd}
+              />
+            </Form.Group>
             <Row className="modal-form-button-container">
-              <Button type="submit">Agregar nuevo profesor</Button>
+              <Button type="submit">Agregar clase</Button>
               <Button
                 onClick={this.cancelModal}
                 className="btn btn-secondary modal-button"
