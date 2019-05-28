@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Form, Row, Dropdown, Col} from 'react-bootstrap';
+import {Button, Form, Row, Dropdown, Col, Label} from 'react-bootstrap';
 import ReactModal from 'react-modal';
 import RequestManager from '../../../network/RequestManager.jsx'
 import DatePicker from 'react-datepicker';
@@ -17,6 +17,10 @@ class NewClass extends Component {
     this.state = {
       token: localStorage.getItem("token"),
       isModalOpen: false,
+      showEditModal: false,
+      editDNI: '',
+      showDeleteModal: false,
+      deleteDNI: '',
       errors: {
         name: false,
         duration: false,
@@ -157,32 +161,60 @@ class NewClass extends Component {
       return <h6 className="text-success">Nueva clase registrada correctamente</h6>;
     }
   };
-
-  renderNameError = () => {
-    return (this.state.errors.name) && <h6 className="text-danger">Nombre invalido</h6> };
-  renderWeekdayError = () => {
-    console.log(this.state.weekday);
-    return (this.state.errors.weekday) && <h6 className="text-danger">Dia invalido</h6> };
-  renderDurationError = () => {
-    return (this.state.errors.duration) && <h6 className="text-danger">Duracion invalida</h6> };
-  renderHourMinutesError = () => {
-      return (this.state.errors.hour || this.state.errors.minutes) && <h6 className="text-danger">Horario invalido</h6> };
-
-  handleWeekDayChange = event => {
-    console.log(event);
-    this.setState({weekday: event});
+  
+  handleLessonEdit = (DNI) => {
+    this.setState({showEditModal: true, editDNI: DNI});
   };
+
+  handleLessonDelete = (lesson) => {
+    // this.setState({showDeleteModal: true, deleteDNI: DNI});
+  };
+
+  renderStudentList = () => {
+    const testLesson = [
+      ["bebes", "jueves", "11:00"],
+      ["nenes 1", "martes", "15:00"],
+      ["bebes", "sabado", "9:00"],
+      ["embarazadas", "martes", "16:00"],
+      ["nenes 2", "lunes", "18:30"],
+      ["adultos", "viernes", "19:00"],
+    ]
+    
+    // HERE method to get all data in a var
+    //  similar to testData
+    
+    return (
+      <div>
+        {testLesson.map((item) => (  
+          <Row className="p-2">
+            <h6 className="p-2 m-auto">{item[0]}</h6>
+            <h6 className="p-2 m-auto">{item[1]}</h6>
+            <Button 
+              className="btn btn-secondary p-2 m-auto" 
+              onClick={() => (this.handleLessonEdit(item))}
+            >Editar</Button>
+            <Button 
+              className="btn btn-danger p-2 m-auto" 
+              onClick={() => (this.handleLessonDelete(item))}
+            >Eliminar</Button>
+          </Row>
+        ))}
+      </div>  
+    );
+  }
 
   render() {
     return (
       <div>
-        <h2>Clases</h2>
+        <h3>Clases</h3>
         {this.renderNotification()}
-        <Button onClick={this.handleAddStudent}>Agregar una nueva clase</Button>
+        <Button className="btn btn-info" onClick={this.handleAddStudent}>Agregar una nueva clase</Button>
+        {this.renderStudentList()}
+        
         <ReactModal
           className="modal-form"
           isOpen={this.state.isModalOpen}
-          onRequestClose={this.cancelModal}
+          // onRequestClose={this.cancelModal}
           contentLabel="Add teacher modal"
         >
           <Form onSubmit={this.handleSubmit} >
@@ -197,7 +229,7 @@ class NewClass extends Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
-            {this.renderNameError()}
+            {(this.state.errors.name) && <h6 className="text-danger">Nombre invalido</h6>}
             <Form.Group>
               <Dropdown
                 title={this.state.weekday}
@@ -214,7 +246,7 @@ class NewClass extends Component {
                 )}
                 </Dropdown>
             </Form.Group>
-            {this.renderWeekdayError()}
+            {(this.state.errors.weekday) && <h6 className="text-danger">Dia invalido</h6>}
             <Form.Group>
               <Form.Label>Duracion (en minutos)</Form.Label>
               <Form.Control
@@ -225,7 +257,7 @@ class NewClass extends Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
-            {this.renderDurationError()}
+            {(this.state.errors.duration) && <h6 className="text-danger">Duracion invalida</h6>}
             <Form.Group as={Row}>
               <Form.Label column>Hora de inicio</Form.Label>
               <Col><Form.Control
@@ -246,7 +278,7 @@ class NewClass extends Component {
                 onChange={this.handleChange}
               /></Col>
             </Form.Group>
-            {this.renderHourMinutesError()}
+            {(this.state.errors.hour || this.state.errors.minutes) && <h6 className="text-danger">Horario invalido</h6>}
             <Form.Group as={Row}>
               <DatePicker
                   selected={this.state.startDate}
@@ -272,6 +304,14 @@ class NewClass extends Component {
               >Cancelar</Button>
             </Row>
           </Form>
+        </ReactModal>
+        {/* edit modal */}
+        <ReactModal>
+          
+        </ReactModal>
+        {/* delete modal */}
+        <ReactModal>
+          <p>Esta seguro que quiere eliminar</p>
         </ReactModal>
       </div>
     );

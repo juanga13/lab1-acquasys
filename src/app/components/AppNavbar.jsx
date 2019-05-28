@@ -25,6 +25,14 @@ class AppNavbar extends Component {
     });
   }
 
+  handleLogout = (event) => {
+    event.preventDefault();
+    document.cookie = "token = ;";
+    document.cookie = "role = ;";
+    // store.dispatch(setTokenData(null,null));
+    window.location.href = "http://localhost:3000";  //todo
+  }
+
   renderNavItems = () => {
     if (this.state.token === null) return (
       <div className='app-link-container'>
@@ -37,6 +45,7 @@ class AppNavbar extends Component {
       <div className='app-link-container'>
         <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' exact to='/'>Inicio</NavLink>
         <NavLink className='nav-link app-link' activeClassName='navlink app-link-active' to='/my-account/new-student'>Mi Cuenta</NavLink>
+        <a className='nav-link app-link' activeClassName='navlink app-link-active' onClick={this.handleLogout}>Desloguear</a>
       </div>
     );
   };

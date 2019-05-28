@@ -57,23 +57,14 @@ class Owner extends Component {
   render() {
     return (
       <div className="owner-container">
-        <h1>ESTAS LOGEADO COMO DUENO</h1>
+        <h6>Esta logeado como dueo</h6>
         <Router>
           <OwnerNavbar/>
           {this.renderRoutes()}
           {this.renderFirstTimeRedirect()}
         </Router>
-        <Button onClick={this.handleLogout}>Logout</Button>
       </div>
     );
-  }
-
-  handleLogout = (event) => {
-    event.preventDefault();
-    document.cookie = "token = ;";
-    document.cookie = "role = ;";
-    store.dispatch(setTokenData(null,null));
-    window.location.href = "http://localhost:3000";
   }
 }
 

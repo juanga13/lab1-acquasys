@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Form, Row} from 'react-bootstrap';
+import {Button, Form, Row, Col, Dropdown} from 'react-bootstrap';
 import ReactModal from 'react-modal';
 
 class NewStudent extends Component {
@@ -166,11 +166,20 @@ class NewStudent extends Component {
     }
   };
 
-  renderEmailError = () => { return (this.state.errors.email) && <h6 className="text-danger">Email invalido</h6> }
-  renderPasswordError = () => { return (this.state.errors.password) && <h6 className="text-danger">Contrasena invalida</h6> }
-  renderNameError = () => { return (this.state.errors.name) && <h6 className="text-danger">Nombre invalido</h6> }
-  renderSurnameError = () => { return (this.state.errors.surname) && <h6 className="text-danger">Apellido invalido</h6> }
-  renderDNIError = () => { return (this.state.errors.dni) && <h6 className="text-danger">DNI invalido</h6> }
+
+    // const testData = [
+    //   ["Juanga Ricci", "41351556"],
+    //   ["Facu Gonzalez", "4096240"],
+    //   ["Manu Lethanity", "49494949"],
+    //   ["Wawey Molina", "12345"],
+    //   ["Arielo Sirenita", "11111111"],
+    //   ["Juanito Juanitez", "98471735"]
+    // ]
+
+  handleSexChange = newSex => {
+    this.setState({sex: newSex});
+  }
+
   renderSexError = () => { return (this.state.errors.sex) && <h6 className="text-danger">Sexo invalido</h6> }
   renderBirthdayError = () => { return (this.state.errors.birthday) && <h6 className="text-danger">Fecha de nacmimiento invalido</h6> }
   renderAddressError = () => { return (this.state.errors.address) && <h6 className="text-danger">Direccion invalida</h6> }
@@ -191,15 +200,194 @@ class NewStudent extends Component {
   renderFormNavbar = () => {
     return (this.state.optionalData) && (
       <Row>
-        <Button></Button>
+        <Button onClick={() => (this.setState({formPage: 1}))}>1</Button>
+        <Button onClick={() => (this.setState({formPage: 2}))}>2</Button>
       </Row>
     ) 
   };
 
   renderFormPages = () => {
     if (this.state.formPage === 1) {
-      
-    } else if (this.state.formPage === 2) {}
+      return (
+        <Form>
+          <h4>Datos personales</h4>
+          <Form.Group>
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              id="email"
+              type="email"
+              placeholder="Email"
+              onChange={this.handleChange}
+            />
+            {(this.state.errors.email) && <h6 className="text-danger">Email invalido</h6>}
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Contrasena</Form.Label>
+            <Form.Control
+              id="password"
+              type="password"
+              onChange={this.handleChange}
+            />
+            {(this.state.errors.password) && <h6 className="text-danger">Contrasena invalida</h6>}
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Nombre</Form.Label>
+            <Form.Control
+              id="name"
+              type="name"
+              placeholder="Nombre"
+              onChange={this.handleChange}
+            />
+            {(this.state.errors.name) && <h6 className="text-danger">Nombre invalido</h6>}
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Apellido</Form.Label>
+            <Form.Control
+              id="surname"
+              type="name"
+              placeholder="Apellido"
+              onChange={this.handleChange}
+            />
+            {(this.state.errors.surname) && <h6 className="text-danger">Apellido invalido</h6>}
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>DNI</Form.Label>
+            <Form.Control
+              id="dni"
+              type="name"
+              onChange={this.handleChange}
+            />
+            {(this.state.errors.dni) && <h6 className="text-danger">DNI invalido</h6>}
+          </Form.Group>
+          <Form.Group>
+          <Form.Label column>Sexo</Form.Label>
+            <Col><Dropdown
+                title={this.state.sex} 
+                className={(this.state.errors.sex) && "border border-danger"}
+              >
+                <Dropdown.Item onClick={() => this.handleSexChange("m")}
+                  >Masculino</Dropdown.Item>
+                <Dropdown.Item onClick={() => this.handleSexChange("f")}
+                  >Femenino</Dropdown.Item>
+            </Dropdown></Col>
+            {}
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Fecha de Nacimiento</Form.Label>
+            <Form.Control
+              id="birthday"
+              type="name"
+              onChange={this.handleChange}
+            />
+            {}
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Direccion</Form.Label>
+            <Form.Control
+              id="address"
+              type="name"
+              onChange={this.handleChange}
+            />
+            {}
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Telefono</Form.Label>
+            <Form.Control
+              id="phoneNumber"
+              type="name"
+              onChange={this.handleChange}
+            />
+            {}
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Foto de perfil</Form.Label>
+            <Form.Control
+              id="avatarURL"
+              type="name"
+              onChange={this.handleChange}
+            />
+            {}
+          </Form.Group>
+        </Form>
+      );
+    } else if (this.state.formPage === 2) {
+      return (
+        <Form>
+          <Row>
+            <Form.Group>
+              <Form.Label>Nombre</Form.Label>
+              <Form.Control
+                id="fatherName"
+                type="name"
+                onChange={this.handleChange}
+              />
+              {}
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Apellido</Form.Label>
+              <Form.Control
+                id="fatherSurname"
+                type="name"
+                onChange={this.handleChange}
+              />
+              {}
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Telefono</Form.Label>
+              <Form.Control
+                id="fatherPhoneNumber"
+                type="name"
+                onChange={this.handleChange}
+              />
+              {}
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                id="fatherEmail"
+                type="name"
+                onChange={this.handleChange}
+              />
+              {}
+            </Form.Group>
+          </Row>
+          <Row>
+            <Form.Group>
+              <Form.Control
+                id="motherName"
+                type="name"
+                onChange={this.handleChange}
+              />
+              {}
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                id="motherSurname"
+                type="name"
+                onChange={this.handleChange}
+              />
+              {}
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                id="motherPhoneNumber"
+                type="name"
+                onChange={this.handleChange}
+              />
+              {}
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                id="motherEmail"
+                type="name"
+                onChange={this.handleChange}
+              />
+              {}
+            </Form.Group>
+          </Row>
+        </Form>
+      );
+    }
   };
 
   render() {
