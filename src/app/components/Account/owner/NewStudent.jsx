@@ -19,7 +19,8 @@ class NewStudent extends Component {
       isModalOpen: false,
       email: '', password: '', name: '', surname: '',
       // additional data (optional)
-      optionalData: false,  // only upload if this is true
+      optionalData: true,  // only upload if this is true
+      formPage: 1,
       dni: -1, sex: '', birthday: '', address: '', phoneNumber: -1,
       avatartUrl: '', fatherName: '', fatherSurname: '',
       fatherPhoneNumber: -1, fatherEmail: '', motherName: '', 
@@ -31,7 +32,7 @@ class NewStudent extends Component {
   handleAddStudent = event => {
     event.preventDefault();
     this.setState({ isModalOpen: true });
-  }
+  };
 
   cancelModal = () => {
     this.setState({
@@ -43,12 +44,12 @@ class NewStudent extends Component {
       fatherPhoneNumber: -1, fatherEmail: '', motherName: '', motherSurname: '',
       motherPhoneNumber: -1, motherEmail: ''
     })
-  }
+  };
 
   handleChange = event => {
     event.preventDefault();
     this.setState({ [event.target.id]: event.target.value });
-  }
+  };
 
   validateInputs() {
     console.log("current state: " + this.state.email);
@@ -76,7 +77,7 @@ class NewStudent extends Component {
         motherName: (motherName === ""), motherSurname: (motherSurname === ""),
         motherPhoneNumber: (motherPhoneNumber === -1), motherEmail: (motherEmail === ""),
         socialPlan: (socialPlan === ""), affiliateNumber: (affiliateNumber === -1),
-      }})
+      }});
       return (
         (name.length === 0) || (surname.length === 0)
         || (dni === -1) || (sex === "")
@@ -89,13 +90,15 @@ class NewStudent extends Component {
         || (socialPlan === "") || (affiliateNumber === -1)
       );
     } else {
-      this.setState({ errors: {
-        email: (email.length === 0 ||
-          !email.includes("@") ||
-          !email.includes(".")),
-        password: (password.length < 6),name: (name.length === 0),
-        surname: (surname.length === 0)
-      }})
+      this.setState({
+        errors: {
+          email: (email.length === 0 ||
+            !email.includes("@") ||
+            !email.includes(".")),
+          password: (password.length < 6), name: (name.length === 0),
+          surname: (surname.length === 0)
+        }
+      });
       return (
         (name.length === 0) || (surname.length === 0)
         || (dni === -1) || (sex === "")
@@ -103,8 +106,6 @@ class NewStudent extends Component {
         || (phoneNumber === -1) || (avatartUrl === "")
       );
     }
-    
-    
   }
 
   handleSubmit = event => {
@@ -114,7 +115,7 @@ class NewStudent extends Component {
       return;
     }
     
-    const data = {};
+    let data = {};
     if (this.state.optionalData) {
       data = {
         email: this.state.email, password: this.state.password,
@@ -133,7 +134,7 @@ class NewStudent extends Component {
         name: this.state.name, surname: this.state.surname};
     }
 
-    console.log("token: " + this.state.token)
+    console.log("token: " + this.state.token);
     fetch("http://172.22.44.128:8080/api/admin/createTeacher", {
       method: "POST",
       mode: "cors",
@@ -158,7 +159,7 @@ class NewStudent extends Component {
       .catch(error => {
         console.log("Error: " + error)
       })
-  }
+  };
   renderNotification = () => {
     if (this.state.registerSuccess) {
       this.setState({ registerSuccess: false });
@@ -166,36 +167,15 @@ class NewStudent extends Component {
     }
   };
 
-
-    // const testData = [
-    //   ["Juanga Ricci", "41351556"],
-    //   ["Facu Gonzalez", "4096240"],
-    //   ["Manu Lethanity", "49494949"],
-    //   ["Wawey Molina", "12345"],
-    //   ["Arielo Sirenita", "11111111"],
-    //   ["Juanito Juanitez", "98471735"]
-    // ]
-
   handleSexChange = newSex => {
     this.setState({sex: newSex});
-  }
+  };
 
-  renderSexError = () => { return (this.state.errors.sex) && <h6 className="text-danger">Sexo invalido</h6> }
-  renderBirthdayError = () => { return (this.state.errors.birthday) && <h6 className="text-danger">Fecha de nacmimiento invalido</h6> }
-  renderAddressError = () => { return (this.state.errors.address) && <h6 className="text-danger">Direccion invalida</h6> }
-  renderPhoneNumberError = () => { return (this.state.errors.phoneNumber) && <h6 className="text-danger">Telefono invalido</h6> }
-  renderAvatarURLError = () => { return (this.state.errors.avatartUrl) && <h6 className="text-danger">URL invalido</h6> }
-  renderSocialPlanError = () => { return (this.state.errors.socialPlan) && <h6 className="text-danger">Plan social invalido</h6> }
-  renderAffiliateNumberError = () => { return (this.state.errors.affiliateNumber) && <h6 className="text-danger">Numero de afiliado invalido</h6> }
-  renderFatherNameError = () => { return (this.state.errors.fatherName) && <h6 className="text-danger">Nombre invalido</h6> }
-  renderFatherSurnameError = () => { return (this.state.errors.fatherSurname) && <h6 className="text-danger">Apellido invalido</h6> }
-  renderFatherPhoneError = () => { return (this.state.errors.fatherPhoneNumber) && <h6 className="text-danger">Telefono invalido</h6> }
-  renderFatherEmailError = () => { return (this.state.errors.fatherEmail) && <h6 className="text-danger">Email invalido</h6> }
-  renderMotherNameError = () => { return (this.state.errors.motherName) && <h6 className="text-danger">Nombre invalido</h6> }
-  renderMotherSurnameError = () => { return (this.state.errors.motherSurname) && <h6 className="text-danger">Apellido invalido</h6> }
-  renderMotherPhoneError = () => { return (this.state.errors.motherPhoneNumber) && <h6 className="text-danger">Telefono invalido</h6> }
-  renderMotherEmailError = () => { return (this.state.errors.motherEmail) && <h6 className="text-danger">Email invalido</h6> }
-  
+  handleCheckbox = event => {
+    event.preventDefault();
+    console.log("previous optionalData was " + this.state.optionalData);
+    this.setState({optionalData: !this.state.optionalData});
+  };
 
   renderFormNavbar = () => {
     return (this.state.optionalData) && (
@@ -270,7 +250,7 @@ class NewStudent extends Component {
                 <Dropdown.Item onClick={() => this.handleSexChange("f")}
                   >Femenino</Dropdown.Item>
             </Dropdown></Col>
-            {}
+            {(this.state.errors.sex) && <h6 className="text-danger">Sexo invalido</h6>}
           </Form.Group>
           <Form.Group>
             <Form.Label>Fecha de Nacimiento</Form.Label>
@@ -279,7 +259,7 @@ class NewStudent extends Component {
               type="name"
               onChange={this.handleChange}
             />
-            {}
+            {(this.state.errors.birthday) && <h6 className="text-danger">Fecha de nacmimiento invalido</h6>}
           </Form.Group>
           <Form.Group>
             <Form.Label>Direccion</Form.Label>
@@ -288,7 +268,7 @@ class NewStudent extends Component {
               type="name"
               onChange={this.handleChange}
             />
-            {}
+            {(this.state.errors.address) && <h6 className="text-danger">Direccion invalida</h6>}
           </Form.Group>
           <Form.Group>
             <Form.Label>Telefono</Form.Label>
@@ -297,7 +277,7 @@ class NewStudent extends Component {
               type="name"
               onChange={this.handleChange}
             />
-            {}
+            {(this.state.errors.phoneNumber) && <h6 className="text-danger">Telefono invalido</h6>}
           </Form.Group>
           <Form.Group>
             <Form.Label>Foto de perfil</Form.Label>
@@ -306,7 +286,7 @@ class NewStudent extends Component {
               type="name"
               onChange={this.handleChange}
             />
-            {}
+            {(this.state.errors.avatartUrl) && <h6 className="text-danger">URL invalido</h6>}
           </Form.Group>
         </Form>
       );
@@ -314,6 +294,7 @@ class NewStudent extends Component {
       return (
         <Form>
           <Row>
+            <h4>Padre</h4>
             <Form.Group>
               <Form.Label>Nombre</Form.Label>
               <Form.Control
@@ -321,7 +302,7 @@ class NewStudent extends Component {
                 type="name"
                 onChange={this.handleChange}
               />
-              {}
+              {(this.state.errors.fatherName) && <h6 className="text-danger">Nombre invalido</h6>}
             </Form.Group>
             <Form.Group>
               <Form.Label>Apellido</Form.Label>
@@ -330,7 +311,7 @@ class NewStudent extends Component {
                 type="name"
                 onChange={this.handleChange}
               />
-              {}
+              {(this.state.errors.fatherSurname) && <h6 className="text-danger">Apellido invalido</h6>}
             </Form.Group>
             <Form.Group>
               <Form.Label>Telefono</Form.Label>
@@ -339,7 +320,7 @@ class NewStudent extends Component {
                 type="name"
                 onChange={this.handleChange}
               />
-              {}
+              {(this.state.errors.fatherPhoneNumber) && <h6 className="text-danger">Telefono invalido</h6>}
             </Form.Group>
             <Form.Group>
               <Form.Label>Email</Form.Label>
@@ -348,17 +329,18 @@ class NewStudent extends Component {
                 type="name"
                 onChange={this.handleChange}
               />
-              {}
+              {(this.state.errors.fatherEmail) && <h6 className="text-danger">Email invalido</h6>}
             </Form.Group>
           </Row>
           <Row>
+            <h4>Madre</h4>
             <Form.Group>
               <Form.Control
                 id="motherName"
                 type="name"
                 onChange={this.handleChange}
               />
-              {}
+              {(this.state.errors.motherName) && <h6 className="text-danger">Nombre invalido</h6>}
             </Form.Group>
             <Form.Group>
               <Form.Control
@@ -366,7 +348,7 @@ class NewStudent extends Component {
                 type="name"
                 onChange={this.handleChange}
               />
-              {}
+              {(this.state.errors.motherSurname) && <h6 className="text-danger">Apellido invalido</h6>}
             </Form.Group>
             <Form.Group>
               <Form.Control
@@ -374,7 +356,7 @@ class NewStudent extends Component {
                 type="name"
                 onChange={this.handleChange}
               />
-              {}
+              {(this.state.errors.motherPhoneNumber) && <h6 className="text-danger">Telefono invalido</h6>}
             </Form.Group>
             <Form.Group>
               <Form.Control
@@ -382,7 +364,7 @@ class NewStudent extends Component {
                 type="name"
                 onChange={this.handleChange}
               />
-              {}
+              {(this.state.errors.motherEmail) && <h6 className="text-danger">Email invalido</h6>}
             </Form.Group>
           </Row>
         </Form>
@@ -397,15 +379,16 @@ class NewStudent extends Component {
         {this.renderNotification()}
         <Button onClick={this.handleAddStudent}>Agregar un nuevo alumno</Button>
         <ReactModal
-          className="modal-form"
+          className="modal-form-2"
           isOpen={this.state.isModalOpen}
           onRequestClose={this.cancelModal}
           contentLabel="Add teacher modal"
         >
-          {this.renderFormNavbar()}
-          <Form.Check
-          
-          />
+          <Row>
+            {this.renderFormNavbar()}
+            <Button onClick={this.handleSubmit}>Aceptar</Button>
+          </Row>
+          <Form.Check onChange={this.handleCheckbox}/>
           <Form>
 
           </Form>

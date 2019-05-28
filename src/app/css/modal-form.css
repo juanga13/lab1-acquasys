@@ -1,5 +1,5 @@
 .modal-form {
-    background: rgba(96, 182, 197, 0.8);
+    background: rgba(106, 205, 222, 0.8);
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
@@ -8,6 +8,21 @@
     margin: 20px auto;
     width: 60%;
     border-radius: 15px;
+    overflow: auto;
+}
+
+.modal-form-2 {
+    background: rgba(106, 205, 222, 0.8);
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    flex-direction: column;
+    padding: 15px;
+    margin: 20px auto;
+    width: 90%;
+    border-radius: 15px;
+    max-height: 95vh;
+    overflow: auto;
 }
 
 .modal-form-button-container {

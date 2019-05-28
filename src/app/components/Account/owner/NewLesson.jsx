@@ -178,7 +178,7 @@ class NewClass extends Component {
       ["embarazadas", "martes", "16:00"],
       ["nenes 2", "lunes", "18:30"],
       ["adultos", "viernes", "19:00"],
-    ]
+    ];
     
     // HERE method to get all data in a var
     //  similar to testData
@@ -201,7 +201,7 @@ class NewClass extends Component {
         ))}
       </div>  
     );
-  }
+  };
 
   render() {
     return (
