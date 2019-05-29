@@ -35,3 +35,19 @@
 .modal-button {
     margin-left: 10px;
 }
+
+.new-student-modal-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 30vh;
+}
+
+.new-student-modal-pages {
+    display: flex;
+    justify-content: space-between;
+    width: 8vh;
+    flex-wrap: wrap;
+}

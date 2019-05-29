@@ -55,45 +55,45 @@ class Login extends Component {
       event.stopPropagation();
       return;
     }
-    localStorage.setItem("token", "token_test");
-    localStorage.setItem("role", "ROLE_ADMIN");
-    store.dispatch(setTokenData("token_test", "ROLE_ADMIN"));
-    this.setState({redirect: true})
-              
-    // form data is verified, request login to server
-    // let urlen = "grant_type=password&password=" + this.state.password + "&username=" + this.state.email;
-    // let xhr = new XMLHttpRequest();
-    // xhr.withCredentials = true;
-    // xhr.datatype = 'json';
+    // localStorage.setItem("token", "token_test");
+    // localStorage.setItem("role", "ROLE_ADMIN");
+    // store.dispatch(setTokenData("token_test", "ROLE_ADMIN"));
+    // this.setState({redirect: true})
 
-    // xhr.open("POST", RequestManager.baseUrl + "/oauth/token", true);
-    // xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    // xhr.setRequestHeader("Authorization", "Basic Y2xpZW50aWQ6Y2xpZW50c2VjcmV0");//ClientId y clientsecret hardcodeado
-    // xhr.setRequestHeader("cache-control", "no-cache");
-    // let login = this;
-    // xhr.addEventListener("readystatechange", function () {
-    //     if (this.readyState === 4) {
-    //       let response = JSON.parse(this.responseText);
-    //       if (response.error === "invalid_grant") {
-    //         login.setState({loginResponse: "Los datos ingresados no son validos"});
-    //         return;
-    //       }
-    //       if (response.access_token !== undefined) {
-    //         login.setState({waitUserInfo: true});
-    //         RequestManager.getUserInfo(response.access_token)
-    //           .then((data) => {
-    //             localStorage.setItem("token",response.access_token);
-    //             localStorage.setItem("role",data.authorities[0]);
-    //             store.dispatch(setTokenData(response.access_token, data.authorities[0]));
-    //             login.setState({redirect: true})
-    //           });
-    //       }
-    //     } else {
-    //       console.log(this.readyState);
-    //     }
-    //   }
-    // );
-    // xhr.send(urlen);
+    // form data is verified, request login to server
+    let urlen = "grant_type=password&password=" + this.state.password + "&username=" + this.state.email;
+    let xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.datatype = 'json';
+
+    xhr.open("POST", RequestManager.baseUrl + "/oauth/token", true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.setRequestHeader("Authorization", "Basic Y2xpZW50aWQ6Y2xpZW50c2VjcmV0");//ClientId y clientsecret hardcodeado
+    xhr.setRequestHeader("cache-control", "no-cache");
+    let login = this;
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+          let response = JSON.parse(this.responseText);
+          if (response.error === "invalid_grant") {
+            login.setState({loginResponse: "Los datos ingresados no son validos"});
+            return;
+          }
+          if (response.access_token !== undefined) {
+            login.setState({waitUserInfo: true});
+            RequestManager.getUserInfo(response.access_token)
+              .then((data) => {
+                localStorage.setItem("token",response.access_token);
+                localStorage.setItem("role",data.authorities[0]);
+                store.dispatch(setTokenData(response.access_token, data.authorities[0]));
+                login.setState({redirect: true})
+              });
+          }
+        } else {
+          console.log(this.readyState);
+        }
+      }
+    );
+    xhr.send(urlen);
   };
 
   renderRedirect = () => {

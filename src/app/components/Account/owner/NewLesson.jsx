@@ -163,7 +163,7 @@ class NewClass extends Component {
   };
   
   handleLessonEdit = (DNI) => {
-    this.setState({showEditModal: true, editDNI: DNI});
+    // this.setState({showEditModal: true, editDNI: DNI});
   };
 
   handleLessonDelete = (lesson) => {
@@ -171,7 +171,7 @@ class NewClass extends Component {
   };
 
   renderStudentList = () => {
-    const testLesson = [
+    const testLesson = [  // test
       ["bebes", "jueves", "11:00"],
       ["nenes 1", "martes", "15:00"],
       ["bebes", "sabado", "9:00"],
@@ -180,8 +180,7 @@ class NewClass extends Component {
       ["adultos", "viernes", "19:00"],
     ];
     
-    // HERE method to get all data in a var
-    //  similar to testData
+    // TODO getAllLessons request
     
     return (
       <div>
@@ -191,11 +190,11 @@ class NewClass extends Component {
             <h6 className="p-2 m-auto">{item[1]}</h6>
             <Button 
               className="btn btn-secondary p-2 m-auto" 
-              onClick={() => (this.handleLessonEdit(item))}
+              onClick={() => (this.handleLessonEdit(item))} // TODO
             >Editar</Button>
             <Button 
               className="btn btn-danger p-2 m-auto" 
-              onClick={() => (this.handleLessonDelete(item))}
+              onClick={() => (this.handleLessonDelete(item))}  // TODO
             >Eliminar</Button>
           </Row>
         ))}
@@ -214,7 +213,6 @@ class NewClass extends Component {
         <ReactModal
           className="modal-form"
           isOpen={this.state.isModalOpen}
-          // onRequestClose={this.cancelModal}
           contentLabel="Add teacher modal"
         >
           <Form onSubmit={this.handleSubmit} >

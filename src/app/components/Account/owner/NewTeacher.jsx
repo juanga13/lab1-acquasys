@@ -77,7 +77,7 @@ class NewTeacher extends Component {
       surname: this.state.surname
     };
 
-    console.log("token: " + this.state.token)
+    console.log("token: " + this.state.token);
     fetch("http://172.22.44.128:8080/api/admin/createTeacher", {
       method: "POST",
       mode: "cors",
@@ -111,11 +111,6 @@ class NewTeacher extends Component {
     }
   };
 
-  renderEmailError = () => { return (this.state.errors.email) && <h6 className="text-danger">Email invalido</h6> }
-  renderPasswordError = () => { return (this.state.errors.password) && <h6 className="text-danger">Contrasena invalida</h6> }
-  renderNameError = () => { return (this.state.errors.name) && <h6 className="text-danger">Nombre invalido</h6> }
-  renderSurnameError = () => { return (this.state.errors.surname) && <h6 className="text-danger">Apellido invalido</h6> }
-
   render() {
     return (
       <div>
@@ -140,7 +135,7 @@ class NewTeacher extends Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
-            {this.renderEmailError()}
+            {(this.state.errors.email) && <h6 className="text-danger">Email invalido</h6>}
             <Form.Group>
               <Form.Label>Contraseña</Form.Label>
               <Form.Control
@@ -151,7 +146,7 @@ class NewTeacher extends Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
-            {this.renderPasswordError()}
+            {(this.state.errors.password) && <h6 className="text-danger">Contrasena invalida</h6>}
             <Form.Group>
               <Form.Label>Nombre</Form.Label>
               <Form.Control
@@ -162,7 +157,7 @@ class NewTeacher extends Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
-            {this.renderNameError()}
+            {(this.state.errors.name) && <h6 className="text-danger">Nombre invalido</h6>}
             <Form.Group>
               <Form.Label>Apellido</Form.Label>
               <Form.Control
@@ -173,7 +168,7 @@ class NewTeacher extends Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
-            {this.renderSurnameError()}
+            {(this.state.errors.surname) && <h6 className="text-danger">Apellido invalido</h6>}
             <Row className="modal-form-button-container">
               <Button type="submit">Agregar nuevo profesor</Button>
               <Button

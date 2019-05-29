@@ -19,7 +19,7 @@ class NewStudent extends Component {
       isModalOpen: false,
       email: '', password: '', name: '', surname: '',
       // additional data (optional)
-      optionalData: true,  // only upload if this is true
+      optionalData: false,  // only upload if this is true
       formPage: 1,
       dni: -1, sex: '', birthday: '', address: '', phoneNumber: -1,
       avatartUrl: '', fatherName: '', fatherSurname: '',
@@ -160,6 +160,7 @@ class NewStudent extends Component {
         console.log("Error: " + error)
       })
   };
+
   renderNotification = () => {
     if (this.state.registerSuccess) {
       this.setState({ registerSuccess: false });
@@ -171,18 +172,28 @@ class NewStudent extends Component {
     this.setState({sex: newSex});
   };
 
+  renderCheckbox = () => {
+    console.log("rendering checkbox: " + this.state.optionalData);
+    return ((this.state.optionalData)
+      ? <Form.Check checked onChange={this.handleCheckbox}/>
+      : <Form.Check onChange={this.handleCheckbox}/>
+    );
+  };
+
   handleCheckbox = event => {
-    event.preventDefault();
-    console.log("previous optionalData was " + this.state.optionalData);
-    this.setState({optionalData: !this.state.optionalData});
+    event.stopPropagation();
+    const previousOptionalData = this.state.optionalData;
+    this.setState({optionalData: !previousOptionalData});
+    // Warning: A component is changing an uncontrolled input
+    // of type checkbox to be controlled. (what?)
   };
 
   renderFormNavbar = () => {
-    return (this.state.optionalData) && (
-      <Row>
+    return (
+      <div className='new-student-modal-pages'>
         <Button onClick={() => (this.setState({formPage: 1}))}>1</Button>
         <Button onClick={() => (this.setState({formPage: 2}))}>2</Button>
-      </Row>
+      </div>
     ) 
   };
 
@@ -294,10 +305,15 @@ class NewStudent extends Component {
       return (
         <Form>
           <Row>
+            <h6>Incluir datos de padre/madre</h6>
+            {this.renderCheckbox()}
+          </Row>
+          {/*TODO set everything disabled from parent, not each child (disabled=!this.state.optionalData)*/}
+          <Row>
             <h4>Padre</h4>
             <Form.Group>
               <Form.Label>Nombre</Form.Label>
-              <Form.Control
+              <Form.Control disabled={!this.state.optionalData}
                 id="fatherName"
                 type="name"
                 onChange={this.handleChange}
@@ -306,7 +322,7 @@ class NewStudent extends Component {
             </Form.Group>
             <Form.Group>
               <Form.Label>Apellido</Form.Label>
-              <Form.Control
+              <Form.Control disabled={!this.state.optionalData}
                 id="fatherSurname"
                 type="name"
                 onChange={this.handleChange}
@@ -315,7 +331,7 @@ class NewStudent extends Component {
             </Form.Group>
             <Form.Group>
               <Form.Label>Telefono</Form.Label>
-              <Form.Control
+              <Form.Control disabled={!this.state.optionalData}
                 id="fatherPhoneNumber"
                 type="name"
                 onChange={this.handleChange}
@@ -324,7 +340,7 @@ class NewStudent extends Component {
             </Form.Group>
             <Form.Group>
               <Form.Label>Email</Form.Label>
-              <Form.Control
+              <Form.Control disabled={!this.state.optionalData}
                 id="fatherEmail"
                 type="name"
                 onChange={this.handleChange}
@@ -335,7 +351,7 @@ class NewStudent extends Component {
           <Row>
             <h4>Madre</h4>
             <Form.Group>
-              <Form.Control
+              <Form.Control disabled={!this.state.optionalData}
                 id="motherName"
                 type="name"
                 onChange={this.handleChange}
@@ -343,7 +359,7 @@ class NewStudent extends Component {
               {(this.state.errors.motherName) && <h6 className="text-danger">Nombre invalido</h6>}
             </Form.Group>
             <Form.Group>
-              <Form.Control
+              <Form.Control disabled={!this.state.optionalData}
                 id="motherSurname"
                 type="name"
                 onChange={this.handleChange}
@@ -351,7 +367,7 @@ class NewStudent extends Component {
               {(this.state.errors.motherSurname) && <h6 className="text-danger">Apellido invalido</h6>}
             </Form.Group>
             <Form.Group>
-              <Form.Control
+              <Form.Control disabled={!this.state.optionalData}
                 id="motherPhoneNumber"
                 type="name"
                 onChange={this.handleChange}
@@ -359,7 +375,7 @@ class NewStudent extends Component {
               {(this.state.errors.motherPhoneNumber) && <h6 className="text-danger">Telefono invalido</h6>}
             </Form.Group>
             <Form.Group>
-              <Form.Control
+              <Form.Control disabled={!this.state.optionalData}
                 id="motherEmail"
                 type="name"
                 onChange={this.handleChange}
@@ -381,17 +397,13 @@ class NewStudent extends Component {
         <ReactModal
           className="modal-form-2"
           isOpen={this.state.isModalOpen}
-          onRequestClose={this.cancelModal}
           contentLabel="Add teacher modal"
         >
-          <Row>
+          <div className='new-student-modal-buttons'>
             {this.renderFormNavbar()}
             <Button onClick={this.handleSubmit}>Aceptar</Button>
-          </Row>
-          <Form.Check onChange={this.handleCheckbox}/>
-          <Form>
-
-          </Form>
+            <Button className='btn btn-secondary' onClick={this.cancelModal}>Cancelar</Button>
+          </div>
           {this.renderFormPages()}
         </ReactModal>
       </div>
