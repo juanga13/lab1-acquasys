@@ -24,7 +24,9 @@ class UnverifiedStudent extends Component {
       dni: -1, sex: "", birthday: '', address: '',
       phoneNumber: -1, avatarURL: '', socialPlan: '', affiliateNumber: -1, 
       fatherName: '', fatherSurname: '', fatherPhoneNumber: -1, fatherEmail: '',
-      motherName: '', motherSurname: '',motherPhoneNumber: -1, motherEmail: ''
+      motherName: '', motherSurname: '',motherPhoneNumber: -1, motherEmail: '',
+
+      responseValid: false,
     }
   }
 
@@ -74,6 +76,7 @@ class UnverifiedStudent extends Component {
     }
 
     // facu do what you know ;)
+    
 
   };
 
@@ -107,24 +110,7 @@ class UnverifiedStudent extends Component {
 
   handleSexChange = newSex => {
     this.setState({sex: newSex});
-  }
-
-  renderDNIError = () => {return (this.state.errors.dni) && <h6 className="text-danger border border-danger">DNI invalido</h6>};
-  renderSexError = () => {return (this.state.errors.sex) && <h6 className="text-danger border border-danger">Sexo invalido</h6>};
-  renderBirthdayError = () => {return (this.state.errors.birthday) && <h6 className="text-danger border border-danger">Fecha de nacimiento invalido</h6>};
-  renderAddressError = () => {return (this.state.errors.address) && <h6 className="text-danger border border-danger">Direccion invalida</h6>};
-  renderPhoneNumberError = () => {return (this.state.errors.phoneNumber) && <h6 className="text-danger border border-danger">Telefono invalido</h6>};
-  renderAvatarURLError = () => {return (this.state.errors.avatarURL) && <h6 className="text-danger border border-danger">Foto invalida</h6>};
-  renderSocialPlanError = () => {return (this.state.errors.socialPlan) && <h6 className="text-danger border border-danger">Plan social invalido</h6>};
-  renderAffiliateNumberError = () => {return (this.state.errors.affiliateNumber) && <h6 className="text-danger border border-danger">Numero de afiliado invalido</h6>};
-  renderFatherNameError = () => {return (this.state.errors.fatherName) && <h6 className="text-danger border border-danger">Nombre invalido</h6>};
-  renderFatherSurnameError = () => {return (this.state.errors.fatherSurname) && <h6 className="text-danger border border-danger">Apellido invalido</h6>};
-  renderFatherPhoneError = () => {return (this.state.errors.fatherPhoneNumber) && <h6 className="text-danger border border-danger">Telefono invalido</h6>};
-  renderFatherEmailError = () => {return (this.state.errors.fatherEmail) && <h6 className="text-danger border border-danger">Email invalido</h6>};
-  renderMotherNameError = () => {return (this.state.errors.motherName) && <h6 className="text-danger border border-danger">Nombre invalido</h6>};
-  renderMotherSurnameError = () => {return (this.state.errors.motherSurname) && <h6 className="text-danger border border-danger">Apellido invalido</h6>};
-  renderMotherPhoneError = () => {return (this.state.errors.motherPhoneNumber) && <h6 className="text-danger border border-danger">Telefono invalido</h6>};
-  renderMotherEmailError = () => {return (this.state.errors.motherEmail) && <h6 className="text-danger border border-danger">Email invalido</h6>};
+  };
   
   renderCRFormPage = () => {
     const page = this.state.CRPage;
@@ -142,7 +128,7 @@ class UnverifiedStudent extends Component {
               className={(this.state.errors.dni) && "border border-danger"}
               onChange={this.handleChange}
             /></Col>
-            {this.renderDNIError()}
+            {(this.state.errors.dni) && <h6 className="text-danger border border-danger">DNI invalido</h6>}
           </Form.Group>
           <Form.Group as={Row}>
             <Form.Label column>Sexo</Form.Label>
@@ -155,7 +141,7 @@ class UnverifiedStudent extends Component {
                 <Dropdown.Item onClick={() => this.handleSexChange("f")}
                   >Femenino</Dropdown.Item>
             </Dropdown></Col>
-            {this.renderSexError()}
+            {(this.state.errors.sex) && <h6 className="text-danger border border-danger">Sexo invalido</h6>}
           </Form.Group>
           {/* <Form.Group as={Row}>   TODO poner datepicker
             <Form.Label column>Fecha de nacimiento</Form.Label>
@@ -166,7 +152,7 @@ class UnverifiedStudent extends Component {
               className={(this.state.errors.dni) && "border border-danger"}
               onChange={this.handleChange}
             /></Col>
-            {this.renderDNIError()}
+            {(this.state.errors.birthday) && <h6 className="text-danger border border-danger">Fecha de nacimiento invalido</h6>}
           </Form.Group> */}
           <Form.Group as={Row}>
             <Form.Label column>Direccion</Form.Label>
@@ -177,7 +163,7 @@ class UnverifiedStudent extends Component {
               className={(this.state.errors.address) && "border border-danger"}
               onChange={this.handleChange}
             /></Col>
-            {this.renderAddressError()}
+            {(this.state.errors.address) && <h6 className="text-danger border border-danger">Direccion invalida</h6>}
           </Form.Group>
           <Form.Group as={Row}>
             <Form.Label column>Telefono</Form.Label>
@@ -188,7 +174,7 @@ class UnverifiedStudent extends Component {
               className={(this.state.errors.phoneNumber) && "border border-danger"}
               onChange={this.handleChange}
             /></Col>
-            {this.renderPhoneNumberError()}
+            {(this.state.errors.phoneNumber) && <h6 className="text-danger border border-danger">Telefono invalido</h6>}
           </Form.Group>
           <Form.Group as={Row}>
             <Form.Label column>avatarURL</Form.Label>
@@ -199,7 +185,7 @@ class UnverifiedStudent extends Component {
               className={(this.state.errors.avatartURL) && "border border-danger"}
               onChange={this.handleChange}
             /></Col>
-            {this.renderAvatarURLError()}
+            {(this.state.errors.avatarURL) && <h6 className="text-danger border border-danger">Foto invalida</h6>}
           </Form.Group>
           <Form.Group as={Row}>
             <Form.Label column>Plan social</Form.Label>
@@ -210,7 +196,7 @@ class UnverifiedStudent extends Component {
               className={(this.state.errors.socialPlan) && "border border-danger"}
               onChange={this.handleChange}
             /></Col>
-            {this.renderSocialPlanError()}
+            {(this.state.errors.socialPlan) && <h6 className="text-danger border border-danger">Plan social invalido</h6>}
           </Form.Group>
           <Form.Group as={Row}>
             <Form.Label column>Numero de afiliado</Form.Label>
@@ -221,7 +207,7 @@ class UnverifiedStudent extends Component {
               className={(this.state.errors.affiliateNumber) && "border border-danger"}
               onChange={this.handleChange}
             /></Col>
-            {this.renderAffiliateNumberError()}
+            {(this.state.errors.affiliateNumber) && <h6 className="text-danger border border-danger">Numero de afiliado invalido</h6>}
           </Form.Group>
         </Form>
       </div>)
@@ -242,7 +228,7 @@ class UnverifiedStudent extends Component {
                   className={(this.state.errors.fatherName) && "border border-danger"}
                   onChange={this.handleChange}
                 /></Col>
-                {this.renderFatherNameError()}
+                {(this.state.errors.fatherName) && <h6 className="text-danger border border-danger">Nombre invalido</h6>}
               </Form.Group>
               <Form.Group as={Row}>
                 <Form.Label column>Apellido</Form.Label>
@@ -253,7 +239,7 @@ class UnverifiedStudent extends Component {
                   className={(this.state.errors.fatherSurname) && "border border-danger"}
                   onChange={this.handleChange}
                 /></Col>
-                {this.renderFatherSurnameError()}
+                {(this.state.errors.fatherSurname) && <h6 className="text-danger border border-danger">Apellido invalido</h6>}
               </Form.Group>
               <Form.Group as={Row}>
                 <Form.Label column>Telefono</Form.Label>
@@ -264,7 +250,7 @@ class UnverifiedStudent extends Component {
                   className={(this.state.errors.fatherPhoneNumber) && "border border-danger"}
                   onChange={this.handleChange}
                 /></Col>
-                {this.renderFatherPhoneError()}
+                {(this.state.errors.fatherPhoneNumber) && <h6 className="text-danger border border-danger">Telefono invalido</h6>}
               </Form.Group>
               <Form.Group as={Row}>
                 <Form.Label column>Email</Form.Label>
@@ -275,7 +261,7 @@ class UnverifiedStudent extends Component {
                   className={(this.state.errors.fatherEmail) && "border border-danger"}
                   onChange={this.handleChange}
                 /></Col>
-                {this.renderFatherEmailError()}
+                {(this.state.errors.fatherEmail) && <h6 className="text-danger border border-danger">Email invalido</h6>}
               </Form.Group>
             </Col>
             <Col>
@@ -289,7 +275,7 @@ class UnverifiedStudent extends Component {
                   className={(this.state.errors.motherName) && "border border-danger"}
                   onChange={this.handleChange}
                 /></Col>
-                {this.renderMotherNameError()}
+                {(this.state.errors.motherName) && <h6 className="text-danger border border-danger">Nombre invalido</h6>}
               </Form.Group>
               <Form.Group as={Row}>
                 <Form.Label column>Apellido</Form.Label>
@@ -300,7 +286,7 @@ class UnverifiedStudent extends Component {
                   className={(this.state.errors.motherSurname) && "border border-danger"}
                   onChange={this.handleChange}
                 /></Col>
-                {this.renderMotherSurnameError()}
+                {(this.state.errors.motherSurname) && <h6 className="text-danger border border-danger">Apellido invalido</h6>}
               </Form.Group>
               <Form.Group as={Row}>
                 <Form.Label column>Telefono</Form.Label>
@@ -311,7 +297,7 @@ class UnverifiedStudent extends Component {
                   className={(this.state.errors.motherPhoneNumber) && "border border-danger"}
                   onChange={this.handleChange}
                 /></Col>
-                {this.renderMotherPhoneError()}
+                {(this.state.errors.motherPhoneNumber) && <h6 className="text-danger border border-danger">Telefono invalido</h6>}
               </Form.Group>
               <Form.Group as={Row}>
                 <Form.Label column>Email</Form.Label>
@@ -322,7 +308,7 @@ class UnverifiedStudent extends Component {
                   className={(this.state.errors.motherEmail) && "border border-danger"}
                   onChange={this.handleChange}
                 /></Col>
-                {this.renderMotherEmailError()}
+                {(this.state.errors.motherEmail) && <h6 className="text-danger border border-danger">Email invalido</h6>}
               </Form.Group>
             </Col>
           </Row>
