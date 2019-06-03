@@ -74,6 +74,7 @@ class Login extends Component {
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4) {
           let response = JSON.parse(this.responseText);
+          console.log(response);
           if (response.error === "invalid_grant") {
             login.setState({loginResponse: "Los datos ingresados no son validos"});
             return;

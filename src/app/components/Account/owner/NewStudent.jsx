@@ -1,19 +1,24 @@
 import React, {Component} from 'react';
 import {Button, Form, Row, Col, Dropdown} from 'react-bootstrap';
 import ReactModal from 'react-modal';
+import RequestManager from "../../../network/RequestManager";
+
 
 class NewStudent extends Component {
   constructor(props) {
     super(props);
 
+    this.allStudents = [];
+    this.allUnverifiedStudents = [];
+
     this.state = {
       errors: { 
         email: false, password: false, name: false, surname: false,
         dni: false, sex: false, birthday: false, address: false, phoneNumber: false,
-        avatartUrl: false, fatherName: false, fatherSurname: false,
+        avatarUrl: false, socialPlan: false, affiliateNumber: false,
+        fatherName: false, fatherSurname: false,
         fatherPhoneNumber: false, fatherEmail: false, motherName: false, 
         motherSurname: false, motherPhoneNumber: false, motherEmail: false,
-        socialPlan: false, affiliateNumber: false    
       },
       token: this.props.token,
       isModalOpen: false,
@@ -22,12 +27,69 @@ class NewStudent extends Component {
       optionalData: false,  // only upload if this is true
       formPage: 1,
       dni: -1, sex: '', birthday: '', address: '', phoneNumber: -1,
-      avatartUrl: '', fatherName: '', fatherSurname: '',
+      avatarUrl: '', socialPlan: '', affiliateNumber: -1,
+      fatherName: '', fatherSurname: '',
       fatherPhoneNumber: -1, fatherEmail: '', motherName: '', 
       motherSurname: '', motherPhoneNumber: -1, motherEmail: '',
-      socialPlan: '', affiliateNumber: -1
+
+      waitList1: true,
+      waitList2: true,
     }
   }
+
+  componentWillMount() {
+    console.log("getting students, token " + localStorage.getItem("token"));
+    fetch(RequestManager.baseUrl + "/api/user/student/all", {
+      method: "GET",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers:
+      { "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("token")
+      },
+      redirect: "follow",
+        referrer: "no-referrer",
+    })
+    .then(response => {
+      if (response.ok) {
+        response.json()
+          .then(body => {this.allStudents = body;})
+          .then(() => {
+            fetch(RequestManager.baseUrl + "/api/user/unregistered/all", {
+              method: "GET",
+              mode: "cors",
+              cache: "no-cache",
+              credentials: "same-origin",
+              headers:
+                { "Content-Type": "application/json",
+                  "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+              redirect: "follow",
+              referrer: "no-referrer",
+            }).then(response => {
+              if (response.ok) {
+                response.json().then(body => {
+                  console.log(body);
+                  this.allUnverifiedStudents = body;})
+                .then(() => {
+                  console.log("finished second fetch");
+                  this.setState({waitList2: false})
+                })
+              }
+            });
+          }).then(() => {
+            console.log("finished first fetch");
+            this.setState({waitList1: false})
+        });
+      } else {
+        console.log(response);
+      }
+    })
+    .catch(error => {
+      console.log("Error: " + error)
+    });
+  };
 
   handleAddStudent = event => {
     event.preventDefault();
@@ -39,7 +101,7 @@ class NewStudent extends Component {
       isModalOpen: false,
       email: '', password: '', name: '', surname: '',
       dni: -1, sex: '', birthday: '', address: '',
-      phoneNumber: -1, avatartUrl: '', socialPlan: '', affiliateNumber: -1,
+      phoneNumber: -1, avatarUrl: '', socialPlan: '', affiliateNumber: -1,
       fatherName: '', fatherSurname: '',
       fatherPhoneNumber: -1, fatherEmail: '', motherName: '', motherSurname: '',
       motherPhoneNumber: -1, motherEmail: ''
@@ -52,37 +114,38 @@ class NewStudent extends Component {
   };
 
   validateInputs() {
-    console.log("current state: " + this.state.email);
+    // console.log("current state: " + this.state.email);
     const email = this.state.email; const password = this.state.password;
     const name = this.state.name; const surname = this.state.surname;
-    const dni = this.state.surname; const sex = this.state.surname;
-    const birthday = this.state.surname; const address = this.state.surname;
-    const phoneNumber = this.state.surname; const avatartUrl = this.state.surname;
-    const fatherName = this.state.surname; const fatherSurname = this.state.surname;
-    const fatherPhoneNumber = this.state.surname; const fatherEmail = this.state.surname;
-    const motherName = this.state.surname; const motherSurname = this.state.surname;
-    const motherPhoneNumber = this.state.surname; const motherEmail = this.state.surname;
-    const socialPlan = this.state.surname; const affiliateNumber = this.state.surname;
+    const dni = this.state.dni; const sex = this.state.sex;
+    const birthday = this.state.birthday; const address = this.state.address;
+    const phoneNumber = this.state.phoneNumber; const avatarUrl = this.state.avatarUrl;
+    const fatherName = this.state.fatherName; const fatherSurname = this.state.fatherSurname;
+    const fatherPhoneNumber = this.state.fatherPhoneNumber; const fatherEmail = this.state.fatherEmail;
+    const motherName = this.state.motherName; const motherSurname = this.state.motherSurname;
+    const motherPhoneNumber = this.state.motherPhoneNumber; const motherEmail = this.state.motherEmail;
+    const socialPlan = this.state.socialPlan; const affiliateNumber = this.state.affiliateNumber;
     if (this.state.optionalData) {
       this.setState({ errors: {
-        email: (email.length === 0 ||
-          !email.includes("@") ||
-          !email.includes(".")), password: (password.length < 6),
-        name: (name.length === 0), surname: (surname.length === 0),
-        dni: (dni === -1), sex: (sex === ""),
-        birthday: (birthday === ""), address: (address === ""),
-        phoneNumber: (phoneNumber === -1), avatartUrl: (avatartUrl === ""),
+          email: (email.length === 0 ||
+            !email.includes("@") ||
+            !email.includes(".")), password: (password.length < 6),
+          name: (name.length === 0), surname: (surname.length === 0),
+          dni: (dni === -1), sex: (sex === ""),
+          birthday: (birthday === ""), address: (address === ""),
+          phoneNumber: (phoneNumber === -1), avatarUrl: (avatarUrl === ""),
+          socialPlan: (socialPlan === ""), affiliateNumber: (affiliateNumber === -1),
         fatherName: (fatherName === ""), fatherSurname: (fatherSurname === ""),
         fatherPhoneNumber: (fatherPhoneNumber === -1), fatherEmail: (fatherEmail === ""),
         motherName: (motherName === ""), motherSurname: (motherSurname === ""),
         motherPhoneNumber: (motherPhoneNumber === -1), motherEmail: (motherEmail === ""),
-        socialPlan: (socialPlan === ""), affiliateNumber: (affiliateNumber === -1),
+
       }});
       return (
         (name.length === 0) || (surname.length === 0)
         || (dni === -1) || (sex === "")
         || (birthday === "") || (address === "")
-        || (phoneNumber === -1) || (avatartUrl === "")
+        || (phoneNumber === -1) || (avatarUrl === "")
         || (fatherName === "") || (fatherSurname === "")
         || (fatherPhoneNumber === -1) || (fatherEmail === "")
         || (motherName === "") || (motherSurname === "")
@@ -94,16 +157,19 @@ class NewStudent extends Component {
         errors: {
           email: (email.length === 0 ||
             !email.includes("@") ||
-            !email.includes(".")),
-          password: (password.length < 6), name: (name.length === 0),
-          surname: (surname.length === 0)
+            !email.includes(".")), password: (password.length < 6),
+          name: (name.length === 0), surname: (surname.length === 0),
+          dni: (dni === -1), sex: (sex === ""),
+          birthday: (birthday === ""), address: (address === ""),
+          phoneNumber: (phoneNumber === -1), avatarUrl: (avatarUrl === ""),
+          socialPlan: (socialPlan === ""), affiliateNumber: (affiliateNumber === -1),
         }
       });
       return (
         (name.length === 0) || (surname.length === 0)
         || (dni === -1) || (sex === "")
         || (birthday === "") || (address === "")
-        || (phoneNumber === -1) || (avatartUrl === "")
+        || (phoneNumber === -1) || (avatarUrl === "")
       );
     }
   }
@@ -122,20 +188,26 @@ class NewStudent extends Component {
         name: this.state.name, surname: this.state.surname,
         dni: this.state.dni, sex: this.state.sex,
         birthday: this.state.birthday, address: this.state.address,
-        phoneNumber: this.state.phoneNumber, avatartUrl: this.state.avatartUrl,
+        phoneNumber: this.state.phoneNumber, avatarUrl: this.state.avatarUrl,
+        socialPlan: this.state.socialPlan, affiliateNumber: this.state.affiliateNumber,
         fatherName: this.state.fatherName, fatherSurname: this.state.fatherSurname,
         fatherPhoneNumber: this.state.fatherPhoneNumber, fatherEmail: this.state.fatherEmail,
         motherName: this.state.motherName, motherSurname: this.state.motherSurname,
         motherPhoneNumber: this.state.motherPhoneNumber, motherEmail: this.state.motherEmail,
-        socialPlan: this.state.socialPlan, affiliateNumber: this.state.affiliateNumber
       }
     } else {
-      data = {email: this.state.email, password: this.state.password,
-        name: this.state.name, surname: this.state.surname};
+      data = {
+        email: this.state.email, password: this.state.password,
+        name: this.state.name, surname: this.state.surname,
+        dni: this.state.dni, sex: this.state.sex,
+        birthday: this.state.birthday, address: this.state.address,
+        phoneNumber: this.state.phoneNumber, avatarUrl: this.state.avatarUrl,
+        socialPlan: this.state.socialPlan, affiliateNumber: this.state.affiliateNumber,
+      };
     }
 
     console.log("token: " + this.state.token);
-    fetch("http://172.22.44.128:8080/api/admin/createTeacher", {
+    fetch(RequestManager.baseUrl + "/api/user/register", {
       method: "POST",
       mode: "cors",
       cache: "no-cache",
@@ -152,6 +224,7 @@ class NewStudent extends Component {
         if (response.ok) {
           console.log(response);
           this.setState({ registerSuccess: true });
+          this.cancelModal();
         } else {
           console.log(response);
         }
@@ -164,7 +237,7 @@ class NewStudent extends Component {
   renderNotification = () => {
     if (this.state.registerSuccess) {
       this.setState({ registerSuccess: false });
-      return <h6 className="text-success">Nuevo profesor registrado correctamente</h6>;
+      return <h6 className="text-success">Nuevo alumno registrado correctamente</h6>;
     }
   };
 
@@ -293,11 +366,29 @@ class NewStudent extends Component {
           <Form.Group>
             <Form.Label>Foto de perfil</Form.Label>
             <Form.Control
-              id="avatarURL"
+              id="avatarUrl"
               type="name"
               onChange={this.handleChange}
             />
-            {(this.state.errors.avatartUrl) && <h6 className="text-danger">URL invalido</h6>}
+            {(this.state.errors.avatarUrl) && <h6 className="text-danger">URL invalido</h6>}
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Obra Social</Form.Label>
+            <Form.Control
+              id="socialPlan"
+              type="name"
+              onChange={this.handleChange}
+            />
+            {(this.state.errors.socialPlan) && <h6 className="text-danger">Obra social invalida</h6>}
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Numero de afiliado</Form.Label>
+            <Form.Control
+              id="affiliateNumber"
+              type="name"
+              onChange={this.handleChange}
+            />
+            {(this.state.errors.affiliateNumber) && <h6 className="text-danger">Numero de afiliado invalido</h6>}
           </Form.Group>
         </Form>
       );
@@ -388,12 +479,56 @@ class NewStudent extends Component {
     }
   };
 
+  showStudent = id => {
+    
+  };
+
+  deleteStudent = id => {
+
+  };
+
+  renderStudentList = () => {
+    // console.log("waitList1: " + this.state.waitList1 + ", waitList2: " + this.state.waitList2);
+    if (this.state.waitList1 || this.state.waitList2) return null;
+
+    let result = [];
+
+    this.allStudents.map(obj => {
+      result.push(
+        <div>
+          <h6>{obj.name + ", " + obj.surname}</h6>
+          <h6>{obj.dni}</h6>
+          <h6>Verificado</h6>
+          <Button className='btn btn-primary' onClick={() => this.showStudent(obj.id)}>Ver datos</Button>
+          <Button className='btn btn-danger' onClick={() => this.deleteStudent(obj.id)}>Eliminar</Button>
+        </div>
+      );
+    });
+    // console.log(this.allUnverifiedStudents);
+    this.allUnverifiedStudents.map(obj => {
+      result.push(
+        <div>
+          <h6>{obj.name + ", " + obj.surname}</h6>
+          <h6>{obj.dni}</h6>
+          <h6>Sin verificar!</h6>
+          <Button className='btn btn-primary' onClick={() => this.showStudent(obj.id)}>Ver datos</Button>
+          <Button className='btn btn-danger' onClick={() => this.deleteStudent(obj.id)}>Eliminar</Button>
+        </div>
+      );
+    });
+
+    return (
+      result
+    );
+  };
+
   render() {
     return (
       <div>
         <h2>Alumnos</h2>
         {this.renderNotification()}
         <Button onClick={this.handleAddStudent}>Agregar un nuevo alumno</Button>
+        {this.renderStudentList()}
         <ReactModal
           className="modal-form-2"
           isOpen={this.state.isModalOpen}
