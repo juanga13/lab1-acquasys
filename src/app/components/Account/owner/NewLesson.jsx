@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
-import {Button, Form, Row, Dropdown, Col, Label} from 'react-bootstrap';
+import React, { Component } from 'react';
+import { Button, Form, Row, Dropdown, Col, Label } from 'react-bootstrap';
 import ReactModal from 'react-modal';
 import RequestManager from '../../../network/RequestManager.jsx'
 import DatePicker from 'react-datepicker';
-import {registerLocale, setDefaultLocale} from "react-datepicker";
+import { registerLocale, setDefaultLocale } from "react-datepicker";
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import es from 'date-fns/locale/es';
@@ -54,21 +54,21 @@ class NewClass extends Component {
             cache: "no-cache",
             credentials: "same-origin",
             headers:
-                {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + this.state.token
-                },
+            {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + this.state.token
+            },
             redirect: "follow",
             referrer: "no-referrer",
         })
             .then(response => {
                 return response.json()
             }).then(lessons => {
-            this.setState({lessons: lessons, loadedStudents: true});
-        })
+                this.setState({ lessons: lessons, loadedStudents: true });
+            })
     }
 
-    handleDateChange = ({startDate, endDate}) => {
+    handleDateChange = ({ startDate, endDate }) => {
         startDate = startDate || this.state.startDate;
         endDate = endDate || this.state.endDate;
 
@@ -76,14 +76,14 @@ class NewClass extends Component {
             endDate = startDate;
         }
 
-        this.setState({startDate, endDate});
+        this.setState({ startDate, endDate });
     };
 
-    handleChangeStart = startDate => this.handleDateChange({startDate});
+    handleChangeStart = startDate => this.handleDateChange({ startDate });
 
-    handleChangeEnd = endDate => this.handleDateChange({endDate});
+    handleChangeEnd = endDate => this.handleDateChange({ endDate });
 
-    handleWeekDayChange = wd => this.setState({weekday: wd});
+    handleWeekDayChange = wd => this.setState({ weekday: wd });
 
     cancelAddModal = () => {
         this.setState({
@@ -102,10 +102,10 @@ class NewClass extends Component {
         console.log(event.target.id === "minutes" && parseInt(event.target.value) > 59);
         event.preventDefault();
         if (event.target.id === "hour" && parseInt(event.target.value) > 23)
-            this.setState({hour: 23});
+            this.setState({ hour: 23 });
         else if (event.target.id === "minutes" && parseInt(event.target.value) > 59)
-            this.setState({minutes: 59});
-        else this.setState({[event.target.id]: event.target.value});
+            this.setState({ minutes: 59 });
+        else this.setState({ [event.target.id]: event.target.value });
     };
 
     validateInputs() {
@@ -148,19 +148,19 @@ class NewClass extends Component {
             startDate: this.state.startDate.getTime(),
             endDate: this.state.endDate.getTime()
         };
-        if(this.state.id) {
+        if (this.state.id) {
             data.id = this.state.id;
-            this.setState({editLesson: null});
+            this.setState({ editLesson: null });
             fetch(RequestManager.baseUrl + "/api/lesson/update", {
                 method: "PUT",
                 mode: "cors",
                 cache: "no-cache",
                 credentials: "same-origin",
                 headers:
-                    {
-                        "Content-Type": "application/json",
-                        "Authorization": "Bearer " + this.state.token
-                    },
+                {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + this.state.token
+                },
                 redirect: "follow",
                 referrer: "no-referrer",
                 body: JSON.stringify(data),
@@ -169,7 +169,7 @@ class NewClass extends Component {
                     if (response.ok) {
                         // data is valid and could add to db
                         console.log(response);
-                        this.setState({registerSuccess: true});
+                        this.setState({ editSuccess: true });
                         this.cancelAddModal();
                         this.componentDidMount(); // Geteame la lista denuevo jajajajajaja
                         // TODO: no seas negro facundo metelo a manopla de la lista en vez de traer todo de nuevo JAJAJAJAJA
@@ -181,18 +181,17 @@ class NewClass extends Component {
                 .catch(error => {
                     console.log("Error: " + error)
                 })
-        }else {
-
+        } else {
             fetch(RequestManager.baseUrl + "/api/lesson/create", {
                 method: "POST",
                 mode: "cors",
                 cache: "no-cache",
                 credentials: "same-origin",
                 headers:
-                    {
-                        "Content-Type": "application/json",
-                        "Authorization": "Bearer " + this.state.token
-                    },
+                {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + this.state.token
+                },
                 redirect: "follow",
                 referrer: "no-referrer",
                 body: JSON.stringify(data),
@@ -201,7 +200,7 @@ class NewClass extends Component {
                     if (response.ok) {
                         // data is valid and could add to db
                         console.log(response);
-                        this.setState({registerSuccess: true});
+                        this.setState({ registerSuccess: true });
                         this.cancelAddModal();
                         this.componentDidMount(); // Geteame la lista denuevo jajajajajaja
                         // TODO: no seas negro facundo metelo a manopla de la lista en vez de traer todo de nuevo JAJAJAJAJA
@@ -221,9 +220,20 @@ class NewClass extends Component {
             //NOTA MENTAL: SI PONES EL FALSE ACA SE RENDEREA POR 1 SOLO FRAME LA NOTIFICACION
             return <h6 className="text-success">Nueva clase registrada correctamente</h6>;
         }
+        if (this.state.editSuccess) {
+            return <h6 className="text-success">Clase editada correctamente</h6>;
+        }
+        if (this.state.deleteSuccess) {
+            return <h6 className="text-success">Clase editada correctamente</h6>;
+        }
+    };
+
+    resetSuccessBools = () => {
+        this.setState({registerSuccess: false, editSuccess: false, deleteSuccess: false});
     };
 
     handleLessonEdit = (lesson) => {
+        this.resetSuccessBools();
         this.setState({
             name: lesson.name,
             // default number value (invalid) is -1
@@ -236,68 +246,72 @@ class NewClass extends Component {
             endDate: new Date(lesson.endDate),
             id: lesson.id,
             isAddModalOpen: true
+
         });
     };
 
     handleLessonDelete = (lesson) => {
+        this.resetSuccessBools();
         fetch(RequestManager.baseUrl + "/api/lesson/delete/" + lesson.id, {
             method: "DELETE",
             mode: "cors",
             cache: "no-cache",
             credentials: "same-origin",
             headers:
-                {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + this.state.token
-                },
+            {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + this.state.token
+            },
             redirect: "follow",
             referrer: "no-referrer",
         })
             .then(response => {
-               if(response.status === 200){
-                   this.setState({deleteSuccess: true})
-               }
+                if (response.status === 200) {
+                    this.setState({ deleteSuccess: true })
+                }
             }).then(x => {
                 this.componentDidMount(); // Geteame la lista denuevo jajajajajaja
-            // TODO: no seas negro facundo sacalo a manopla de la lista en vez de traer todo de nuevo JAJAJAJAJA
-            //PD: BiCONeee!
-        })
+                // TODO: no seas negro facundo sacalo a manopla de la lista en vez de traer todo de nuevo JAJAJAJAJA
+                //PD: BiCONeee!
+            })
     };
+
     handleAddLesson = event => {
         event.preventDefault();
-        this.setState({isAddModalOpen: true, registerSuccess: false});
+        this.resetSuccessBools();
+        this.setState({ isAddModalOpen: true});
     };
 
     renderStudentList = () => {
         if (!this.state.loadedStudents)
             return "Cargando";
-        console.log(this.state.lessons);
+        // console.log(this.state.lessons);
         return (
-                <div>
+            <div>
+                <Row className="p-2">
+                    <h6 className="p-2 m-auto">Nombre</h6>
+                    <h6 className="p-2 m-auto">Dia</h6>
+                    <h6 className="p-2 m-auto">Maestro</h6>
+                </Row>
+
+                {this.state.lessons.map((lesson) => (
                     <Row className="p-2">
-                        <h6 className="p-2 m-auto">Nombre</h6>
-                        <h6 className="p-2 m-auto">Dia</h6>
-                        <h6 className="p-2 m-auto">Maestro</h6>
+                        <h6 className="p-2 m-auto">{lesson.name}</h6>
+                        <h6 className="p-2 m-auto">{lesson.weekday}</h6>
+                        <h6 className="p-2 m-auto">{lesson.teachers[0]}</h6>
+
+                        <Button
+                            className="btn btn-secondary p-2 m-auto"
+                            onClick={() => (this.handleLessonEdit(lesson))}
+                        >Editar</Button>
+                        <Button
+                            className="btn btn-danger p-2 m-auto"
+                            onClick={() => (this.handleLessonDelete(lesson))}
+                        >Eliminar</Button>
                     </Row>
-
-                    {this.state.lessons.map((lesson) => (
-                          <Row className="p-2">
-                             <h6 className="p-2 m-auto">{lesson.name}</h6>
-                             <h6 className="p-2 m-auto">{lesson.weekday}</h6>
-                              <h6 className="p-2 m-auto">{lesson.teachers[0]}</h6>
-
-                              <Button
-                                 className="btn btn-secondary p-2 m-auto"
-                                 onClick={() => (this.handleLessonEdit(lesson))}
-                             >Editar</Button>
-                             <Button
-                                 className="btn btn-danger p-2 m-auto"
-                                 onClick={() => (this.handleLessonDelete(lesson))}
-                             >Eliminar</Button>
-                         </Row>
-                    ))}
-                </div>
-            );
+                ))}
+            </div>
+        );
     };
 
     render() {
@@ -377,7 +391,7 @@ class NewClass extends Component {
                             /></Col>
                         </Form.Group>
                         {(this.state.errors.hour || this.state.errors.minutes) &&
-                        <h6 className="text-danger">Horario invalido</h6>}
+                            <h6 className="text-danger">Horario invalido</h6>}
                         <Form.Group as={Row}>
                             <DatePicker
                                 selected={this.state.startDate}
