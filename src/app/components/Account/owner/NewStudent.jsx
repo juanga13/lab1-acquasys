@@ -3,7 +3,6 @@ import {Button, Form, Row, Col, Dropdown} from 'react-bootstrap';
 import ReactModal from 'react-modal';
 import RequestManager from "../../../network/RequestManager";
 
-
 class NewStudent extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +19,7 @@ class NewStudent extends Component {
         fatherPhoneNumber: false, fatherEmail: false, motherName: false, 
         motherSurname: false, motherPhoneNumber: false, motherEmail: false,
       },
-      token: this.props.token,
+      token: localStorage.getItem("token"),
       isModalOpen: false,
       email: '', password: '', name: '', surname: '',
       // additional data (optional)
@@ -177,8 +176,8 @@ class NewStudent extends Component {
   handleSubmit = event => {
     event.preventDefault();
     if (this.validateInputs()) {
-      event.stopPropagation();
-      return;
+     // event.stopPropagation();
+     // return;
     }
     
     let data = {};
@@ -206,7 +205,6 @@ class NewStudent extends Component {
       };
     }
 
-    console.log("token: " + this.state.token);
     fetch(RequestManager.baseUrl + "/api/user/register", {
       method: "POST",
       mode: "cors",
@@ -484,7 +482,27 @@ class NewStudent extends Component {
   };
 
   deleteStudent = id => {
-
+    fetch(RequestManager.baseUrl + "/api/student/delete/" + id, {
+      method: "DELETE",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers:
+          {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + this.state.token
+          },
+      redirect: "follow",
+      referrer: "no-referrer",
+    })
+        .then(response => {
+          if(response.status === 200){
+            this.setState({deleteSuccess: true})
+          }
+        }).then(x => {
+          this.componentWillMount();
+      // TODO: no seas negro facundo sacalo a manopla de la lista en vez de traer todo de nuevo JAJAJAJAJA
+    })
   };
 
   renderStudentList = () => {
@@ -510,7 +528,7 @@ class NewStudent extends Component {
         <div>
           <h6>{obj.name + ", " + obj.surname}</h6>
           <h6>{obj.dni}</h6>
-          <h6>Sin verificar!</h6>
+          <h6>Sin verificar! </h6>
           <Button className='btn btn-primary' onClick={() => this.showStudent(obj.id)}>Ver datos</Button>
           <Button className='btn btn-danger' onClick={() => this.deleteStudent(obj.id)}>Eliminar</Button>
         </div>
