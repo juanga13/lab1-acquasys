@@ -10,20 +10,52 @@ class NewTeacher extends Component {
     super(props);
 
     this.state = {
+      lessons: null,
+      loadedStudents: false,
+      registerSuccess: false,
+      editSuccess: false,
+      deleteSuccess: false,
+      token: localStorage.getItem("token"),
+      isModalOpen: false,
+      showEditModal: false,
+      editDNI: '',
+      showDeleteModal: false,
+      deleteDNI: '',      
       errors: {
         email: false,
         password: false,
         name: false,
         surname: false
       },
-      token: this.props.token,
-      isModalOpen: false,
-      email: "",  // "Natacion bebes 2"
-      password: "",  //  "14:00"
-      name: "",  //  "45" en minutos
-      surname: ""  // "jueves"  nombres en espaniol, lowercase
+      id: null,
+      email: "", 
+      password: "", 
+      name: "",  
+      surname: "" 
     }
   }
+
+  componentDidMount() {
+    fetch(RequestManager.baseUrl + "/api/teacher/all", {
+        method: "GET",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers:
+            {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + this.state.token
+            },
+        redirect: "follow",
+        referrer: "no-referrer",
+    })
+        .then(response => {
+            return response.json()
+        }).then(teachers => {
+        this.setState({teachers: teachers, loadedTeachers: true});
+    })
+}
+
 
   handleAddTeacher = event => {
     event.preventDefault();
@@ -120,7 +152,6 @@ class NewTeacher extends Component {
         <ReactModal 
           className="modal-form"
           isOpen={this.state.isModalOpen}
-          onRequestClose={this.cancelModal}
           contentLabel="Add teacher modal"
         >
           <Form onSubmit={this.handleSubmit} >
