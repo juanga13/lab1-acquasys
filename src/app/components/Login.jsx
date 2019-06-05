@@ -85,7 +85,7 @@ class Login extends Component {
               .then((data) => {
                 localStorage.setItem("token",response.access_token);
                 localStorage.setItem("role",data.authorities[0]);
-                store.dispatch(setTokenData(response.access_token, data.authorities[0]));
+                login.props.updateNavbar();
                 login.setState({redirect: true})
               });
           }
