@@ -5,10 +5,7 @@ import NewStudent from './NewStudent';
 import NewTeacher from './NewTeacher';
 import NewClass from './NewLesson';
 import OwnerNavbar from './OwnerNavbar';
-import store from "../../../store";
 import '../../../css/owner.css';
-import {setTokenData} from "../../../actions";
-import {Button} from "react-bootstrap";
 
 class Owner extends Component {
   constructor(props) {

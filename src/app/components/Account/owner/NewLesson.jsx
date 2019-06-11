@@ -7,6 +7,7 @@ import { registerLocale, setDefaultLocale } from "react-datepicker";
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import es from 'date-fns/locale/es';
+import DropdownButton from "react-bootstrap/DropdownButton";
 
 registerLocale('es', es);
 setDefaultLocale('es');
@@ -17,6 +18,7 @@ class NewClass extends Component {
 
         this.state = {
             lessons: null,
+            teachers: null,
             loadedStudents: false,
             registerSuccess: false,
             editSuccess: false,
@@ -27,6 +29,7 @@ class NewClass extends Component {
             editDNI: '',
             showDeleteModal: false,
             deleteDNI: '',
+            teacher: null,
             errors: {
                 name: false,
                 duration: false,
@@ -36,10 +39,10 @@ class NewClass extends Component {
             },
             id: null,
             name: "",
-            duration: -1,
-            weekday: -1,
-            hour: -1,
-            minutes: -1,
+            duration: 30,
+            weekday: "Lunes",
+            hour: 0,
+            minutes: 0,
             date: '',
             startDate: new Date(),
             endDate: new Date(),
@@ -64,8 +67,26 @@ class NewClass extends Component {
             .then(response => {
                 return response.json()
             }).then(lessons => {
-                this.setState({ lessons: lessons, loadedStudents: true });
-            })
+            this.setState({lessons: lessons, loadedStudents: true});
+        });
+        fetch(RequestManager.baseUrl + "/api/teacher/all", {
+            method: "GET",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers:
+                {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + this.state.token
+                },
+            redirect: "follow",
+            referrer: "no-referrer",
+        })
+            .then(response => {
+                return response.json()
+            }).then(teachers => {
+            this.setState({teachers: teachers, loadedTeachers: true});
+        })
     }
 
     handleDateChange = ({ startDate, endDate }) => {
@@ -133,6 +154,7 @@ class NewClass extends Component {
         )
     }
 
+
     handleAddSubmit = event => {
         event.preventDefault();
         if (this.validateInputs()) {
@@ -146,7 +168,8 @@ class NewClass extends Component {
             hour: this.state.hour,
             minutes: this.state.minutes,
             startDate: this.state.startDate.getTime(),
-            endDate: this.state.endDate.getTime()
+            endDate: this.state.endDate.getTime(),
+            teachers: [this.state.teacher],
         };
         if (this.state.id) {
             data.id = this.state.id;
@@ -267,13 +290,13 @@ class NewClass extends Component {
         })
             .then(response => {
                 if (response.status === 200) {
-                    this.setState({ deleteSuccess: true })
+                    this.setState({deleteSuccess: true})
                 }
             }).then(x => {
-                this.componentDidMount(); // Geteame la lista denuevo jajajajajaja
-                // TODO: no seas negro facundo sacalo a manopla de la lista en vez de traer todo de nuevo JAJAJAJAJA
-                //PD: BiCONeee!
-            })
+            this.componentDidMount(); // Geteame la lista denuevo jajajajajaja
+            // TODO: no seas negro facundo sacalo a manopla de la lista en vez de traer todo de nuevo JAJAJAJAJA
+            //PD: BiCONeee!
+        })
     };
 
     handleAddLesson = event => {
@@ -282,7 +305,7 @@ class NewClass extends Component {
         this.setState({ isAddModalOpen: true});
     };
 
-    renderStudentList = () => {
+    renderLessonList = () => {
         if (!this.state.loadedStudents)
             return "Cargando";
         // console.log(this.state.lessons);
@@ -298,7 +321,7 @@ class NewClass extends Component {
                     <Row className="p-2">
                         <h6 className="p-2 m-auto">{lesson.name}</h6>
                         <h6 className="p-2 m-auto">{lesson.weekday}</h6>
-                        <h6 className="p-2 m-auto">{lesson.teachers[0]}</h6>
+                        <h6 className="p-2 m-auto">{lesson.teachers[0] && lesson.teachers[0].name}</h6>
 
                         <Button
                             className="btn btn-secondary p-2 m-auto"
@@ -320,9 +343,9 @@ class NewClass extends Component {
                 <h3>Clases</h3>
                 {this.renderNotification()}
                 <Button className="btn btn-info" onClick={this.handleAddLesson}>Agregar una nueva clase</Button>
-                {this.renderStudentList()}
+                {this.renderLessonList()}
                 <ReactModal // ADD MODAL
-                    className="modal-form"
+                    className="modal-form-2"
                     isOpen={this.state.isAddModalOpen}
                     contentLabel="Add teacher modal"
                 >
@@ -341,7 +364,7 @@ class NewClass extends Component {
                         </Form.Group>
                         {(this.state.errors.name) && <h6 className="text-danger">Nombre invalido</h6>}
                         <Form.Group>
-                            <Dropdown
+                            <DropdownButton
                                 title={this.state.weekday}
                                 className={(this.state.errors.weekday) && "border border-danger"}
                             >
@@ -355,7 +378,7 @@ class NewClass extends Component {
                                             {weekday}
                                         </Dropdown.Item>
                                 )}
-                            </Dropdown>
+                            </DropdownButton>
                         </Form.Group>
                         {(this.state.errors.weekday) && <h6 className="text-danger">Dia invalido</h6>}
                         <Form.Group>
@@ -411,6 +434,24 @@ class NewClass extends Component {
                                 onChange={this.handleChangeEnd}
                             />
                         </Form.Group>
+                        <h2>Profesor</h2>
+                        <DropdownButton
+                            title={this.state.teacher ? this.state.teacher.name : "Elegir profesor"}
+                        >
+                            {(this.state.loadedTeachers) && this.state.teachers.map(
+                                (teacher) =>
+                                    <Dropdown.Item
+                                        className="bg-default border border-dark"
+                                        key={teacher.name}
+                                        onClick={() => this.handleTeacherChange(teacher)}
+                                    >
+                                        {teacher.name}
+                                    </Dropdown.Item>
+                            )}
+                        </DropdownButton>
+                        <Form.Group>
+
+                        </Form.Group>
                         <Row className="modal-form-button-container">
                             <Button type="submit">Agregar clase</Button>
                             <Button
@@ -423,6 +464,10 @@ class NewClass extends Component {
 
             </div>
         );
+    }
+
+    handleTeacherChange(t) {
+        this.setState({teacher: t})
     }
 }
 
