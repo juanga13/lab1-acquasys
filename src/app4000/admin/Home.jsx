@@ -4,7 +4,7 @@ export default class Home extends Component {
     render() {
         return (
             <div>
-                <h4>Admin home</h4>
+                <h4>{'Bienvenido ' + this.props.name + ' ' + this.props.surname + '!'}</h4>
             </div>
         )
     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {Form, Button} from 'react-bootstrap';
-import Input from './Input';
+import Input from './helpers/Input';
 
 export default class Register extends Component {
     constructor(props) {

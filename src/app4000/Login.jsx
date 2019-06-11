@@ -1,13 +1,17 @@
 import React, { Component, Fragment } from 'react'
 import UserService from './UserService';
+import {Redirect} from 'react-router-dom';
 import {Form, Button} from 'react-bootstrap';
-import Input from './Input';
+import Input from './helpers/Input';
 
 
 export default class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {email: '', password: ''};
+        this.state = {
+            email: '', 
+            password: '',
+        };
     };
     handleChange = event => {
         event.preventDefault();
@@ -15,13 +19,17 @@ export default class Login extends Component {
     };
     handleSubmit = event => {
         event.preventDefault();
-        UserService.login(this.state.email, this.state.password)
-            .then(data => {
-                console.log(data);
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('role', data.role);
-            }).then(() => this.props.onLogin());
-    }
+        // UserService.login(this.state.email, this.state.password)
+        //     .then(data => {
+        //         console.log(data);
+        //         localStorage.setItem('token', data.token);
+        //         localStorage.setItem('role', data.role);
+        //     }).then(() => this.props.onLogin());
+        localStorage.setItem('token', 'testToken');
+        localStorage.setItem('role', 'ROLE_ADMIN');
+        this.props.onLogin();
+    };
+
     render() {
         return (
             <Fragment>

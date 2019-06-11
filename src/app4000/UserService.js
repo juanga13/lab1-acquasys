@@ -38,13 +38,16 @@ class UserService {
     };
 
     static register() {
-
+        let result = {success: false, error: false, errorMessage: ''};
+        //TODO do requests and return responses
+        return result;
     };
 
     static getAdminData() { 
         console.log("getting data for admin");
         // TODO get students, teachers and lessons
-        return "admin data!";
+        const dataTest = {name: 'TestName', surname: 'TestSurname'};
+        return dataTest;
     };
 
     static getTeacherData() {
@@ -56,7 +59,29 @@ class UserService {
     static getStudentData() {
         console.log("student data");
         // TODO get classes with teacher
-        return "student data!";
+        const testData = {
+            student1: {name: 'Fafundo', surname: 'Fonfalez', dni: '11111111'},
+            student2: {name: 'Juan Jajriel', surname: 'Jicci', dni: '22222222'},
+            student3: {name: 'Araielq', surname: 'Arairra', dni: '33333333'},
+            student4: {name: 'Mamuel', surname: 'Muedrozo', dni: '44444444'},
+            student5: {name: 'Toto', surname: 'Africa', dni: '55555555'},
+            student6: {name: 'Wawey', surname: 'Wewez Wowina', dni: '66666666'},
+            student7: {name: 'uwu', surname: 'owo', dni: '77777777'},
+            student8: {name: 'Ezequiel', surname: 'Normalq', dni: '88888888'},
+            student9: {name: 'Lancelot', surname: 'Lancelet', dni: '99999999'},
+            student10: {name: 'Gawain', surname: 'Gawanet', dni: '11112222'},
+            student11: {name: 'Geraint', surname: 'Geranet', dni: '33334444'},
+            student12: {name: 'Percival', surname: 'Percivet', dni: '55556666'},
+            student13: {name: 'Bors', surname: 'Boret', dni: '77778888'},
+            student14: {name: 'Lamorak', surname: 'Lmao', dni: '11223344'},
+            student15: {name: 'Kay', surname: 'Okay', dni: '55667788'},
+            student16: {name: 'Gareth', surname: 'Tyu', dni: '99775533'},
+            student17: {name: 'Bedivere', surname: 'Bedivettex', dni: '123456778'},
+            student18: {name: 'Gaheris', surname: 'Gatheret', dni: '23456789'},
+            student19: {name: 'Tristan', surname: 'Triste', dni: '12398755'},
+            student20: {name: 'Palamedes', surname: 'Palidez', dni: '24682468'},
+        };
+        return testData;
     };
 }
 

@@ -31,13 +31,14 @@ class App extends Component {
             token: token,
             role: role,
             loggedIn: loggedIn,  // Login changes this
+            redirectToAccount: false,
         }
     };
 
     // called by Login
     handleLogin = () => {
         console.log('logged in, token: ' + localStorage.getItem('token') + ' and role: ' + localStorage.getItem('role'));
-        this.setState({token: localStorage.getItem('token'), role: localStorage.getItem('role'), loggedIn: true});
+        this.setState({token: localStorage.getItem('token'), role: localStorage.getItem('role'), loggedIn: true, redirectToAccount: true});
     };
 
     // called by Navbar
@@ -48,16 +49,21 @@ class App extends Component {
     };
 
     // always called by this.render()
-    renderLogin = () => {
+    renderAccount = () => {
         let result = null;
         console.log(this.state.role);
         if (this.state.role === null) return <Redirect to='/'/> 
         else if (this.state.role === roles.admin) result = <Route path='/account' render={() => <AdminMenu/>}/>
         else if (this.state.role === roles.student) result = <Route path='/account' render={() => <TeacherMenu/>}/>
         else if (this.state.role === roles.teacher) result = <Route path='/account' render={() => <StudentMenu/>}/>
-        //TODO redirige a /account pero  PROVOCA LOOP INFINITO WTF
-        // if (result !== null) result = (<div>{result}, <Redirect exact to='/account'/></div>)  
         return result;
+    };
+
+    renderRedirectToAccoun = () => {
+        if (this.state.redirectToAccount) {
+            this.setState({redirectToAccount: false});
+            return <Redirect to='/account'/>
+        }
     };
 
     render() {
@@ -69,9 +75,9 @@ class App extends Component {
                     <Navbar loggedIn onLogout={this.handleLogout}/>,
                     <div>
                         <Route exact path='/' render={() => <Home loggedIn/>}/>
-                        {this.renderLogin()}
+                        {this.renderAccount()}
                     </div>
-
+                    {this.renderRedirectToAccoun()}
                 </Fragment>
             )
         } else {
