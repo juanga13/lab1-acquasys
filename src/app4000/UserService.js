@@ -1,11 +1,10 @@
 import RequestManager from "../app/network/RequestManager";
 
 const baseURL = 'http://localhost:8080';
+// const baseURL = 'http://172.22.44.128:8080';
 
 class UserService {
     static login(email, password) {
-        let data = {token: '', role: '', error: {}};
-
         const tokenRequestOptions = {
             method: 'POST',
             mode: "cors",
@@ -22,23 +21,29 @@ class UserService {
             cache: "no-cache"
         };
 
+        // insert all responses and return it anyway to show message on front
+        let result = {success: false, errorMessage: '', token: '', role: ''};  
         // first fetch: get token
         return fetch(baseURL + '/oauth/token', tokenRequestOptions)
             .then(response => {
-                return response.json()
+                // const json = response.json();
+                if (response.ok) console.log(response.json());
+                else console.warn(response);
             })
             .then(myJson => {
-                    data.token = myJson.access_token;
-                    console.log(data.token);
-                    return fetch(baseURL + "/oauth/check_token?token=" + data.token, roleRequestOptions)
-                        .then(response => {
-                            return response.json()
-                        })
-                        .then(myJson => {
-                            data.role = myJson.authorities[0];
-                            console.log(data.role);
-                            return data;
-                        })
+                console.log('myJson');
+                console.log(myJson);
+                // result.token = myJson.access_token;
+                // console.log(result.token);
+                // return fetch(baseURL + "/oauth/check_token?token=" + result.token, roleRequestOptions)
+                //     .then(response => {
+                //         return response.json()
+                //     })
+                //     .then(myJson => {
+                //         result.role = myJson.authorities[0];
+                //         console.log(result.role);
+                //         return result;
+                //     })
                 }
             )
     };
@@ -93,7 +98,7 @@ class UserService {
     };
 
     static getVerified() {
-        return fetch(RequestManager.baseUrl + "/api/user/student/all", {
+        return fetch(baseURL + "/api/user/student/all", {
             method: "GET",
             mode: "cors",
             cache: "no-cache",
@@ -119,7 +124,7 @@ class UserService {
     };
 
     static getUnverified() {
-        return fetch(RequestManager.baseUrl + "/api/user/unregistered/all", {
+        return fetch(baseURL + "/api/user/unregistered/all", {
             method: "GET",
             mode: "cors",
             cache: "no-cache",
@@ -145,7 +150,7 @@ class UserService {
     };
 
     static getAllStudents() {
-        return fetch(RequestManager.baseUrl + "/api/student/all", {
+        return fetch(baseURL + "/api/student/all", {
             method: "GET",
             mode: "cors",
             cache: "no-cache",
@@ -167,6 +172,38 @@ class UserService {
             .catch(error => {
                 console.log("Error: " + error)
             });
+    };
+
+    static editStudent(data) {
+        const requestOptions = {
+            method: 'PUT',
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Basic Y2xpZW50aWQ6Y2xpZW50c2VjcmV0"  // clientid and clientsecret    
+            },
+            body: JSON.stringify(data),
+        }
+
+        return fetch(baseURL + '/api/student/edit', requestOptions)
+            .then(response => {
+                if (response.ok) return response.json();
+                else console.log(response);
+            })
+    };
+
+    static deleteStudent(id) {
+        const requestOptions = {
+            method: 'DELETE',
+            mode: 'cors',
+            headers: {"Authorization": "Basic Y2xpZW50aWQ6Y2xpZW50c2VjcmV0"},
+        }
+
+        return fetch(baseURL + '/api/student/delete/' + id, requestOptions)
+            .then(response => {
+                if (response.ok) return response.json();
+                else console.log(response);
+            })
     };
 }
 

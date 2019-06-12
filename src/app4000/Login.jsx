@@ -20,11 +20,11 @@ export default class Login extends Component {
     handleSubmit = event => {
         event.preventDefault();
         UserService.login(this.state.email, this.state.password)
-             .then(data => {
-                 console.log(data);
-                 localStorage.setItem('token', data.token);
-                 localStorage.setItem('role', data.role);
-             }).then(() => this.props.onLogin());
+            .then(data => {
+                console.log(data);
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('role', data.role);
+            }).then(() => this.props.onLogin());
     };
 
     render() {

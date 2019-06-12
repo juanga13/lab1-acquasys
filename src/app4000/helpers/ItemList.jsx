@@ -2,7 +2,7 @@ import React from 'react';
 import {Row, Button} from 'react-bootstrap';
 
 function ItemList(props) {
-  console.log(props);
+  // console.log(props);
   /**
    * types: 
    *   (1) students -> studenti: {name: 'Nombre', surname: 'Apellido', dni: '00000000'}
@@ -12,12 +12,12 @@ function ItemList(props) {
   if (props.type === 'students') {
     const students = props.items;
     return (<div>
-      {props.items.map((student) => (
+      {students.map((student) => (
         <Row>
           <h6>{student.name + ', ' + student.surname}</h6>
           <h6>{student.dni}</h6>
-          <Button onClick={props.onEdit} className='btn btn-secondary'>Editar</Button>
-          <Button onClick={props.onDelete} className='btn btn-'>Eliminar</Button>  
+          <Button onClick={() => (props.onEdit(student.id))} className='btn btn-secondary'>Editar</Button>
+          <Button onClick={() => (props.onDelete(student.id))} className='btn btn-'>Eliminar</Button>  
         </Row>
       ))}
     </div>)
@@ -28,8 +28,8 @@ function ItemList(props) {
         <Row>
           <h6>{teacher.name + ', ' + teacher.surname}</h6>
           <h6>{teacher.dni}</h6>
-          <Button onClick={props.onEdit} className='btn btn-secondary'>Editar</Button>
-          <Button onClick={props.onDelete} className='btn btn-'>Eliminar</Button>  
+          <Button onClick={() => (props.onEdit(teacher.id))} className='btn btn-secondary'>Editar</Button>
+          <Button onClick={() => (props.onDelete(teacher.id))} className='btn btn-'>Eliminar</Button>  
         </Row>
       ))}
     </div>)
