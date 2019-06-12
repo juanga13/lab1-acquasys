@@ -1,25 +1,47 @@
 import React from 'react';
 import {Row, Button} from 'react-bootstrap';
 
-function ItemList(type, items, filter) {
+function ItemList(props) {
+  console.log(props);
   /**
    * types: 
    *   (1) students -> studenti: {name: 'Nombre', surname: 'Apellido', dni: '00000000'}
    *   (2) teachers -> teacheri: {name: 'Nombre', surname: 'Apellido', cuil: '20-12313123-2'}
    *   (3) lessons  -> lessons:  {name: 'Clase', }  // TODO definir como se va a mostrar!
    */
-  if (type === 'students') {
-    return(<div>
-      <h6>{items.name + ', '}</h6>
-      <h6>{items.surname}</h6>
-      <h6>{items}</h6>
-      <Button className='btn btn-secondary'>Editar</Button>
-      <Button className='btn btn-'>Eliminar</Button>
+  if (props.type === 'students') {
+    const students = props.items;
+    return (<div>
+      {props.items.map((student) => (
+        <Row>
+          <h6>{student.name + ', ' + student.surname}</h6>
+          <h6>{student.dni}</h6>
+          <Button onClick={props.onEdit} className='btn btn-secondary'>Editar</Button>
+          <Button onClick={props.onDelete} className='btn btn-'>Eliminar</Button>  
+        </Row>
+      ))}
     </div>)
-  } else if (type === 'teachers') {
-    
-  } else if (type === 'lessons') {
-
+  } else if (props.type === 'teachers') {
+    const teachers = props.items;
+    return (<div>
+      {props.items.map((teacher) => (
+        <Row>
+          <h6>{teacher.name + ', ' + teacher.surname}</h6>
+          <h6>{teacher.dni}</h6>
+          <Button onClick={props.onEdit} className='btn btn-secondary'>Editar</Button>
+          <Button onClick={props.onDelete} className='btn btn-'>Eliminar</Button>  
+        </Row>
+      ))}
+    </div>)
+  } else if (props.type === 'lessons') {
+    const lessons = props.items;
+    return (<div>
+      {props.items.map((lesson) => (
+        <Row>
+          {/* TODO */}
+        </Row>
+      ))}
+    </div>)
   } else return null;
 }
 

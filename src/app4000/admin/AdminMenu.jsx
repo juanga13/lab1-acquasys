@@ -24,19 +24,6 @@ class AdminMenu extends Component {
         });
     };
 
-    // TODO filter handler here? 
-    filterStudents() {
-
-    };
-
-    filterTeachers() {
-
-    };
-
-    filterLessons() {
-
-    };
-
     render() {
         console.log("rendering admin");
         return (
@@ -49,9 +36,9 @@ class AdminMenu extends Component {
                 {/* (1) //TODO Each routed component should be stateless? */}
                 {/* (2) props given not complete */}
                 <Route exact path='/account' render={() => <Home name={this.state.data.name} surname={this.state.data.surname}/>}/>
-                <Route path='/account/students' render={() => <Students students={this.state.data.students}/>}/>
-                <Route path='/account/teachers' render={() => <Teachers teachers={this.state.data.teachers}/>}/>
-                <Route path='/account/lessons' render={() => <Lessons lessons={this.state.data.lessons}/>}/>
+                <Route path='/account/students' render={() => <Students students={this.state.students}/>}/>
+                <Route path='/account/teachers' render={() => <Teachers teachers={this.state.teachers}/>}/>
+                <Route path='/account/lessons' render={() => <Lessons lessons={this.state.lessons}/>}/>
             </Fragment>
         )
     };

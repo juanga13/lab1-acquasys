@@ -5,8 +5,21 @@ import { DropdownButton, Dropdown } from 'react-bootstrap';
 
 class Students extends Component {
     state = {
-        filterType: 'Nombre/Apellido',
         filter: '',
+    };
+
+    _filterList() {
+        let filteredList = [];
+        const students = this.props.students;
+        // console.log("xd");
+        for (var key in students) {  // student={1:{}, 2:{}, ...}
+            if (students[key].name.includes(this.state.filter) ||
+            students[key].surname.includes(this.state.filter) ||
+            students[key].dni.includes(this.state.filter)) {
+                filteredList.push(students[key]);
+            }
+        }
+        return filteredList;
     };
 
     handleFilterChange = event => {
@@ -24,19 +37,13 @@ class Students extends Component {
             <div>
                 <h4>Students</h4>
                 {/* TODO filter students lists by getting filter value from FilterBar */}
-                {/* filterType -> para buscar por dni o por nombre/apellido  */}
-                <DropdownButton title={this.state.filterType} onSelect={this.handleSelect}>
-                    <Dropdown.Item eventKey='Nombre/Apellido'>Nombre/Apellido</Dropdown.Item>
-                    <Dropdown.Item eventKey='DNI'>DNI</Dropdown.Item>
-                </DropdownButton>
                 <FilterBar 
                     autoFocus 
                     placeholder='Nombre apellido dni' 
                     onChange={this.handleFilterChange} 
                     value={this.state.filter}
                 />
-                <ItemList type='student' items={this.props.students} filterType={this.state.filterType} filter={this.state.filter}/>
-                <h1>{this.state.filter}</h1>
+                <ItemList type='students' items={this._filterList()} filter={this.state.filter}/>
             </div>
         )
     }
