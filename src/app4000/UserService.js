@@ -1,9 +1,11 @@
-const baseURL = 'http://localhost:8080'
+import RequestManager from "../app/network/RequestManager";
+
+const baseURL = 'http://localhost:8080';
 
 class UserService {
     static login(email, password) {
         let data = {token: '', role: '', error: {}};
-        
+
         const tokenRequestOptions = {
             method: 'POST',
             mode: "cors",
@@ -18,70 +20,153 @@ class UserService {
             method: "GET",
             mode: "cors",
             cache: "no-cache"
-        }
-        
+        };
+
         // first fetch: get token
         return fetch(baseURL + '/oauth/token', tokenRequestOptions)
-            .then(response => {return response.json()})
+            .then(response => {
+                return response.json()
+            })
             .then(myJson => {
-                data.token = myJson.access_token;
-                console.log(data.token);
-                return fetch(baseURL + "/oauth/check_token?token=" + data.token, roleRequestOptions)
-                    .then(response => {return response.json()})
-                    .then(myJson => {
-                        data.role = myJson.authorities[0];
-                        console.log(data.role);
-                        return data;
-                    })
-            }
-        )
+                    data.token = myJson.access_token;
+                    console.log(data.token);
+                    return fetch(baseURL + "/oauth/check_token?token=" + data.token, roleRequestOptions)
+                        .then(response => {
+                            return response.json()
+                        })
+                        .then(myJson => {
+                            data.role = myJson.authorities[0];
+                            console.log(data.role);
+                            return data;
+                        })
+                }
+            )
     };
 
-    static register() {
+    static register(user, password) {
         let result = {success: false, error: false, errorMessage: ''};
-        //TODO do requests and return responses
-        return result;
+        return fetch(baseURL + "/api/user/register", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {"Content-Type": "application/json"},
+            redirect: "follow",
+            referrer: "no-referrer",
+            body: JSON.stringify({email: user, password: password}),
+        })
+            .then(response => {
+                if (response.ok) {
+                    result.success = true;
+                    return result;
+                } else {
+                    result.error = true;
+                    result.errorMessage = response.text();
+                }
+            })
+            .catch(error => {
+                result.errorMessage = error.toString();
+                result.error = true;
+            }).then(() => {
+                return result
+            });
     };
 
-    static getAdminData() { 
-        console.log("getting data for admin");
-        // TODO get students, teachers and lessons
-        const dataTest = {name: 'TestName', surname: 'TestSurname'};
-        return dataTest;
-    };
+    static getUserInfo() {
+        let headers = new Headers();
+        headers.append("authorization", "Bearer " + localStorage.getItem("token"));
+        return fetch(baseURL + "/api/user/data",
+            {
+                headers: headers,
+                method: "GET",
+                mode: "cors",
+                cache: "no-cache",
+            }).then(response => {
+            return response.json();
+        });
+    }
 
     static getTeacherData() {
         console.log("teacher data");
         // TODO get classes with students
         return "teacher data!";
     };
-    
-    static getStudentData() {
-        console.log("student data");
-        // TODO get classes with teacher
-        const testData = {
-            student1: {name: 'Fafundo', surname: 'Fonfalez', dni: '11111111'},
-            student2: {name: 'Juan Jajriel', surname: 'Jicci', dni: '22222222'},
-            student3: {name: 'Araielq', surname: 'Arairra', dni: '33333333'},
-            student4: {name: 'Mamuel', surname: 'Muedrozo', dni: '44444444'},
-            student5: {name: 'Toto', surname: 'Africa', dni: '55555555'},
-            student6: {name: 'Wawey', surname: 'Wewez Wowina', dni: '66666666'},
-            student7: {name: 'uwu', surname: 'owo', dni: '77777777'},
-            student8: {name: 'Ezequiel', surname: 'Normalq', dni: '88888888'},
-            student9: {name: 'Lancelot', surname: 'Lancelet', dni: '99999999'},
-            student10: {name: 'Gawain', surname: 'Gawanet', dni: '11112222'},
-            student11: {name: 'Geraint', surname: 'Geranet', dni: '33334444'},
-            student12: {name: 'Percival', surname: 'Percivet', dni: '55556666'},
-            student13: {name: 'Bors', surname: 'Boret', dni: '77778888'},
-            student14: {name: 'Lamorak', surname: 'Lmao', dni: '11223344'},
-            student15: {name: 'Kay', surname: 'Okay', dni: '55667788'},
-            student16: {name: 'Gareth', surname: 'Tyu', dni: '99775533'},
-            student17: {name: 'Bedivere', surname: 'Bedivettex', dni: '123456778'},
-            student18: {name: 'Gaheris', surname: 'Gatheret', dni: '23456789'},
-            student19: {name: 'Tristan', surname: 'Triste', dni: '12398755'},
-            student20: {name: 'Palamedes', surname: 'Palidez', dni: '24682468'},
-        };
-        return testData;
+
+    static getVerified() {
+        return fetch(RequestManager.baseUrl + "/api/user/student/all", {
+            method: "GET",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers:
+                {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+            redirect: "follow",
+            referrer: "no-referrer",
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log(response);
+            }
+        })
+            .catch(error => {
+                console.log("Error: " + error)
+            });
+
+    };
+
+    static getUnverified() {
+        return fetch(RequestManager.baseUrl + "/api/user/unregistered/all", {
+            method: "GET",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers:
+                {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+            redirect: "follow",
+            referrer: "no-referrer",
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log(response);
+            }
+        })
+            .catch(error => {
+                console.log("Error: " + error)
+            });
+
+    };
+
+    static getAllStudents() {
+        return fetch(RequestManager.baseUrl + "/api/student/all", {
+            method: "GET",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers:
+                {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + localStorage.getItem("token")
+                },
+            redirect: "follow",
+            referrer: "no-referrer",
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                console.log(response);
+            }
+        })
+            .catch(error => {
+                console.log("Error: " + error)
+            });
     };
 }
 

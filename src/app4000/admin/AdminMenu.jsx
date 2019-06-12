@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react'
-import { Route, NavLink, Redirect} from 'react-router-dom';
+import React, {Component, Fragment} from 'react'
+import {Route, NavLink, Redirect} from 'react-router-dom';
 import Home from "./Home";
 import Students from "./Students";
 import Teachers from "./Teachers";
@@ -10,18 +10,27 @@ class AdminMenu extends Component {
     state = {
         data: null,
         students: null,
+        verified: null,
+        unverified: null,
         teachers: null,
         lessons: null,
     };
+
     // gets students, teachers and lessons
     componentWillMount() {
-        console.log(UserService.getStudentData());
-        this.setState({
-            data: UserService.getAdminData(),
-            students: UserService.getStudentData(),
-            // teachers: UserService.getTeacherData(),
-            // lessons: UserService.getLessonsData(),   
+        UserService.getUserInfo().then(x => {
+            this.setState({data: x});
         });
+        UserService.getAllStudents().then( x=>{
+            this.setState({students: x});
+        });
+        UserService.getVerified().then( x=>{
+            this.setState({verified: x});
+        });
+        UserService.getUnverified().then( x=>{
+            this.setState({unverified: x});
+        });
+
     };
 
     render() {
@@ -35,8 +44,10 @@ class AdminMenu extends Component {
                 </div>
                 {/* (1) //TODO Each routed component should be stateless? */}
                 {/* (2) props given not complete */}
-                <Route exact path='/account' render={() => <Home name={this.state.data.name} surname={this.state.data.surname}/>}/>
-                <Route path='/account/students' render={() => <Students students={this.state.students}/>}/>
+                <Route exact path='/account'
+                       render={() => <Home name={this.state.data && this.state.data.name ? this.state.data.name : ""}
+                                           surname={this.state.data && this.state.data.surname ? this.state.data.surname : ""}/>}/>
+                <Route path='/account/students' render={() => <Students students={this.state.students} verified={this.state.verified} unverified={this.state.unverified}/>}/>
                 <Route path='/account/teachers' render={() => <Teachers teachers={this.state.teachers}/>}/>
                 <Route path='/account/lessons' render={() => <Lessons lessons={this.state.lessons}/>}/>
             </Fragment>
@@ -47,4 +58,5 @@ class AdminMenu extends Component {
         this.setState({redirect: false});
     };
 }
+
 export default AdminMenu;
