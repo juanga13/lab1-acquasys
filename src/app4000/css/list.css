@@ -1,0 +1,16 @@
+.list-container {
+    display: flex;
+    flex-direction: column;
+    /* width: 60vh; */
+}
+
+.list-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;    
+    padding: 10px 0;
+    border-width: 1px;
+    border-bottom-style: solid;
+    border-top: 1px; 
+}

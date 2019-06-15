@@ -1,7 +1,9 @@
 import React from 'react';
-import {Row, Button} from 'react-bootstrap';
+import {Row, Col, Button} from 'react-bootstrap';
+import '../css/list.css'
 
 function ItemList(props) {
+  if (props.items === null) return null;
   // console.log(props);
   /**
    * types: 
@@ -11,11 +13,11 @@ function ItemList(props) {
    */
   if (props.type === 'students') {
     const students = props.items;
-    return (<div>
+    return (<div className='list-container'>
       {students.map((student) => (
-        <Row>
-          <h6>{student.name + ', ' + student.surname}</h6>
-          <h6>{student.dni}</h6>
+        <Row className='list-item'>
+          <Col className=''>{student.name + ', ' + student.surname}</Col>
+          <Col>{student.dni}</Col>
           <Button onClick={() => (props.onEdit(student.id))} className='btn btn-secondary'>Editar</Button>
           <Button onClick={() => (props.onDelete(student.id))} className='btn btn-'>Eliminar</Button>  
         </Row>
@@ -23,23 +25,23 @@ function ItemList(props) {
     </div>)
   } else if (props.type === 'teachers') {
     const teachers = props.items;
-    return (<div>
-      {props.items.map((teacher) => (
-        <Row>
+    return (<div className='list-container'> 
+      {teachers.map((teacher) => (
+        <div className='list-item'>
           <h6>{teacher.name + ', ' + teacher.surname}</h6>
           <h6>{teacher.dni}</h6>
           <Button onClick={() => (props.onEdit(teacher.id))} className='btn btn-secondary'>Editar</Button>
           <Button onClick={() => (props.onDelete(teacher.id))} className='btn btn-'>Eliminar</Button>  
-        </Row>
+        </div>
       ))}
     </div>)
   } else if (props.type === 'lessons') {
     const lessons = props.items;
-    return (<div>
+    return (<div className='list-container'>
       {props.items.map((lesson) => (
-        <Row>
+        <div>
           {/* TODO */}
-        </Row>
+        </div>
       ))}
     </div>)
   } else return null;

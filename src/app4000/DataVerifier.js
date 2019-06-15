@@ -19,31 +19,31 @@ class DataVerifier {
         } else if (type === 'fatherName' && value.length === 0) {
             return 'El nombre no puede estar vacio.';
         } else if ('fatherSurname' && value.length === 0) {
-            return 'El nombre no puede estar vacio.';
+            return 'El apellido no puede estar vacio.';
         } else if (type === 'motherName' && value.length === 0) {
             return 'El nombre no puede estar vacio.';
         } else if (type === 'motherSurname' && value.length === 0) {
-            return 'El nombre no puede estar vacio.';
+            return 'El apellido no puede estar vacio.';
         } else if (type === 'password' && value.length === 0) {
-            return 'El nombre no puede estar vacio.';
+            return 'La contraseña no puede estar vacia.';
         } else if (type === 'email' && value.length === 0) {
-            return 'El nombre no puede estar vacio.';
+            return 'El email no puede estar vacio.';
         } else if (type === 'fatherEmail' && value.length === 0) {
-            return 'El nombre no puede estar vacio.';
+            return 'El email no puede estar vacio.';
         } else if (type === 'motherEmail' && value.length === 0) {
-            return 'El nombre no puede estar vacio.';
-        } else if (type === 'dni') {
-            return 'El nombre no puede estar vacio.';
-        } else if (type === 'cuil') {
-            return 'El nombre no puede estar vacio.';
-        } else if (type === 'phone') {
-            return 'El nombre no puede estar vacio.';
-        } else if (type === 'fatherPhone') {
-            return 'El nombre no puede estar vacio.';
-        } else if (type === 'motherPhone') {
-            return 'El nombre no puede estar vacio.';
-        } else if (type === 'affiliateNumber') {
-            return 'El nombre no puede estar vacio.';
+            return 'El email no puede estar vacio.';
+        } else if (type === 'dni' && value.length === 0) {
+            return 'El DNI no puede estar vacio.';
+        } else if (type === 'cuil' && value.length === 0) {
+            return 'El CUIL no puede estar vacio.';
+        } else if (type === 'phone' && value.length === 0) {
+            return 'El telefono no puede estar vacio.';
+        } else if (type === 'fatherPhone' && value.length === 0) {
+            return 'El telefono no puede estar vacio.';
+        } else if (type === 'motherPhone' && value.length === 0) {
+            return 'El telefono no puede estar vacio.';
+        } else if (type === 'affiliateNumber' && value.length === 0) {
+            return 'El numero de afiliado no puede estar vacio.';
         } return '';
     };
 }

@@ -31,7 +31,7 @@ class UserService {
     };
 
     static login(email, password) {
-        console.log(email + ', ' + password);
+        // console.log(email + ', ' + password);
         const tokenRequestOptions = {
             method: 'POST',
             mode: "cors",
@@ -53,26 +53,19 @@ class UserService {
         // first fetch: get token
         return fetch(baseURL + '/oauth/token', tokenRequestOptions)
             .then(response => {
-                // const json = response.json();
-                if (response.ok) {
-                    result.success = true;
-                } else result.errorMessage = this._handleError(response.status);
+                if (response.ok) result.success = true;
+                else result.errorMessage = this._handleError(response.status);
                 return response.json();
             })
             .then(myJson => {
-                console.log('myJson');
-                console.log(myJson);
-                console.log(result);
                 if (result.errorMessage !== '') return result;
                 result.token = myJson.access_token;
-                console.log(result.token);
                 return fetch(baseURL + "/oauth/check_token?token=" + result.token, roleRequestOptions)
                     .then(response => {
                         return response.json()
                     })
                     .then(myJson => {
                         result.role = myJson.authorities[0];
-                        console.log(result.role);
                         return result;
                     })
                 }
@@ -129,7 +122,7 @@ class UserService {
     };
 
     static getVerified() {
-        return fetch(baseURL + "/api/user/student/all", {
+        return fetch(baseURL + "/api/student/all", {
             method: "GET",
             mode: "cors",
             cache: "no-cache",
@@ -155,7 +148,7 @@ class UserService {
     };
 
     static getUnverified() {
-        return fetch(baseURL + "/api/user/unregistered/all", {
+        return fetch(baseURL + "/api/unregistered/all", {
             method: "GET",
             mode: "cors",
             cache: "no-cache",
@@ -205,13 +198,35 @@ class UserService {
             });
     };
 
+    static createStudent(data) {
+        const requestOptions = {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
+            body: JSON.stringify(data),
+        }
+
+        let result = {success: false, errorMessage: ''};  
+
+        return fetch(baseURL + '/api/student/add', requestOptions)
+            .then(response => {
+                console.log(response);
+                if (response.ok) result.success = true;
+                else result.errorMessage = this._handleError(response.status);
+                return result;
+            })
+    };
+
     static editStudent(data) {
         const requestOptions = {
             method: 'PUT',
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Basic Y2xpZW50aWQ6Y2xpZW50c2VjcmV0"  // clientid and clientsecret    
+                "Authorization": "Bearer " + localStorage.getItem("token")   
             },
             body: JSON.stringify(data),
         }
@@ -227,7 +242,9 @@ class UserService {
         const requestOptions = {
             method: 'DELETE',
             mode: 'cors',
-            headers: {"Authorization": "Basic Y2xpZW50aWQ6Y2xpZW50c2VjcmV0"},
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
         }
 
         return fetch(baseURL + '/api/student/delete/' + id, requestOptions)

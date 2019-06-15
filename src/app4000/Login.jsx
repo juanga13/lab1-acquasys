@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import UserService from './UserService';
 import {Form, Button, Spinner} from 'react-bootstrap';
 import Input from './helpers/Input';
-import './form.css';
+import './css/form.css';
 
 export default class Login extends Component {
     constructor(props) {
@@ -10,10 +10,10 @@ export default class Login extends Component {
         this.state = {
             email: '', 
             password: '',
+            errors: {email: '', password: ''},
             loading: false,  // loading spinner while doing request of login
             response: '',
             error: false,
-
         };
     };
     
@@ -24,7 +24,7 @@ export default class Login extends Component {
     
     handleSubmit = event => {
         event.preventDefault();
-        // if ()
+        this.handleValidation();
         this.setState({loading: true, error: false, response: ''})
         UserService.login(this.state.email, this.state.password)
             .then(response => {
@@ -39,8 +39,8 @@ export default class Login extends Component {
             });
     };
 
-    _handleValidation() {
-
+    handleValidation() {
+        
     };
 
     renderResponse = () => {return (this.state.error) 

@@ -1,0 +1,35 @@
+.admin-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-navbar-container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.admin-navbar-link {
+    background-color: rgb(52, 151, 243);
+    border-radius: 20px;
+    color: #1c2a31;
+    transition-timing-function: linear;
+    transition-duration: 300ms;
+    margin: 5px;
+}
+
+.admin-navbar-link:hover {
+    background-color: rgb(97, 179, 255);
+}
+
+.admin-navbar-link-active {
+    background-color: rgb(1, 82, 158);
+    
+    transition-timing-function: linear;
+    transition-duration: 10ms;
+}
+
+.admin-navbar-link-active:hover {
+    background-color: rgb(52, 151, 243);
+    
+}

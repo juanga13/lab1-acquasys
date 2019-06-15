@@ -1,0 +1,27 @@
+/*Container*/
+.navbar-container {
+    display: flex;
+    flex-direction: row;
+    font-size: 18px;
+    background-color: #2ec1e6;
+}
+
+/*Unactive link*/
+.navbar-link {
+    color: #1c2a31;
+    transition-timing-function: linear;
+    transition-duration: 300ms;
+}
+
+.navbar-link:hover {
+    color: #4a93bb;
+}
+
+/*Active link*/
+.navbar-active {
+    color: #e5f3ff;
+}
+
+.navbar-active:hover {
+    color: #e5f3ff;
+}
