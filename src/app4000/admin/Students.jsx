@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
 import FilterBar from '../helpers/FilterBar';
 import ItemList from '../helpers/ItemList';
-import { Form, Button, Row } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import ReactModal from 'react-modal';
-import Input from '../helpers/Input';
-import DataVerifier from '../DataVerifier';
-import UserService from '../UserService';
+import UserService from '../network/AdminService';
 import StudentsForm from './StudentsForm';
 import '../css/main.css'
 // ReactModal.setAppElement('root');  to get rid of 'App element is not defined' warning
@@ -26,27 +24,21 @@ class Students extends Component {
 
     _filterList() {
         const students = this.props.students;
-        // let filteredList = [];
-        // for (var key in students) {
-        //     if (students[key].name.toLowerCase().includes(this.state.filter.toLowerCase()) ||
-        //     students[key].surname.toLowerCase().includes(this.state.filter.toLowerCase()) {
-        //         filteredList.push(students[key]);
-        //     }
-        // }
-        // return filteredList;
-        return students;
-    };
+        let filteredList = [];
+        for (var key in students) {
+            if (students[key].name.toLowerCase().includes(this.state.filter.toLowerCase()) ||
+            students[key].surname.toLowerCase().includes(this.state.filter.toLowerCase())
+            //  ||students[key].dni.toString().includes(this.state.filter.toLowerCase())
+             ) {
+                filteredList.push(students[key]);
+            }
+        }
+        // console.log('filtered List');
+        // console.log(filteredList);
+        return filteredList;
 
-    // gives me object with only data from student
-    _getStateStudentData = () => {
-        const data = this.state;
-        delete data.filter;
-        delete data.isModalOpen;
-        delete data.modalEditMode;
-        delete data.editResponse;
-        delete data.deleteResponse;
-        return data;
-    }
+        // return students;1
+    };
 
     handleAdd = event => {
         event.preventDefault();
@@ -55,19 +47,19 @@ class Students extends Component {
 
     handleAddConfirm = (event, data) => {
         event.preventDefault();
-        console.log('Adding new student!');
-        console.log(event.currentTarget);
+        // console.log('Adding new student!');
+        // console.log(event.currentTarget);
         if (this.state.modalEditMode) {
             UserService.editStudent(data).then(response => {
-                console.log('adding new student response:')
-                console.log(response);
+                // console.log('adding new student response:')
+                // console.log(response);
                 this.setState({editResponse: data});
                 this.props.onUpdateList();
             });
         } else {
             UserService.createStudent(data).then(response => {
-                console.log('results');
-                console.log(response);
+                // console.log('results');
+                // console.log(response);
                 if (response.success) {
                     this.setState({isModalOpen: false, response: response});
                     this.props.updateList();
@@ -78,7 +70,7 @@ class Students extends Component {
 
     handleAddCancel = event => {
         event.preventDefault();
-        console.log('canceled add student');
+        // console.log('canceled add student');
         this.editData = null;
         this.setState({isModalOpen: false, modalEditMode: false});
     };
@@ -89,7 +81,7 @@ class Students extends Component {
     };
 
     handleEdit = id => {
-        console.log("handle edit event is: " + id);
+        // console.log("handle edit event is: " + id);
         let data;
         // get all of student data
         this.props.verified.forEach(student => {if (student.id === id) data = student});
@@ -127,13 +119,15 @@ class Students extends Component {
                 />
                 <ItemList
                     type='students'
-                    items={this.props.students} 
+                    items={this._filterList()} 
                     filter={this.state.filter}
                     onEdit={this.handleEdit}
                     onDelete={this.handleDelete}    
                 />
-                <ReactModal isOpen={this.state.isModalOpen}>
-                    {/* StudentForm verifies data onSubmit and does props.onSubmit */}
+                <ReactModal 
+                    isOpen={this.state.isModalOpen} 
+                    ariaHideApp={false}
+                >
                     <StudentsForm 
                         fields={this.editData}
                         onAddConfirm={(e, fields) => this.handleAddConfirm(e, fields)} 
@@ -141,8 +135,8 @@ class Students extends Component {
                     />  
                 </ReactModal>
             </div>
-        )
-    }
+        );
+    };
 }
 
 export default Students;

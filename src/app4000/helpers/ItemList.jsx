@@ -19,7 +19,7 @@ function ItemList(props) {
           <Col className=''>{student.name + ', ' + student.surname}</Col>
           <Col>{student.dni}</Col>
           <Button onClick={() => (props.onEdit(student.id))} className='btn btn-secondary'>Editar</Button>
-          <Button onClick={() => (props.onDelete(student.id))} className='btn btn-'>Eliminar</Button>  
+          <Button onClick={() => (props.onDelete(student.id))} className='btn btn-danger'>Eliminar</Button>  
         </Row>
       ))}
     </div>)
@@ -31,14 +31,14 @@ function ItemList(props) {
           <h6>{teacher.name + ', ' + teacher.surname}</h6>
           <h6>{teacher.dni}</h6>
           <Button onClick={() => (props.onEdit(teacher.id))} className='btn btn-secondary'>Editar</Button>
-          <Button onClick={() => (props.onDelete(teacher.id))} className='btn btn-'>Eliminar</Button>  
+          <Button onClick={() => (props.onDelete(teacher.id))} className='btn btn-danger'>Eliminar</Button>  
         </div>
       ))}
     </div>)
   } else if (props.type === 'lessons') {
     const lessons = props.items;
     return (<div className='list-container'>
-      {props.items.map((lesson) => (
+      {lessons.map((lesson) => (
         <div>
           {/* TODO */}
         </div>

@@ -1,10 +1,10 @@
-import React, {Component, Fragment} from 'react'
-import {Route, NavLink, Redirect} from 'react-router-dom';
+import React, {Component } from 'react'
+import {Route, NavLink } from 'react-router-dom';
 import Home from "./Home";
 import Students from "./Students";
 import Teachers from "./Teachers";
 import Lessons from "./Lessons";
-import UserService from '../UserService';
+import UserService from '../network/AdminService';
 import { Navbar } from 'react-bootstrap';
 import '../css/admin.css';
 
@@ -29,14 +29,15 @@ class AdminMenu extends Component {
         this.getLessonsList();
     };
 
-    getStudentList = () => {UserService.getAllStudents().then( x =>{ this.setState({students: x})})};
+    getStudentList = () => {
+        // console.log('getStudentList called');
+        UserService.getAllStudents().then( x =>{ this.setState({students: x})})};
     getTeachersList = () => {};
     getLessonsList = () => {};
 
     render() {
-        console.log("rendering admin");
         return (
-            <Fragment className='admin-container'>
+            <div className='admin-container'>
                 <Navbar className='admin-navbar-container'>
                     <NavLink className='nav-link admin-navbar-link' activeClassName='nav-link admin-navbar-link-active' to='/account/students'>Alumnos</NavLink>
                     <NavLink className='nav-link admin-navbar-link' activeClassName='nav-link admin-navbar-link-active' to='/account/teachers'>Profesores</NavLink>
@@ -49,7 +50,7 @@ class AdminMenu extends Component {
                 <Route path='/account/students' render={() => <Students students={this.state.students} verified={this.state.verified} unverified={this.state.unverified} updateList={this.getStudentList}/>}/>
                 <Route path='/account/teachers' render={() => <Teachers teachers={this.state.teachers}/>}/>
                 <Route path='/account/lessons' render={() => <Lessons lessons={this.state.lessons}/>}/>
-            </Fragment>
+            </div>
         )
     };
 

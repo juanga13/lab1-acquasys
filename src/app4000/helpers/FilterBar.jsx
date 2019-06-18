@@ -1,10 +1,10 @@
 import React from 'react';
-import {FormControl, DropdownButton, Dropdown} from 'react-bootstrap';
+import {FormControl} from 'react-bootstrap';
+import '../css/filterbar.css';
 
 // [DUMB CCOMPONENT]
 const FilterBar = (props) => (
-  <div>
-    <h5>Filterbar!</h5>
+  <div className='filterbar-container'>
     <FormControl
       autoFocus={props.autoFocus}
       id='filter'
@@ -13,6 +13,7 @@ const FilterBar = (props) => (
       value={props.value}
       onChange={props.onChange}
     />
+    <h6 className='text text-warning'>Nota: buscar nombre, apellido o dni por separado.</h6>
   </div>
 )
 
