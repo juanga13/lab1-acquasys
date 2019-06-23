@@ -2,15 +2,21 @@ import React, {Component} from 'react';
 import {Form, Button, Row} from 'react-bootstrap';
 import Input from '../helpers/Input';
 import DataVerifier from '../DataVerifier';
+import DatePicker, { registerLocale, setDefaultLocale }  from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import es from 'date-fns/locale/es';
+import DurationInput from '../helpers/DurationInput';
+import WeekdayInput from '../helpers/WeekdayInput';
+
+registerLocale('es', es);
+setDefaultLocale('es');
 
 const emptyForm = {
-    email: '', password: '', name: '', surname: '', dni: '', sex: '', 
-    address: '', birthday: '', phone: '', avatarUrl: '', socialPlan: '', affiliateNumber: '',
-    fatherName: '', fatherSurname: '', fatherEmail: '', fatherPhone: '',
-    motherName: '', motherSurname: '', motherEmail: '', motherPhone: '',
+    name: '', duration: 0, weekday: 'Lunes', 
+    hour: 0, minutes: 0, startDate: new Date(), endDate: new Date()
 };
 
-class StudentsForm extends Component {
+class LessonsForm extends Component {
     constructor(props) {
         console.log('constructor of students form')
         super(props);
@@ -18,11 +24,32 @@ class StudentsForm extends Component {
             fields: (props.fields === null) ? emptyForm : props.fields,
             errors: emptyForm,
         };
+        // console.log()
     };
 
     handleChange = event => {
         event.preventDefault();
         this.setState({fields: {...this.state.fields, [event.target.id]: event.target.value}});
+    };
+
+    handleDateChange = ({ startDate, endDate }) => {
+        startDate = startDate || this.state.startDate;
+        endDate = endDate || this.state.endDate;
+
+        if (startDate.getMilliseconds() > endDate.getMilliseconds()) {
+            endDate = startDate;
+        }
+
+        this.setState({ startDate, endDate });
+    };
+    
+    handleChangeStart = startDate => this.handleDateChange({ startDate });
+
+    handleChangeEnd = endDate => this.handleDateChange({ endDate });
+
+    handleChangeWeekday = weekday => {
+        console.log(weekday);
+        this.setState({fields: {...this.state.fields, weekday: weekday}});
     };
 
     handleSubmit = (event) => {  
@@ -46,35 +73,20 @@ class StudentsForm extends Component {
     };
 
     render() {
-        console.log('render from student form')
+        console.log('render from lessons form')
         console.log(this.state.fields);
         return (<Form>
             <Row>
                 <Button onClick={this.handleSubmit}>Aceptar</Button>
                 <Button onClick={this.handleCancel}>Cancelar</Button>
             </Row>
-            <Input id='email'           title='Email'               value={this.state.fields.email}           onChange={this.handleChange} error={this.state.errors.email}            placeholder='' autoFocus/>
-            <Input id='password'        title='Contraseña'          value={this.state.fields.password}        onChange={this.handleChange} error={this.state.errors.password}         placeholder=''/>
-            <Input id='name'            title='Nombre'              value={this.state.fields.name}            onChange={this.handleChange} error={this.state.errors.name}             placeholder=''/>
-            <Input id='surname'         title='Apellido'            value={this.state.fields.surname}         onChange={this.handleChange} error={this.state.errors.surname}          placeholder=''/>
-            <Input id='dni'             title='DNI'                 value={this.state.fields.dni}             onChange={this.handleChange} error={this.state.errors.dni}              placeholder=''/>
-            <Input id='sex'             title='Sexo'                value={this.state.fields.sex}             onChange={this.handleChange} error={this.state.errors.sex}              placeholder='' />
-            <Input id='birthday'        title='Fecha de Nacimiento' value={this.state.fields.birthday}        onChange={this.handleChange} error={this.state.errors.birthday}         placeholder=''/>
-            <Input id='address'         title='Direccion'           value={this.state.fields.address}         onChange={this.handleChange} error={this.state.errors.address}          placeholder=''/>
-            <Input id='phone'           title='Telefono'            value={this.state.fields.phone}           onChange={this.handleChange} error={this.state.errors.phone}            placeholder=''/>
-            <Input id='avatarUrl'       title='Foto de perfil'      value={this.state.fields.avatarUrl}       onChange={this.handleChange} error={this.state.errors.avatarUrl}        placeholder=''/>
-            <Input id='socialPlan'      title='Plan Social'         value={this.state.fields.socialPlan}      onChange={this.handleChange} error={this.state.errors.socialPlan}       placeholder=''/>
-            <Input id='affiliateNumber' title='Numero de Afiliado'  value={this.state.fields.affiliateNumber} onChange={this.handleChange} error={this.state.errors.affiliateNumber}  placeholder=''/>
-            <Input id='fatherName'     title='Nombre'              value={this.state.fields.fatherName}      onChange={this.handleChange} error={this.state.errors.fatherName}       placeholder=''/>
-            <Input id='fatherSurname'  title='Apellido'            value={this.state.fields.fatherSurname}   onChange={this.handleChange} error={this.state.errors.fatherSurname}    placeholder=''/>
-            <Input id='fatherEmail'    title='Email'               value={this.state.fields.fatherEmail}     onChange={this.handleChange} error={this.state.errors.fatherEmail}      placeholder=''/>
-            <Input id='fatherPhone'    title='Telefono'            value={this.state.fields.fatherPhone}     onChange={this.handleChange} error={this.state.errors.fatherPhone}      placeholder=''/>
-            <Input id='motherName'     title='Nombre'              value={this.state.fields.motherName}      onChange={this.handleChange} error={this.state.errors.motherName}       placeholder=''/>
-            <Input id='motherSurname'  title='Apellido'            value={this.state.fields.motherSurname}   onChange={this.handleChange} error={this.state.errors.motherSurname}    placeholder=''/>
-            <Input id='motherEmail'    title='Email'               value={this.state.fields.motherEmail}     onChange={this.handleChange} error={this.state.errors.motherEmail}      placeholder=''/>
-            <Input id='motherPhone'    title='Telefono'            value={this.state.fields.motherPhone}     onChange={this.handleChange} error={this.state.errors.motherPhone}      placeholder=''/>
+            <Input id='name' title='Nombre' value={this.state.fields.name} onChange={this.handleChange} error={this.state.errors.name} placeholder='' autoFocus/>
+            <DurationInput id='duration' title='Duración' unit='minutos' value={this.state.fields.duration} onChange={this.handleChange} error={this.state.errors.duration} placeholder=''/>
+            <WeekdayInput id='weekday' title='Dia de la semana' value={this.state.fields.weekday} onChangeWeekday={this.handleChangeWeekday}/>
+            <DatePicker selected={this.state.startDate} selectsStart startDate={this.state.startDate} endDate={this.state.endDate} dateFormat="dd/MM/YYYY" onChange={this.handleChangeStart}/>
+            <DatePicker selected={this.state.endDate} selectsEnd startDate={this.state.startDate} endDate={this.state.endDate} dateFormat="dd/MM/YYYY" onChange={this.handleChangeEnd}/>
         </Form>);
     };
 };
 
-export default StudentsForm;
+export default LessonsForm;

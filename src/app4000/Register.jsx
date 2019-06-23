@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {Form, Button} from 'react-bootstrap';
 import Input from './helpers/Input';
-import UserService from './UserService';
+import UserService from './network/UserService';
 import {Redirect} from "react-router";
 
 export default class Register extends Component {

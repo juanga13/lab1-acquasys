@@ -12,6 +12,20 @@ const baseURL = 'http://ec2-3-82-218-146.compute-1.amazonaws.com:8080';
  * 
  */
 class AdminService {
+    
+    static getUserInfo() {
+        let headers = new Headers();
+        headers.append("authorization", "Bearer " + localStorage.getItem("token"));
+        return fetch(baseURL + "/api/user/data",
+            {
+                headers: headers,
+                method: "GET",
+                mode: "cors",
+                cache: "no-cache",
+            }).then(response => {
+            return response.json();
+        });
+    }
 
     /** ========================================================
      * STUDENTS
@@ -97,7 +111,7 @@ class AdminService {
             .then(response => {
                 if (response.ok) result.success = true;
                 else result.errorStatus = response.status;
-                return response.text();
+                return response.json();
             })
             // .then(myJson => {
             //     result.errorMessage = myJson;
@@ -148,7 +162,7 @@ class AdminService {
 
         let result = {success: false, errorStatus: '', errorMessage: ''};  
 
-        return fetch(baseURL + '/api/student/edit', requestOptions)
+        return fetch(baseURL + '/api/student/update', requestOptions)
             .then(response => {
                 console.log(response);
                 if (response.ok) result.success = true;
@@ -192,19 +206,101 @@ class AdminService {
     ========================================================= */
     
     static getTeachers() {
-
-    };
-
-    static createTeacher() {
+        const requestOptions = {
+            method: "GET",
+            mode: "cors",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        };
         
+        let result = {success: false, errorStatus: null, errorMessage: ''};
+
+        return fetch(baseURL + "/api/teacher/all", requestOptions)
+            .then(response => {
+                if (response.ok) result.success = true;
+                else result.errorStatus = response.status;
+                return response.json();
+            });
+            // // .then(myJson => {
+            // //     result.errorMessage = myJson;
+            // //     return result;
+            // });
     };
 
-    static editTeacher() {
+    static createTeacher(data) {
+        const requestOptions = {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
+            body: JSON.stringify(data),
+        };
 
+        let result = {success: false, errorStatus: '', errorMessage: ''};  
+        return fetch(baseURL + '/api/teacher/create', requestOptions)
+            .then(response => {
+                if (response.ok) result.success = true;
+                else result.errorStatus = response.status;
+                return response.text();
+            })
+            .then(myJson => {
+                result.errorMessage = myJson;
+                return result;
+            });
     };
 
-    static deleteTeacher() {
+    static editTeacher(data) {
+        const requestOptions = {
+            method: 'PUT',
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")   
+            },
+            body: JSON.stringify(data),
+        };
 
+        let result = {success: false, errorStatus: '', errorMessage: ''};  
+
+        return fetch(baseURL + '/api/teacher/update', requestOptions)
+            .then(response => {
+                console.log(response);
+                if (response.ok) result.success = true;
+                else result.errorStatus = response.status;
+                return response.text();
+            })
+            .then(myJson => {
+                result.errorMessage = myJson;
+                return result;
+            });
+    };
+
+    static deleteTeacher(id) {
+        const requestOptions = {
+            method: 'DELETE',
+            mode: 'cors',
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
+        };
+        
+        let result = {success: false, errorStatus: null, errorMessage: ''};
+        
+        return fetch(baseURL + '/api/teacher/delete/' + id, requestOptions)
+            .then(response => {
+                console.log(response);
+                if (response.ok) result.success = true; 
+                result.errorStatus = response.status;
+                return response.text();
+            }).then(myJson => {
+                result.errorMessage = myJson;
+                return result;
+        });
     };
 
     /** ========================================================
@@ -212,19 +308,101 @@ class AdminService {
     ========================================================= */
 
     static getLessons() {
+        const requestOptions = {
+            method: "GET",
+            mode: "cors",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        };
+        
+        let result = {success: false, errorStatus: null, errorMessage: ''};
 
+        return fetch(baseURL + "/api/lesson/all", requestOptions)
+            .then(response => {
+                if (response.ok) result.success = true;
+                else result.errorStatus = response.status;
+                return response.json();
+            });
+            // .then(myJson => {
+            //     result.errorMessage = myJson;
+            //     return result;
+            // });
     };
 
-    static createLesson() {
+    static createLesson(data) {
+        const requestOptions = {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
+            body: JSON.stringify(data),
+        };
 
+        let result = {success: false, errorStatus: '', errorMessage: ''};  
+        return fetch(baseURL + '/api/lesson/create', requestOptions)
+            .then(response => {
+                if (response.ok) result.success = true;
+                else result.errorStatus = response.status;
+                return response.text();
+            })
+            .then(myJson => {
+                result.errorMessage = myJson;
+                return result;
+            });
     };
 
-    static editLesson() {
+    static editLesson(data) {
+        const requestOptions = {
+            method: 'PUT',
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")   
+            },
+            body: JSON.stringify(data),
+        };
 
+        let result = {success: false, errorStatus: '', errorMessage: ''};  
+
+        return fetch(baseURL + '/api/lesson/update', requestOptions)
+            .then(response => {
+                console.log(response);
+                if (response.ok) result.success = true;
+                else result.errorStatus = response.status;
+                return response.text();
+            })
+            .then(myJson => {
+                result.errorMessage = myJson;
+                return result;
+            });
     };
 
-    static deleteLesson() {
-
+    static deleteLesson(id) {
+        const requestOptions = {
+            method: 'DELETE',
+            mode: 'cors',
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
+        };
+        
+        let result = {success: false, errorStatus: null, errorMessage: ''};
+        
+        return fetch(baseURL + '/api/lesson/delete/' + id, requestOptions)
+            .then(response => {
+                console.log(response);
+                if (response.ok) result.success = true; 
+                result.errorStatus = response.status;
+                return response.text();
+            }).then(myJson => {
+                result.errorMessage = myJson;
+                return result;
+        });
     };
 }
 

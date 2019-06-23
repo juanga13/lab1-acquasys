@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import UserService from './network/AdminService';
+import UserService from './network/UserService';
 import {Form, Button, Spinner} from 'react-bootstrap';
 import Input from './helpers/Input';
 import './css/form.css';

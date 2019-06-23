@@ -72,19 +72,6 @@ class UserService {
             });
     };
 
-    static getUserInfo() {
-        let headers = new Headers();
-        headers.append("authorization", "Bearer " + localStorage.getItem("token"));
-        return fetch(baseURL + "/api/user/data",
-            {
-                headers: headers,
-                method: "GET",
-                mode: "cors",
-                cache: "no-cache",
-            }).then(response => {
-            return response.json();
-        });
-    }
 }
 
 export default UserService;

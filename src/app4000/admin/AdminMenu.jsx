@@ -4,7 +4,7 @@ import Home from "./Home";
 import Students from "./Students";
 import Teachers from "./Teachers";
 import Lessons from "./Lessons";
-import UserService from '../network/AdminService';
+import AdminService from '../network/AdminService';
 import { Navbar } from 'react-bootstrap';
 import '../css/admin.css';
 
@@ -20,9 +20,9 @@ class AdminMenu extends Component {
 
     // gets students, teachers and lessons
     componentWillMount() {
-        UserService.getUserInfo().then(x    => {this.setState({data: x})});
-        UserService.getVerified().then(x    => {this.setState({verified: x})});
-        UserService.getUnverified().then(x  => {this.setState({unverified: x})});
+        AdminService.getUserInfo().then(x    => {this.setState({data: x})});
+        AdminService.getVerified().then(x    => {this.setState({verified: x})});
+        AdminService.getUnverified().then(x  => {this.setState({unverified: x})});
 
         this.getStudentList();
         this.getTeachersList();
@@ -31,7 +31,7 @@ class AdminMenu extends Component {
 
     getStudentList = () => {
         // console.log('getStudentList called');
-        UserService.getAllStudents().then( x =>{ this.setState({students: x})})};
+        AdminService.getAllStudents().then( x =>{ this.setState({students: x})})};
     getTeachersList = () => {};
     getLessonsList = () => {};
 

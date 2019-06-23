@@ -115,6 +115,7 @@ class Lessons extends Component {
                     placeholder='Nombre dia horario' 
                     onChange={this.handleFilterChange} 
                     value={this.state.filter}
+                    notice='Nota: buscar nombre, dia u horario por separado.'
                 />
                 <ItemList
                     type='lessons'

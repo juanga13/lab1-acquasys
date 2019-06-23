@@ -116,6 +116,7 @@ class Students extends Component {
                     placeholder='Nombre apellido dni' 
                     onChange={this.handleFilterChange} 
                     value={this.state.filter}
+                    notice='Nota: buscar nombre, apellido o dni por separado.'
                 />
                 <ItemList
                     type='students'

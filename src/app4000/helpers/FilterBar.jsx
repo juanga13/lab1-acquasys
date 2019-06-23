@@ -13,7 +13,7 @@ const FilterBar = (props) => (
       value={props.value}
       onChange={props.onChange}
     />
-    <h6 className='text text-warning'>Nota: buscar nombre, apellido o dni por separado.</h6>
+    <h6 className='text text-warning'>{props.notice}</h6>
   </div>
 )
 

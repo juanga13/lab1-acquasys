@@ -115,6 +115,7 @@ class Teachers extends Component {
                     placeholder='Nombre apellido cuil' 
                     onChange={this.handleFilterChange} 
                     value={this.state.filter}
+                    notice='Nota: buscar nombre, apellido o cuil por separado.'
                 />
                 <ItemList
                     type='students'
