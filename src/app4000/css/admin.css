@@ -1,12 +1,15 @@
 .admin-container {
     display: flex;
     flex-direction: column;
+    /* background-image: url('../assets/background.jpg');
+    background-size: cover; */
 }
 
 .admin-navbar-container {
     display: flex;
     flex-direction: column;
     padding: 10px;
+    align-self: center;
 }
 
 .admin-navbar-link {
@@ -14,7 +17,7 @@
     border-radius: 20px;
     color: #1c2a31;
     transition-timing-function: linear;
-    transition-duration: 300ms;
+    transition-duration: 200ms;
     margin: 5px;
 }
 
@@ -24,12 +27,13 @@
 
 .admin-navbar-link-active {
     background-color: rgb(1, 82, 158);
-    
+    color: whitesmoke;
     transition-timing-function: linear;
-    transition-duration: 10ms;
+    transition-duration: 200ms;
 }
 
 .admin-navbar-link-active:hover {
-    background-color: rgb(52, 151, 243);
+    background-color: rgb(23, 110, 190);
+    color: whitesmoke;
     
 }

@@ -3,19 +3,21 @@ import FilterBar from '../helpers/FilterBar';
 import ItemList from '../helpers/ItemList';
 import { Button } from 'react-bootstrap';
 import ReactModal from 'react-modal';
-import UserService from '../network/AdminService';
+import AdminService from '../network/AdminService';
 import StudentsForm from './StudentsForm';
+import StudentInfo from './StudentInfo';
 import '../css/main.css'
 // ReactModal.setAppElement('root');  to get rid of 'App element is not defined' warning
 
 class Students extends Component {
     constructor(props) {
         super(props);
-        this.editData = null;
+        this.studentData = null;
         this.state = {
             filter: '',
             isModalOpen: false,
             modalEditMode: false, 
+            modalViewInfoMode: false,
             addResponse: null,
             editResponse: null,
             deleteResponse: null,
@@ -28,16 +30,12 @@ class Students extends Component {
         for (var key in students) {
             if (students[key].name.toLowerCase().includes(this.state.filter.toLowerCase()) ||
             students[key].surname.toLowerCase().includes(this.state.filter.toLowerCase())
-            //  ||students[key].dni.toString().includes(this.state.filter.toLowerCase())
+            //  ||students[key].dni.toString().includes(this.state.filter.toLowerCase())  TODO filter by dni
              ) {
                 filteredList.push(students[key]);
             }
         }
-        // console.log('filtered List');
-        // console.log(filteredList);
         return filteredList;
-
-        // return students;1
     };
 
     handleAdd = event => {
@@ -47,19 +45,13 @@ class Students extends Component {
 
     handleAddConfirm = (event, data) => {
         event.preventDefault();
-        // console.log('Adding new student!');
-        // console.log(event.currentTarget);
         if (this.state.modalEditMode) {
-            UserService.editStudent(data).then(response => {
-                // console.log('adding new student response:')
-                // console.log(response);
-                this.setState({editResponse: data});
-                this.props.onUpdateList();
+            AdminService.editStudent(data).then(response => {
+                this.setState({isModalOpen: false, editResponse: response});
+                this.props.updateList();
             });
         } else {
-            UserService.createStudent(data).then(response => {
-                // console.log('results');
-                // console.log(response);
+            AdminService.createStudent(data).then(response => {
                 if (response.success) {
                     this.setState({isModalOpen: false, response: response});
                     this.props.updateList();
@@ -68,11 +60,10 @@ class Students extends Component {
         }
     };
 
-    handleAddCancel = event => {
+    handleCloseModal = event => {
         event.preventDefault();
-        // console.log('canceled add student');
         this.editData = null;
-        this.setState({isModalOpen: false, modalEditMode: false});
+        this.setState({isModalOpen: false, modalEditMode: false, modalViewInfoMode: false});
     };
 
     handleFilterChange = event => {
@@ -80,22 +71,32 @@ class Students extends Component {
         this.setState({[event.target.id]: event.target.value});
     };
 
-    handleEdit = id => {
-        // console.log("handle edit event is: " + id);
+    _getStudentInfo(id) {
         let data;
         // get all of student data
         this.props.verified.forEach(student => {if (student.id === id) data = student});
         this.props.unverified.forEach(student => {if (student.id === id) data = student});
         data.password = '';  // omit password because is encrypted
-        this.editData = data;
-        // console.log(data);
-        this.setState({isModalOpen: true, modalEditMode: true});
+        this.studentData = data;
+    };
+
+    /**
+     * See student information:
+     * - Personal data.
+     * - Lessons (payed and not payed info).
+     */
+    handleViewInfo = (id) => {
+        this._getStudentInfo(id);
+        this.setState({isModalOpen: true, modalEditMode: false, modalViewInfoMode: true})
+    };
+
+    handleEdit = id => {
+        this._getStudentInfo(id);
+        this.setState({isModalOpen: true, modalEditMode: true, modalViewInfoMode: false});
     };
 
     handleDelete = id => {
-        // console.log("handle delete event is: " + id);
-        UserService.deleteStudent(id).then(data => {
-            // console.log(data);
+        AdminService.deleteStudent(id).then(data => {
             this.setState({deleteResponse: data});
             this.props.updateList();
         });
@@ -109,7 +110,7 @@ class Students extends Component {
     render() {
         return (
             <div className='menu-container'>
-                <h4>Students</h4>
+                <h4>Alumnos</h4>
                 <Button onClick={this.handleAdd}>Agregar nuevo alumno</Button>
                 <FilterBar 
                     autoFocus 
@@ -122,6 +123,7 @@ class Students extends Component {
                     type='students'
                     items={this._filterList()} 
                     filter={this.state.filter}
+                    onViewInfo={this.handleViewInfo}
                     onEdit={this.handleEdit}
                     onDelete={this.handleDelete}    
                 />
@@ -129,11 +131,17 @@ class Students extends Component {
                     isOpen={this.state.isModalOpen} 
                     ariaHideApp={false}
                 >
-                    <StudentsForm 
-                        fields={this.editData}
-                        onAddConfirm={(e, fields) => this.handleAddConfirm(e, fields)} 
-                        onAddCancel={e => this.handleAddCancel(e)}    
-                    />  
+                    {(this.state.modalViewInfoMode) 
+                        ? (<StudentInfo
+                            data={this.studentData}
+                            onCloseModal={e => this.handleCloseModal(e)}
+                        />)
+                        : (<StudentsForm 
+                            fields={this.studentData}
+                            onAddConfirm={(e, fields) => this.handleAddConfirm(e, fields)} 
+                            onAddCancel={e => this.handleCloseModal(e)}
+                        />)
+                    }  
                 </ReactModal>
             </div>
         );

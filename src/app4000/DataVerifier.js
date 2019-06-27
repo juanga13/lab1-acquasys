@@ -6,7 +6,8 @@ class DataVerifier {
     // helper method that returns errorMessage if there is 
     // an error, empty string if not.  
     static _verify(type, value) {
-        if (type === 'name' && value.length === 0) {
+        // console.log('dataverifier: ' + type + '//' + value);
+         if (type === 'name' && value.length === 0) {
             return 'El nombre no puede estar vacio.';
         } else if (type === 'surname'  && value.length === 0) {
             return 'El apellido no puede estar vacio.';

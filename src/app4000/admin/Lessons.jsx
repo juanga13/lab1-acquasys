@@ -3,7 +3,7 @@ import FilterBar from '../helpers/FilterBar';
 import ItemList from '../helpers/ItemList';
 import { Button } from 'react-bootstrap';
 import ReactModal from 'react-modal';
-import UserService from '../network/AdminService';
+import AdminService from '../network/AdminService';
 import LessonsForm from './LessonsForm';
 import '../css/main.css'
 // ReactModal.setAppElement('root');  to get rid of 'App element is not defined' warning
@@ -22,22 +22,19 @@ class Lessons extends Component {
         };
     };
 
+    /**
+     * filters list by name
+     * TODO filter also by day
+     */
     _filterList() {
         const lessons = this.props.lessons;
         let filteredList = [];
         for (var key in lessons) {
-            if (lessons[key].name.toLowerCase().includes(this.state.filter.toLowerCase()) ||
-            lessons[key].surname.toLowerCase().includes(this.state.filter.toLowerCase())
-            //  ||students[key].dni.toString().includes(this.state.filter.toLowerCase())
-             ) {
+            if (lessons[key].name.toLowerCase().includes(this.state.filter.toLowerCase())) {
                 filteredList.push(lessons[key]);
             }
         }
-        // console.log('filtered List');
-        // console.log(filteredList);
         return filteredList;
-
-        // return students;1
     };
 
     handleAdd = event => {
@@ -47,19 +44,15 @@ class Lessons extends Component {
 
     handleAddConfirm = (event, data) => {
         event.preventDefault();
-        // console.log('Adding new student!');
-        // console.log(event.currentTarget);
+        console.log('adding lessons');
+        console.log(data);
         if (this.state.modalEditMode) {
-            UserService.editLesson(data).then(response => {
-                // console.log('adding new student response:')
-                // console.log(response);
-                this.setState({editResponse: data});
-                this.props.onUpdateList();
+            AdminService.editLesson(data).then(response => {
+                this.setState({isModalOpen: false, editResponse: response});
+                this.props.updateList();
             });
         } else {
-            UserService.createLesson(data).then(response => {
-                // console.log('results');
-                // console.log(response);
+            AdminService.createLesson(data).then(response => {
                 if (response.success) {
                     this.setState({isModalOpen: false, response: response});
                     this.props.updateList();
@@ -70,7 +63,6 @@ class Lessons extends Component {
 
     handleAddCancel = event => {
         event.preventDefault();
-        // console.log('canceled add student');
         this.editData = null;
         this.setState({isModalOpen: false, modalEditMode: false});
     };
@@ -80,21 +72,21 @@ class Lessons extends Component {
         this.setState({[event.target.id]: event.target.value});
     };
 
+    handleViewInfo = (id) => {
+
+    };
+    
     handleEdit = id => {
-        // console.log("handle edit event is: " + id);
         let data;
         // get all of student data
         this.props.lesson.forEach(lesson => {if (lesson.id === id) data = lesson});
         data.password = '';  // omit password because is encrypted
         this.editData = data;
-        // console.log(data);
         this.setState({isModalOpen: true, modalEditMode: true});
     };
 
     handleDelete = id => {
-        // console.log("handle delete event is: " + id);
-        UserService.deleteLesson(id).then(data => {
-            // console.log(data);
+        AdminService.deleteLesson(id).then(data => {
             this.setState({deleteResponse: data});
             this.props.updateList();
         });
@@ -108,19 +100,20 @@ class Lessons extends Component {
     render() {
         return (
             <div className='menu-container'>
-                <h4>Lessons</h4>
+                <h4>Clases</h4>
                 <Button onClick={this.handleAdd}>Agregar nueva clase</Button>
                 <FilterBar 
                     autoFocus 
-                    placeholder='Nombre dia horario' 
+                    placeholder='Nombre día horario' 
                     onChange={this.handleFilterChange} 
                     value={this.state.filter}
-                    notice='Nota: buscar nombre, dia u horario por separado.'
+                    notice='Nota: buscar nombre, día u horario por separado.'
                 />
                 <ItemList
                     type='lessons'
                     items={this._filterList()} 
                     filter={this.state.filter}
+                    onViewInfo={this.handleViewInfo}
                     onEdit={this.handleEdit}
                     onDelete={this.handleDelete}    
                 />

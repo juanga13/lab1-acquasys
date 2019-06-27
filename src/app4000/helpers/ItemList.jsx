@@ -4,7 +4,7 @@ import '../css/list.css'
 
 function ItemList(props) {
   if (props.items === null) return null;
-  // console.log(props);
+  if (props.items.length === 0) return <h4>La lista esta vacia!</h4>;
   /**
    * types: 
    *   (1) students -> studenti: {name: 'Nombre', surname: 'Apellido', dni: '00000000'}
@@ -18,6 +18,7 @@ function ItemList(props) {
         <Row className='list-item'>
           <Col className=''>{student.name + ', ' + student.surname}</Col>
           <Col>{student.dni}</Col>
+          <Button onClick={() => (props.onViewInfo(student.id))} className='btn btn-primary'>Ver</Button>
           <Button onClick={() => (props.onEdit(student.id))} className='btn btn-secondary'>Editar</Button>
           <Button onClick={() => (props.onDelete(student.id))} className='btn btn-danger'>Eliminar</Button>  
         </Row>
@@ -30,6 +31,7 @@ function ItemList(props) {
         <div className='list-item'>
           <h6>{teacher.name + ', ' + teacher.surname}</h6>
           <h6>{teacher.dni}</h6>
+          <Button onClick={() => (props.onViewInfo(teacher.id))} className='btn btn-primary'>Ver</Button>
           <Button onClick={() => (props.onEdit(teacher.id))} className='btn btn-secondary'>Editar</Button>
           <Button onClick={() => (props.onDelete(teacher.id))} className='btn btn-danger'>Eliminar</Button>  
         </div>
@@ -40,7 +42,11 @@ function ItemList(props) {
     return (<div className='list-container'>
       {lessons.map((lesson) => (
         <div>
-          {/* TODO */}
+          <h6>{lesson.name}</h6>
+          <h6>{lesson.weekday}</h6>
+          <Button onClick={() => (props.onViewInfo(lesson.id))} className='btn btn-primary'>Ver</Button>
+          <Button onClick={() => (props.onEdit(lesson.id))} className='btn btn-secondary'>Editar</Button>
+          <Button onClick={() => (props.onDelete(lesson.id))} className='btn btn-danger'>Eliminar</Button>  
         </div>
       ))}
     </div>)

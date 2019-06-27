@@ -3,7 +3,7 @@ import FilterBar from '../helpers/FilterBar';
 import ItemList from '../helpers/ItemList';
 import { Button } from 'react-bootstrap';
 import ReactModal from 'react-modal';
-import UserService from '../network/AdminService';
+import AdminService from '../network/AdminService';
 import TeachersForm from './TeachersForm';
 import '../css/main.css'
 // ReactModal.setAppElement('root');  to get rid of 'App element is not defined' warning
@@ -28,16 +28,12 @@ class Teachers extends Component {
         for (var key in teachers) {
             if (teachers[key].name.toLowerCase().includes(this.state.filter.toLowerCase()) ||
             teachers[key].surname.toLowerCase().includes(this.state.filter.toLowerCase())
-            //  ||students[key].dni.toString().includes(this.state.filter.toLowerCase())
+            //  ||students[key].cuil.toString().includes(this.state.filter.toLowerCase()) TODO filter by cuil
              ) {
                 filteredList.push(teachers[key]);
             }
         }
-        // console.log('filtered List');
-        // console.log(filteredList);
         return filteredList;
-
-        // return students;1
     };
 
     handleAdd = event => {
@@ -47,19 +43,13 @@ class Teachers extends Component {
 
     handleAddConfirm = (event, data) => {
         event.preventDefault();
-        // console.log('Adding new student!');
-        // console.log(event.currentTarget);
         if (this.state.modalEditMode) {
-            UserService.editTeacher(data).then(response => {
-                // console.log('adding new student response:')
-                // console.log(response);
-                this.setState({editResponse: data});
-                this.props.onUpdateList();
+            AdminService.editTeacher(data).then(response => {
+                this.setState({isModalOpen: false, editResponse: response});
+                this.props.updateList();
             });
         } else {
-            UserService.createTeacher(data).then(response => {
-                // console.log('results');
-                // console.log(response);
+            AdminService.createTeacher(data).then(response => {
                 if (response.success) {
                     this.setState({isModalOpen: false, response: response});
                     this.props.updateList();
@@ -70,7 +60,6 @@ class Teachers extends Component {
 
     handleAddCancel = event => {
         event.preventDefault();
-        // console.log('canceled add student');
         this.editData = null;
         this.setState({isModalOpen: false, modalEditMode: false});
     };
@@ -80,21 +69,21 @@ class Teachers extends Component {
         this.setState({[event.target.id]: event.target.value});
     };
 
+    handleViewInfo = (id) => {
+
+    };
+
     handleEdit = id => {
-        // console.log("handle edit event is: " + id);
         let data;
         // get all of student data
         this.props.teachers.forEach(teacher => {if (teacher.id === id) data = teacher});
         data.password = '';  // omit password because is encrypted
         this.editData = data;
-        // console.log(data);
         this.setState({isModalOpen: true, modalEditMode: true});
     };
 
     handleDelete = id => {
-        // console.log("handle delete event is: " + id);
-        UserService.deleteTeacher(id).then(data => {
-            // console.log(data);
+        AdminService.deleteTeacher(id).then(data => {
             this.setState({deleteResponse: data});
             this.props.updateList();
         });
@@ -108,7 +97,7 @@ class Teachers extends Component {
     render() {
         return (
             <div className='menu-container'>
-                <h4>Teachers</h4>
+                <h4>Profesores</h4>
                 <Button onClick={this.handleAdd}>Agregar nuevo profesor</Button>
                 <FilterBar 
                     autoFocus 
@@ -121,6 +110,7 @@ class Teachers extends Component {
                     type='students'
                     items={this._filterList()} 
                     filter={this.state.filter}
+                    onViewInfo={this.handleViewInfo}
                     onEdit={this.handleEdit}
                     onDelete={this.handleDelete}    
                 />

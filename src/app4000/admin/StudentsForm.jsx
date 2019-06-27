@@ -12,7 +12,6 @@ const emptyForm = {
 
 class StudentsForm extends Component {
     constructor(props) {
-        console.log('constructor of students form')
         super(props);
         this.state = {
             fields: (props.fields === null) ? emptyForm : props.fields,
@@ -46,8 +45,6 @@ class StudentsForm extends Component {
     };
 
     render() {
-        console.log('render from student form')
-        console.log(this.state.fields);
         return (<Form>
             <Row>
                 <Button onClick={this.handleSubmit}>Aceptar</Button>
@@ -65,14 +62,16 @@ class StudentsForm extends Component {
             <Input id='avatarUrl'       title='Foto de perfil'      value={this.state.fields.avatarUrl}       onChange={this.handleChange} error={this.state.errors.avatarUrl}        placeholder=''/>
             <Input id='socialPlan'      title='Plan Social'         value={this.state.fields.socialPlan}      onChange={this.handleChange} error={this.state.errors.socialPlan}       placeholder=''/>
             <Input id='affiliateNumber' title='Numero de Afiliado'  value={this.state.fields.affiliateNumber} onChange={this.handleChange} error={this.state.errors.affiliateNumber}  placeholder=''/>
-            <Input id='fatherName'     title='Nombre'              value={this.state.fields.fatherName}      onChange={this.handleChange} error={this.state.errors.fatherName}       placeholder=''/>
-            <Input id='fatherSurname'  title='Apellido'            value={this.state.fields.fatherSurname}   onChange={this.handleChange} error={this.state.errors.fatherSurname}    placeholder=''/>
-            <Input id='fatherEmail'    title='Email'               value={this.state.fields.fatherEmail}     onChange={this.handleChange} error={this.state.errors.fatherEmail}      placeholder=''/>
-            <Input id='fatherPhone'    title='Telefono'            value={this.state.fields.fatherPhone}     onChange={this.handleChange} error={this.state.errors.fatherPhone}      placeholder=''/>
-            <Input id='motherName'     title='Nombre'              value={this.state.fields.motherName}      onChange={this.handleChange} error={this.state.errors.motherName}       placeholder=''/>
-            <Input id='motherSurname'  title='Apellido'            value={this.state.fields.motherSurname}   onChange={this.handleChange} error={this.state.errors.motherSurname}    placeholder=''/>
-            <Input id='motherEmail'    title='Email'               value={this.state.fields.motherEmail}     onChange={this.handleChange} error={this.state.errors.motherEmail}      placeholder=''/>
-            <Input id='motherPhone'    title='Telefono'            value={this.state.fields.motherPhone}     onChange={this.handleChange} error={this.state.errors.motherPhone}      placeholder=''/>
+            <h5>Datos padre</h5>
+            <Input id='fatherName'      title='Nombre'              value={this.state.fields.fatherName}      onChange={this.handleChange} error={this.state.errors.fatherName}       placeholder=''/>
+            <Input id='fatherSurname'   title='Apellido'            value={this.state.fields.fatherSurname}   onChange={this.handleChange} error={this.state.errors.fatherSurname}    placeholder=''/>
+            <Input id='fatherEmail'     title='Email'               value={this.state.fields.fatherEmail}     onChange={this.handleChange} error={this.state.errors.fatherEmail}      placeholder=''/>
+            <Input id='fatherPhone'     title='Telefono'            value={this.state.fields.fatherPhone}     onChange={this.handleChange} error={this.state.errors.fatherPhone}      placeholder=''/>
+            <h5>Datos madre</h5>
+            <Input id='motherName'      title='Nombre'              value={this.state.fields.motherName}      onChange={this.handleChange} error={this.state.errors.motherName}       placeholder=''/>
+            <Input id='motherSurname'   title='Apellido'            value={this.state.fields.motherSurname}   onChange={this.handleChange} error={this.state.errors.motherSurname}    placeholder=''/>
+            <Input id='motherEmail'     title='Email'               value={this.state.fields.motherEmail}     onChange={this.handleChange} error={this.state.errors.motherEmail}      placeholder=''/>
+            <Input id='motherPhone'     title='Telefono'            value={this.state.fields.motherPhone}     onChange={this.handleChange} error={this.state.errors.motherPhone}      placeholder=''/>
         </Form>);
     };
 };
