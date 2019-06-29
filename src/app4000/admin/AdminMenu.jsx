@@ -20,20 +20,21 @@ class AdminMenu extends Component {
 
     // gets students, teachers and lessons
     componentWillMount() {
-        AdminService.getUserInfo().then(x    => {this.setState({data: x})});
-        AdminService.getVerified().then(x    => {this.setState({verified: x})});
-        AdminService.getUnverified().then(x  => {this.setState({unverified: x})});
-
+        AdminService.getUserInfo().then(x       => {this.setState({data: x})});
         this.getStudentList();
+
         this.getTeachersList();
         this.getLessonsList();
     };
 
-    getStudentList = () => {
-        // console.log('getStudentList called');
-        AdminService.getAllStudents().then( x =>{ this.setState({students: x})})};
-    getTeachersList = () => {};
-    getLessonsList = () => {};
+    getStudentList = () => { 
+        AdminService.getAllStudents().then( x  => {this.setState({students: x})})
+        AdminService.getVerified().then(x       => {this.setState({verified: x})});
+        AdminService.getUnverified().then(x     => {this.setState({unverified: x})});
+    };
+    getTeachersList = () => { AdminService.getTeachers().then( x    => {
+        this.setState({teachers: x})})};
+    getLessonsList = () => { AdminService.getLessons().then( x      => {this.setState({lessons:  x})})};
 
     render() {
         return (
@@ -48,8 +49,8 @@ class AdminMenu extends Component {
                        render={() => <Home name={this.state.data && this.state.data.name ? this.state.data.name : ""}
                                            surname={this.state.data && this.state.data.surname ? this.state.data.surname : ""}/>}/>
                 <Route path='/account/students' render={() => <Students students={this.state.students} verified={this.state.verified} unverified={this.state.unverified} updateList={this.getStudentList}/>}/>
-                <Route path='/account/teachers' render={() => <Teachers teachers={this.state.teachers}/>}/>
-                <Route path='/account/lessons' render={() => <Lessons lessons={this.state.lessons}/>}/>
+                <Route path='/account/teachers' render={() => <Teachers teachers={this.state.teachers} updateList={this.getTeachersList}/>}/>
+                <Route path='/account/lessons' render={() => <Lessons lessons={this.state.lessons} updateList={this.getLessonsList}/>}/>
             </div>
         )
     };

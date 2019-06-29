@@ -201,6 +201,29 @@ class AdminService {
         });
     };
 
+    static getStudentLessons(id) {
+        const requestOptions = {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'Authorization': 'Bearer' + localStorage.getItem('token');
+            }
+        }
+
+        let result = {sucess: false, errorStatus: null, errorMessage: ''};
+
+        return fetch(baseURL + 'api/', requestOptions)
+            .then(response => {
+                if (response.ok) result.sucess = true;
+                response.errorStatus = response.status;
+                return response.json();
+            })
+            // .then(myJson => {
+            //     result.errorMessage = myJson;
+            // })
+        ;
+    }
+
     /** ========================================================
      * TEACHERS
     ========================================================= */

@@ -12,7 +12,6 @@ const emptyForm = {
 
 class TeachersForm extends Component {
     constructor(props) {
-        console.log('constructor of students form')
         super(props);
         this.state = {
             fields: (props.fields === null) ? emptyForm : props.fields,
@@ -46,8 +45,6 @@ class TeachersForm extends Component {
     };
 
     render() {
-        console.log('render from student form')
-        console.log(this.state.fields);
         return (<Form>
             <Row>
                 <Button onClick={this.handleSubmit}>Aceptar</Button>

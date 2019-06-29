@@ -2,7 +2,6 @@ const baseURL = 'http://ec2-3-82-218-146.compute-1.amazonaws.com:8080';
 
 class UserService {
     static login(email, password) {
-        // console.log(email + ', ' + password);
         const tokenRequestOptions = {
             method: 'POST',
             mode: "cors",
@@ -20,7 +19,7 @@ class UserService {
         };
 
         // insert all responses and return it anyway to show message on front
-        let result = {success: false, errorStatus: null, token: '', role: ''};  
+        let result = {success: false, errorStatus: null, errorMessage: '', token: '', role: ''};  
         // first fetch: get token
         return fetch(baseURL + '/oauth/token', tokenRequestOptions)
             .then(response => {
@@ -29,13 +28,17 @@ class UserService {
                 return response.json();
             })
             .then(myJson => {
-                if (result.errorStatus) return result;
+                if (result.errorStatus) {
+                    result.errorMessage = myJson.error_description;
+                    return result;
+                }
                 result.token = myJson.access_token;
                 return fetch(baseURL + "/oauth/check_token?token=" + result.token, roleRequestOptions)
                     .then(response => {
                         return response.json()
                     })
                     .then(myJson => {
+                        
                         result.role = myJson.authorities[0];
                         return result;
                     })
