@@ -9,6 +9,7 @@ import AdminMenu from './admin/AdminMenu';
 import TeacherMenu from './teacher/TeacherMenu';
 import StudentMenu from './student/StudentMenu';
 import './css/app.css';
+import Messages from "./common/Messages";
 
 const roles = {
     admin: "ROLE_ADMIN",
@@ -59,6 +60,9 @@ class App extends Component {
         else if (this.state.role === roles.teacher) result = <Route path='/account' render={() => <StudentMenu/>}/>
         return result;
     };
+    renderMessages = () => {
+        return <Route path='/messages' render={() => <Messages/>}/>;
+    }
 
     renderRedirectToAccoun = () => {
         if (this.state.redirectToAccount) {
@@ -77,6 +81,7 @@ class App extends Component {
                     <div className='app-main-container'>
                         <Route exact path='/' render={() => <Home loggedIn/>}/>
                         {this.renderAccount()}
+                        {this.renderMessages()}
                     </div>
                     {this.renderRedirectToAccoun()}
                 </Fragment>

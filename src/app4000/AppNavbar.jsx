@@ -25,6 +25,7 @@ class AppNavbar extends Component {
                     <NavLink className='nav-link navbar-link' activeClassName='nav-link navbar-link-active' to='/account'>Mi cuenta</NavLink>
                     {/* '/logout' does not exists, invalid to='' prop */}
                     <NavLink className='nav-link navbar-link' activeClassName='nav-link navbar-link-active' to='/logout' onClick={this.props.onLogout}>Desloguear</NavLink>
+                    <NavLink className='nav-link navbar-link' activeClassName='nav-link navbar-link-active' to='/messages'>Mensajes</NavLink>
                 </Navbar>
             )
         } else {
