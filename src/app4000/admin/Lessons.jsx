@@ -24,7 +24,7 @@ class Lessons extends Component {
 
     /**
      * filters list by name
-     * TODO filter also by day
+     * TODO: filter also by day
      */
     _filterList() {
         const lessons = this.props.lessons;
@@ -73,7 +73,7 @@ class Lessons extends Component {
     };
 
     handleViewInfo = (id) => {
-
+        
     };
     
     handleEdit = id => {
@@ -123,6 +123,7 @@ class Lessons extends Component {
                 >
                     <LessonsForm 
                         fields={this.editData}
+                        teachers={this.props.teachers}
                         onAddConfirm={(e, fields) => this.handleAddConfirm(e, fields)} 
                         onAddCancel={e => this.handleAddCancel(e)}    
                     />  

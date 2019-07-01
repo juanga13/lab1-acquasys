@@ -1,119 +1,141 @@
 import React, {Component} from 'react';
 import {Form, Button, Row} from 'react-bootstrap';
 import Input from '../helpers/Input';
-import DataVerifier from '../DataVerifier';
 import DatePicker, { registerLocale, setDefaultLocale }  from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import es from 'date-fns/locale/es';
-import DurationInput from '../helpers/DurationInput';
-import WeekdayInput from '../helpers/WeekdayInput';
+import LessonDayList from './LessonDayList';
+import LessonTeacherList from './LessonTeacherList';
 
 registerLocale('es', es);
 setDefaultLocale('es');
 
-const emptyForm = {
-    name: '', duration: 0, weekday: ['Lunes'], 
-    hour: 0, minutes: 0, startDate: new Date(), endDate: new Date()
-};
-
+const emptyLessonDay = {day: 'Lunes', hour: 0, minutes: 0, duration: 0};
+const emptyFields = {name: '', teachers: [], startDate: new Date(), endDate: new Date(), weekdays: [emptyLessonDay,]};
 const emptyErrors = {  // since default value for errors is empty string
-    name: '', duration: '', weekday: '', 
-    hour: '', minutes: '', startDate: '', endDate: ''
+    name: '', teachers: '', startDate: '', endDate: ''
 };
 
 class LessonsForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fields: (props.fields === null) ? emptyForm : props.fields,
+            fields: (props.fields === null) ? emptyFields : props.fields,
+            validateLessonDayList: false,
             errors: emptyErrors,
         };
     };
 
-    handleChange = event => {
+    handleChange = (event, text) => {
+        if (event instanceof Date) {  
+            const time = event.getTime();
+            if (text === 'startDate') {
+                (time > this.state.fields.endDate) 
+                    ? this.setState({errors: {
+                        ...this.state.errors, 
+                        startDate: 'El dia de comienzo no puede ser mayor a la de terminacion.'
+                    }})
+                    : this.setState({
+                        fields: {...this.state.fields, startDate: new Date(time)},
+                        errors: {...this.state.errors, startDate: ''}
+                    });
+            } 
+            if (text === 'endDate') {
+                (time < this.state.fields.startDate) 
+                    ? this.setState({errors: {
+                        ...this.state.errors,
+                        endDate: 'El dia de terminacion no puede ser menro a la de comienzo.'
+                    }})
+                    : this.setState({
+                        fields: {...this.state.fields, endDate: new Date(time)},
+                        errors: {...this.state.errors, endDate: ''}
+                    });
+            }
+        } else {
+            this.setState({...this.state, fields: {...this.state.fields, [event.target.id]: event.target.value}});
+        }
+    };
+
+    handleLessonDayList = (event, type) => {
         event.preventDefault();
-        this.setState({fields: {...this.state.fields, [event.target.id]: event.target.value}});
-    };
-
-    handleDateChange = ({ startDate, endDate }) => {
-        startDate = startDate || this.state.fields.startDate;
-        endDate = endDate || this.state.fields.endDate;
-
-        // if (startDate.getMilliseconds() > endDate.getMilliseconds()) {
-        //     endDate = startDate;
-        // }
-
-        this.setState({ startDate, endDate });
-    };
-    
-    handleChangeStart = startDate => this.handleDateChange({ startDate });
-
-    handleChangeEnd = endDate => this.handleDateChange({ endDate });
-
-    handleChangeWeekday = (weekday, index) => {
-        let newWeekday = this.state.fields.weekday;
-        newWeekday[index] = weekday;
-        this.setState({fields: {...this.state.fields, weekday: newWeekday}});
-    };
-
-    handleAdditionalWeekday = () => {
-        let weekday = this.state.fields.weekday;
-        weekday.push('Lunes');
-        this.setState({
-            fields: {...this.state.fields, weekday: weekday},
-            errors: {...this.state.errors, weekday: ''}  // clear error if any})
+        let weekdays = this.state.fields.weekdays;
+        let errorLessonDayList = this.state.errors.weekdays;
+        if (type === '+') {
+            weekdays.push(emptyLessonDay);   
+        } else if (type === '-') {
+            weekdays.pop(); 
+        }   
+        this.setState({...this.state, 
+            fields: {...this.state.fields, weekdays: weekdays},
+            errors: {...this.state.errors, weekdays: errorLessonDayList}
         });
     };
 
-    handleFewerWeekday = () => {
-        let weekday = this.state.fields.weekday;
-        if (weekday.length !== 1) {
-           weekday.pop();
-           this.setState({fields: {...this.state.fields, weekday: weekday}});   
-        } else this.setState({errors: {...this.state.errors, weekday: 'La clase debe tener por lo menos 1 dia de la semana.'}});
-    };
-
-    handleSubmit = (event) => {  
+    handleSubmit = (event) => {
+        console.log(this.state);
         event.preventDefault();
         let isValid = true;
-        let errors = {};
+        let errors = this.state.errors;
         let fields = this.state.fields;
         fields.startDate = this.state.fields.startDate.getTime();
         fields.endDate = this.state.fields.endDate.getTime();
-        const values = Object.values(fields);  // values array
-        Object.keys(this.state.fields).forEach((type, index) => {  // keys array
-            const value = values[index];
-            errors[type] = DataVerifier._verify(type, value);
-            if (errors[type] !== '') isValid = false;  // the fields is invalid so !== ''
-        });
+        if (this.state.fields.name.length === 0) {
+            errors = {...this.state.errors, name: 'El nombre de la clase no puede estar vacio.'}
+            isValid = false;
+        }
         this.setState({errors: errors});
         if (isValid) this.props.onAddConfirm(event, this.state.fields);  // props call
     };
 
     handleCancel = event => {
         event.preventDefault();
-        this.setState({fields: emptyForm, errors: emptyForm});
+        this.setState({fields: emptyFields, errors: emptyErrors});
         this.props.onAddCancel(event);
     };
 
     render() {
-        return (<Form>
+        console.log('[lesson form] render');
+        // console.log(this.props.teachers);
+        return (<Form className='form-container'>
             <Row>
                 <Button onClick={this.handleSubmit}>Aceptar</Button>
                 <Button onClick={this.handleCancel}>Cancelar</Button>
             </Row>
-            <Input          id='name'    type='name'    title='Nombre'          value={this.state.fields.name}      onChange={this.handleChange} error={this.state.errors.name} placeholder='' autoFocus/>
-            <Row className='align-items-center'>  
-                <Input          id='hour'    type='number'  title='Hora de inicio'  value={this.state.fields.hour}      onChange={this.handleChange} error={this.state.errors.hour}/>
-                <h6>hs</h6>
-                <Input          id='minutes' type='number'                          value={this.state.fields.minutes}   onChange={this.handleChange} error={this.state.errors.minutes}/> 
-                <h6>m</h6>
-            </Row>
-            <DurationInput  id='duration' title='Duración' unit='minutos'       value={this.state.fields.duration}  onChange={this.handleChange} error={this.state.errors.duration} placeholder=''/>
-            <WeekdayInput   id='weekday'  title='Dia de la semana'              value={this.state.fields.weekday}   onChangeWeekday={this.handleChangeWeekday} 
-                onAdditionalWeekday={this.handleAdditionalWeekday} onFewerWeekday={this.handleFewerWeekday} error={this.state.errors.weekday}/>
-            <DatePicker selected={this.state.fields.startDate} selectsStart startDate={this.state.fields.startDate} endDate={this.state.fields.endDate} dateFormat="dd/MM/YYYY" onChange={this.handleChangeStart}/>
-            <DatePicker selected={this.state.fields.endDate} selectsEnd startDate={this.state.fields.startDate} endDate={this.state.fields.endDate} dateFormat="dd/MM/YYYY" onChange={this.handleChangeEnd}/>
+            <Input id='name' type='name' title='Nombre' value={this.state.fields.name} onChange={this.handleChange} error={this.state.errors.name} autoFocus/>
+            <Row><h5>Fecha de inicio: </h5>
+                <DatePicker
+                    selectsStart 
+                    selected={this.state.fields.startDate} 
+                    startDate={this.state.fields.startDate} 
+                    endDate={this.state.fields.endDate} 
+                    dateFormat="dd/MM/YYYY" 
+                    onChange={e => this.handleChange(e, 'startDate')}
+                />
+            <h6 className='text text-danger'>{this.state.errors.startDate}</h6></Row>
+            <Row><h5>Fecha de terminacion: </h5>
+                <DatePicker 
+                    selectsEnd 
+                    selected={this.state.fields.endDate} 
+                    startDate={this.state.fields.startDate} 
+                    endDate={this.state.fields.endDate} 
+                    dateFormat="dd/MM/YYYY" 
+                    onChange={e => this.handleChange(e, 'endDate')}
+                />
+            <h6 className='text text-danger'>{this.state.errors.endDate}</h6></Row>
+            <Row><h5>Dias que se daran las clases:</h5>
+            <Button className='btn btn-success' onClick={(e) => this.handleLessonDayList(e, '+')}>Agregar un dia</Button>
+            <Button className='btn btn-danger' onClick={(e) => this.handleLessonDayList(e, '-')}>Quitar ultimo dia</Button></Row>
+            <LessonTeacherList
+                idLesson={}  // TODO: if in editMode pass id
+                available={this.props.teachers}
+                assigned={[]}  // TODO: facu back
+                onChange={this.handleChange}
+            />
+            <LessonDayList
+                list={this.state.fields.weekdays}
+                validate={this.state.validateLessonDayList}
+                onChange={this.handleChange}
+            />
         </Form>);
     };
 };
