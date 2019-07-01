@@ -30,7 +30,7 @@ class Students extends Component {
         for (var key in students) {
             if (students[key].name.toLowerCase().includes(this.state.filter.toLowerCase()) ||
             students[key].surname.toLowerCase().includes(this.state.filter.toLowerCase())
-            //  ||students[key].dni.toString().includes(this.state.filter.toLowerCase())  TODO filter by dni
+            //  ||students[key].dni.toString().includes(this.state.filter.toLowerCase())  TODO: filter by dni
              ) {
                 filteredList.push(students[key]);
             }

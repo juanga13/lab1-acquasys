@@ -50,7 +50,7 @@ class AdminMenu extends Component {
                                            surname={this.state.data && this.state.data.surname ? this.state.data.surname : ""}/>}/>
                 <Route path='/account/students' render={() => <Students students={this.state.students} verified={this.state.verified} unverified={this.state.unverified} updateList={this.getStudentList}/>}/>
                 <Route path='/account/teachers' render={() => <Teachers teachers={this.state.teachers} updateList={this.getTeachersList}/>}/>
-                <Route path='/account/lessons' render={() => <Lessons lessons={this.state.lessons} updateList={this.getLessonsList}/>}/>
+                <Route path='/account/lessons' render={() => <Lessons lessons={this.state.lessons} teachers={this.state.teachers} updateList={this.getLessonsList}/>}/>
             </div>
         )
     };

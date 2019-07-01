@@ -28,7 +28,7 @@ class Teachers extends Component {
         for (var key in teachers) {
             if (teachers[key].name.toLowerCase().includes(this.state.filter.toLowerCase()) ||
             teachers[key].surname.toLowerCase().includes(this.state.filter.toLowerCase())
-            //  ||students[key].cuil.toString().includes(this.state.filter.toLowerCase()) TODO filter by cuil
+            //  ||students[key].cuil.toString().includes(this.state.filter.toLowerCase()) TODO: filter by cuil
              ) {
                 filteredList.push(teachers[key]);
             }

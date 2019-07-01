@@ -9,7 +9,7 @@ function ItemList(props) {
    * types: 
    *   (1) students -> studenti: {name: 'Nombre', surname: 'Apellido', dni: '00000000'}
    *   (2) teachers -> teacheri: {name: 'Nombre', surname: 'Apellido', cuil: '20-12313123-2'}
-   *   (3) lessons  -> lessons:  {name: 'Clase', }  // TODO definir como se va a mostrar!
+   *   (3) lessons  -> lessons:  {name: 'Clase', } 
    */
   if (props.type === 'students') {
     const students = props.items;

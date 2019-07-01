@@ -6,7 +6,7 @@ const DurationInput = props => (
     <Form.Group className='form-group'>
         <Form.Label className='form-label' controlId={props.id}>{props.title}</Form.Label>
         <Form.Control
-            className={'form-control ' + (props.error && 'border border-danger')}
+            className={'form-control-number ' + (props.error && 'border border-danger')}
             id={props.id}
             type='number'
             value={props.value}

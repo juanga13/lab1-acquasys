@@ -1,4 +1,5 @@
 const baseURL = 'http://ec2-3-82-218-146.compute-1.amazonaws.com:8080'; 
+// const baseURL = 'http://168.194.232.149:2019';
 
 /**
  * Admin Service
@@ -30,7 +31,7 @@ class AdminService {
     /** ========================================================
      * STUDENTS
      * 
-     * TODO include all data in result Object for error 
+     * TODO: include all data in result Object for error 
      *      handling (in getVerified(), getUnverified() and
      *      getStudents())
     ========================================================= */
@@ -206,7 +207,7 @@ class AdminService {
             method: 'GET',
             mode: 'cors',
             headers: {
-                'Authorization': 'Bearer' + localStorage.getItem('token');
+                'Authorization': 'Bearer' + localStorage.getItem('token')
             }
         }
 
@@ -354,6 +355,45 @@ class AdminService {
             //     return result;
             // });
     };
+
+    getLessonTeachers() {
+        const requestOptions = {
+            method: 'GET',
+            mode: 'cors',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        };
+
+        let result = {succes: false, errorStatus: null, errorMessage: ''};
+
+        return fetch(baseURL + '/api/lesson/')  // TODO: finish when back is done
+    }
+
+    assignTeacher(idLesson, idTeacher) {
+        const requestOptions = {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token'),
+            }
+        }
+
+        let result = {succes: false, errorStatus: null, errorMessage: ''};
+
+        return fetch(baseURL + '/api/lesson/addTeacher/' + idTeacher + '/' + idLesson, requestOptions)
+            .then(response => {
+                console.log(response);
+                if (response.ok) result.success = true; 
+                result.errorStatus = response.status;
+                return response.text();
+            }).then(myJson => {
+                result.errorMessage = myJson;
+                return result;
+            });
+    }
 
     static createLesson(data) {
         const requestOptions = {
