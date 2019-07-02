@@ -10,6 +10,7 @@ import TeacherMenu from './teacher/TeacherMenu';
 import StudentMenu from './student/StudentMenu';
 import './css/app.css';
 import Messages from "./common/Messages";
+import UnregisteredMenu from "./unregistered/UnregisteredMenu";
 
 const roles = {
     admin: "ROLE_ADMIN",
@@ -55,9 +56,11 @@ class App extends Component {
         let result = null;
         // console.log(this.state.role);
         if (this.state.role === null) return <Redirect to='/'/> 
-        else if (this.state.role === roles.admin) result = <Route path='/account' render={() => <AdminMenu/>}/>
-        else if (this.state.role === roles.student) result = <Route path='/account' render={() => <TeacherMenu/>}/>
-        else if (this.state.role === roles.teacher) result = <Route path='/account' render={() => <StudentMenu/>}/>
+        else if (this.state.role === roles.admin) result = <Route path='/account' render={() => <AdminMenu/>}/>;
+        else if (this.state.role === roles.student) result = <Route path='/account' render={() => <StudentMenu/>}/>;
+        else if (this.state.role === roles.teacher) result = <Route path='/account' render={() => <TeacherMenu/>}/>;
+        else if (this.state.role === roles.unverifiedStudent) result = <Route path='/account' render={() => <UnregisteredMenu/>}/>;
+
         return result;
     };
     renderMessages = () => {

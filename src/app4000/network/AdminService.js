@@ -27,6 +27,19 @@ class AdminService {
             return response.json();
         });
     }
+    static getMyselfStudent() {
+        let headers = new Headers();
+        headers.append("authorization", "Bearer " + localStorage.getItem("token"));
+        return fetch(baseURL + "/api/student/myself",
+            {
+                headers: headers,
+                method: "GET",
+                mode: "cors",
+                cache: "no-cache",
+            }).then(response => {
+            return response.json();
+        });
+    }
 
     /** ========================================================
      * STUDENTS
