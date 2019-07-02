@@ -12,8 +12,6 @@ class AdminMenu extends Component {
     state = {
         data: null,
         students: null,  // only name, surname, dni and id
-        verified: null,  
-        unverified: null,
         teachers: null,
         lessons: null,
     };
@@ -28,9 +26,7 @@ class AdminMenu extends Component {
     };
 
     getStudentList = () => { 
-        AdminService.getAllStudents().then( x  => {this.setState({students: x})})
-        AdminService.getVerified().then(x       => {this.setState({verified: x})});
-        AdminService.getUnverified().then(x     => {this.setState({unverified: x})});
+        AdminService.getAllStudents().then( x  => {this.setState({students: x})});
     };
     getTeachersList = () => { AdminService.getTeachers().then( x    => {
         this.setState({teachers: x})})};
@@ -48,7 +44,7 @@ class AdminMenu extends Component {
                 <Route exact path='/account'
                        render={() => <Home name={this.state.data && this.state.data.name ? this.state.data.name : ""}
                                            surname={this.state.data && this.state.data.surname ? this.state.data.surname : ""}/>}/>
-                <Route path='/account/students' render={() => <Students students={this.state.students} verified={this.state.verified} unverified={this.state.unverified} updateList={this.getStudentList}/>}/>
+                <Route path='/account/students' render={() => <Students students={this.state.students} updateList={this.getStudentList}/>}/>
                 <Route path='/account/teachers' render={() => <Teachers teachers={this.state.teachers} updateList={this.getTeachersList}/>}/>
                 <Route path='/account/lessons' render={() => <Lessons lessons={this.state.lessons} teachers={this.state.teachers} updateList={this.getLessonsList}/>}/>
             </div>

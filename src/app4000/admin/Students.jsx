@@ -74,8 +74,7 @@ class Students extends Component {
     _getStudentInfo(id) {
         let data;
         // get all of student data
-        this.props.verified.forEach(student => {if (student.id === id) data = student});
-        this.props.unverified.forEach(student => {if (student.id === id) data = student});
+        this.props.students.forEach(student => {if (student.id === id) data = student});
         data.password = '';  // omit password because is encrypted
         this.studentData = data;
     };

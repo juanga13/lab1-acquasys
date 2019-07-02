@@ -126,7 +126,7 @@ class LessonsForm extends Component {
             <Button className='btn btn-success' onClick={(e) => this.handleLessonDayList(e, '+')}>Agregar un dia</Button>
             <Button className='btn btn-danger' onClick={(e) => this.handleLessonDayList(e, '-')}>Quitar ultimo dia</Button></Row>
             <LessonTeacherList
-                idLesson={}  // TODO: if in editMode pass id
+               // idLesson={}  // TODO: if in editMode pass id
                 available={this.props.teachers}
                 assigned={[]}  // TODO: facu back
                 onChange={this.handleChange}

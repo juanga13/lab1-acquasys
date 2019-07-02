@@ -67,34 +67,6 @@ class AdminService {
     /**
      * 
      */
-    static getUnverified() {
-        const requestOptions = {
-            method: "GET",
-            mode: "cors",
-            credentials: "same-origin",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + localStorage.getItem("token")
-            }
-        };
-        
-        let result = {success: false, errorStatus: null, errorMessage: ''};
-
-        return fetch(baseURL + "/api/unregistered/all", requestOptions)
-            .then(response => {
-                if (response.ok) result.success = true;
-                else result.errorStatus = response.status;
-                return response.json();
-            });
-            // .then(myJson => {
-            //     result.errorMessage = myJson;
-            //     return result;
-            // });
-    };
-
-    /**
-     * 
-     */
     static getAllStudents() {
         const requestOptions = {
             method: "GET",
