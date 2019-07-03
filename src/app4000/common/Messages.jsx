@@ -151,6 +151,7 @@ class Messages extends Component {
             })
             .catch(console.log);
         this.setState({show: false})
+        this.componentWillMount();
     }
 
 

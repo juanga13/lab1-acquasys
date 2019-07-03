@@ -21,13 +21,13 @@ class StudentsForm extends Component {
     };
 
     handleChange = event => {
-        console.log(event.target);
+        // console.log(event.target);
         if (event.target.id === 'check') {
             this.setState({...this.state, enableParentData: !this.state.enableParentData});
         } else if (event.target.id === 'sex') {
-            console.log('is sex');
-            console.log(event.target.id);
-            console.log(event.target.title);
+            // console.log('is sex');
+            // console.log(event.target.id);
+            // console.log(event.target.title);
             
             if (event.target.title === 'Masculino') this.setState({...this.state, fields: {...this.state.fields, sex: event.target.title}});
             if (event.target.title === 'Femenino') this.setState({...this.state, fields: {...this.state.fields, sex: event.target.title}});
@@ -48,17 +48,18 @@ class StudentsForm extends Component {
                 errors[type] = DataVerifier._verify(type, value);
                 if (errors[type] !== '') isValid = false; 
             });    
-        } else {
-            values.splice(12);
-            console.log(values);
-            let keys = Object.keys(this.state.fields)
-            keys.splice(12);
-            keys.forEach((type, index) => {
-                const value = values[index];
-                errors[type] = DataVerifier._verify(type, value);
-                if (errors[type] !== '') isValid = false; 
-            });    
-        }
+        } 
+        // else {
+        //     values.splice(12);
+        //     console.log(values);
+        //     let keys = Object.keys(this.state.fields)
+        //     keys.splice(12);
+        //     keys.forEach((type, index) => {
+        //         const value = values[index];
+        //         errors[type] = DataVerifier._verify(type, value);
+        //         if (errors[type] !== '') isValid = false; 
+        //     });    
+        // }
         this.setState({...this.state, errors: errors});
         if (isValid) this.props.onAddConfirm(event, this.state.fields);  // props call
     };
@@ -89,22 +90,22 @@ class StudentsForm extends Component {
             {/* TODO: use date picker */}
             <Input id='birthday'        title='Fecha de Nacimiento' value={this.state.fields.birthday}        onChange={this.handleChange} error={this.state.errors.birthday}         placeholder=''/>
             <Input id='address'         title='Direccion'           value={this.state.fields.address}         onChange={this.handleChange} error={this.state.errors.address}          placeholder=''/>
-            <Input id='phone'           title='Telefono'            value={this.state.fields.phone}           onChange={this.handleChange} error={this.state.errors.phone}            placeholder='' type='number'/>
+            <Input id='phoneNumber'           title='Telefono'            value={this.state.fields.phone}           onChange={this.handleChange} error={this.state.errors.phone}            placeholder='' type='number'/>
             {/* TODO: photo upload */}
-            <Input id='avatarUrl'       title='Foto de perfil'      value={this.state.fields.avatarUrl}       onChange={this.handleChange} error={this.state.errors.avatarUrl}        placeholder=''/>
+            {/* <Input id='avatarUrl'       title='Foto de perfil'      value={this.state.fields.avatarUrl}       onChange={this.handleChange} error={this.state.errors.avatarUrl}        placeholder=''/> */}
             <Input id='socialPlan'      title='Plan Social'         value={this.state.fields.socialPlan}      onChange={this.handleChange} error={this.state.errors.socialPlan}       placeholder=''/>
             <Input id='affiliateNumber' title='Numero de Afiliado'  value={this.state.fields.affiliateNumber} onChange={this.handleChange} error={this.state.errors.affiliateNumber}  placeholder='' type='number'/>
-            <Row><h6>Incluir datos de padre/madre </h6><Form.Check type='checkbox' id='check' onChange={this.handleChange} checked={this.state.enableParentData}/></Row>
+            {/* <Row><h6>Incluir datos de padre/madre </h6><Form.Check type='checkbox' id='check' onChange={this.handleChange} checked={this.state.enableParentData}/></Row> */}
             <h5>Datos padre</h5>
-            <Input id='fatherName'      title='Nombre'              value={this.state.fields.fatherName}      onChange={this.handleChange} error={this.state.errors.fatherName}       placeholder='' disabled={!this.state.enableParentData}/>
-            <Input id='fatherSurname'   title='Apellido'            value={this.state.fields.fatherSurname}   onChange={this.handleChange} error={this.state.errors.fatherSurname}    placeholder='' disabled={!this.state.enableParentData}/>
-            <Input id='fatherEmail'     title='Email'               value={this.state.fields.fatherEmail}     onChange={this.handleChange} error={this.state.errors.fatherEmail}      placeholder='' disabled={!this.state.enableParentData} type='email'/>
-            <Input id='fatherPhone'     title='Telefono'            value={this.state.fields.fatherPhone}     onChange={this.handleChange} error={this.state.errors.fatherPhone}      placeholder='' disabled={!this.state.enableParentData} type='number'/>
+            <Input id='fatherName'      title='Nombre'              value={this.state.fields.fatherName}      onChange={this.handleChange} error={this.state.errors.fatherName}       placeholder=''/>
+            <Input id='fatherSurname'   title='Apellido'            value={this.state.fields.fatherSurname}   onChange={this.handleChange} error={this.state.errors.fatherSurname}    placeholder=''/>
+            <Input id='fatherEmail'     title='Email'               value={this.state.fields.fatherEmail}     onChange={this.handleChange} error={this.state.errors.fatherEmail}      placeholder=''/>
+            <Input id='fatherPhoneNumber'     title='Telefono'            value={this.state.fields.fatherPhone}     onChange={this.handleChange} error={this.state.errors.fatherPhone}      placeholder=''/>
             <h5>Datos madre</h5> 
-            <Input id='motherName'      title='Nombre'              value={this.state.fields.motherName}      onChange={this.handleChange} error={this.state.errors.motherName}       placeholder='' disabled={!this.state.enableParentData}/>
-            <Input id='motherSurname'   title='Apellido'            value={this.state.fields.motherSurname}   onChange={this.handleChange} error={this.state.errors.motherSurname}    placeholder='' disabled={!this.state.enableParentData}/>
-            <Input id='motherEmail'     title='Email'               value={this.state.fields.motherEmail}     onChange={this.handleChange} error={this.state.errors.motherEmail}      placeholder='' disabled={!this.state.enableParentData} type='email'/>
-            <Input id='motherPhone'     title='Telefono'            value={this.state.fields.motherPhone}     onChange={this.handleChange} error={this.state.errors.motherPhone}      placeholder='' disabled={!this.state.enableParentData} type='number'/>
+            <Input id='motherName'      title='Nombre'              value={this.state.fields.motherName}      onChange={this.handleChange} error={this.state.errors.motherName}       placeholder=''/>
+            <Input id='motherSurname'   title='Apellido'            value={this.state.fields.motherSurname}   onChange={this.handleChange} error={this.state.errors.motherSurname}    placeholder=''/>
+            <Input id='motherEmail'     title='Email'               value={this.state.fields.motherEmail}     onChange={this.handleChange} error={this.state.errors.motherEmail}      placeholder=''/>
+            <Input id='motherPhoneNumber'     title='Telefono'            value={this.state.fields.motherPhone}     onChange={this.handleChange} error={this.state.errors.motherPhone}      placeholder=''/>
         </Form>);
     };
 };

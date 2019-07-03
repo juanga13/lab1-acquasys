@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
+import AdminService from '../network/AdminService';
 
 // TODO: show classes and payments
 class StudentInfo extends Component {
@@ -38,6 +39,12 @@ class StudentInfo extends Component {
         console.log(this.dataValues);
     }
 
+    handleVerify = (e) => {
+        e.preventDefault();
+        AdminService.verifyStudent(this.dataValues.id);  //TODO: then response handling
+        // this.props.onVerifyStudent(e, this.dataValues.id);
+    };
+
     render() {
         
         return (
@@ -64,6 +71,16 @@ class StudentInfo extends Component {
                         <h6>{' ' + name}</h6>
                     </div>
                 ))}
+                <span className='horizontal-separator'/>
+                {(this.dataValues.verified) ? 
+                    <div>
+                        <h6 className='text text-success'>El alumno esta verificado!</h6>
+                    </div>
+                    : <div>
+                        <h6 className='text text-danger'>El alumno no esta verificado.</h6>
+                        <Button onClick={this.handleVerify}>Verificar alumno</Button>
+                    </div>
+                }
             </div>
         );
     };

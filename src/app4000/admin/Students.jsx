@@ -82,7 +82,13 @@ class Students extends Component {
         // get all of student data
         this.props.students.forEach(student => {if (student.id === id) data = student});
         data.password = '';  // omit password because is encrypted
+        console.log(data);
         this.studentData = data;
+    };
+
+    handleVerifyStudent = (e, id) => {
+        AdminService.verifyStudent(this.dataValues.id);
+        // this.props.updateList() TODO:
     };
 
     /**
@@ -140,6 +146,7 @@ class Students extends Component {
                         ? (<StudentInfo
                             data={this.studentData}
                             onCloseModal={e => this.handleCloseModal(e)}
+                            onVerifyStudent={(e, id) => this.handleVerifyStudent(e, id)}
                         />)
                         : (<StudentsForm 
                             fields={this.studentData}

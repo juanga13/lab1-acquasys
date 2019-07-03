@@ -208,6 +208,25 @@ class AdminService {
             //     result.errorMessage = myJson;
             // })
         ;
+    };
+
+    static verifyStudent(id) {
+        let requestOptions = {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
+        }
+
+        let result = {sucess: false, errorStatus: null, errorMessage: ''};
+
+        return fetch(baseURL + '/api/student/verify/' + id, requestOptions)
+            .then(response => {
+                if (response.ok) result.sucess = true;
+                else result.errorStatus = response.status;
+                return response.text(); 
+            })
     }
 
     /** ========================================================
