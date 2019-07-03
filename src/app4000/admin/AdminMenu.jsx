@@ -25,12 +25,9 @@ class AdminMenu extends Component {
         this.getLessonsList();
     };
 
-    getStudentList = () => { 
-        AdminService.getAllStudents().then( x  => {this.setState({students: x})});
-    };
-    getTeachersList = () => { AdminService.getTeachers().then( x    => {
-        this.setState({teachers: x})})};
-    getLessonsList = () => { AdminService.getLessons().then( x      => {this.setState({lessons:  x})})};
+    getStudentList = () =>  AdminService.getAllStudents().then( x  => {this.setState({students: x})});
+    getTeachersList = () => AdminService.getTeachers().then( x     => {this.setState({teachers: x})});
+    getLessonsList = () =>  AdminService.getLessons().then( x      => {this.setState({lessons:  x})});
 
     render() {
         return (

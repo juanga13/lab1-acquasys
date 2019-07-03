@@ -14,8 +14,8 @@ function ItemList(props) {
   if (props.type === 'students') {
     const students = props.items;
     return (<div className='list-container'>
-      {students.map((student) => (
-        <Row className='list-item'>
+      {students.map((student, i) => (
+        <Row className='list-item' key={i}>
           <Col className=''>{student.name + ', ' + student.surname}</Col>
           <Col>{student.dni}</Col>
           <Button onClick={() => (props.onViewInfo(student.id))} className='btn btn-primary'>Ver</Button>
@@ -27,8 +27,8 @@ function ItemList(props) {
   } else if (props.type === 'teachers') {
     const teachers = props.items;
     return (<div className='list-container'> 
-      {teachers.map((teacher) => (
-        <div className='list-item'>
+      {teachers.map((teacher, i) => (
+        <div className='list-item' key={i}>
           <h6>{teacher.name + ', ' + teacher.surname}</h6>
           <h6>{teacher.dni}</h6>
           <Button onClick={() => (props.onViewInfo(teacher.id))} className='btn btn-primary'>Ver</Button>
@@ -40,8 +40,8 @@ function ItemList(props) {
   } else if (props.type === 'lessons') {
     const lessons = props.items;
     return (<div className='list-container'>
-      {lessons.map((lesson) => (
-        <div>
+      {lessons.map((lesson, i) => (
+        <div className='list-item' key={i}>
           <h6>{lesson.name}</h6>
           <h6>{lesson.weekday}</h6>
           <Button onClick={() => (props.onViewInfo(lesson.id))} className='btn btn-primary'>Ver</Button>

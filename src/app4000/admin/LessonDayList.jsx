@@ -21,7 +21,7 @@ class LessonDayList extends Component {
         else {
             console.log(event.target);
             if (!event.target.validity.valid) return;  // prevents not numbers inputted. 
-            console.log(id + ', ' + value);
+            // console.log(id + ', ' + value);
             if (id === 'hour') {
                 if (parseInt(value) < 0) value = 0; 
                 if (parseInt(value) > 23) value = 23; 
@@ -40,12 +40,13 @@ class LessonDayList extends Component {
     render() {
         return (<div className='weekdays-container'>{
             this.state.list.map((lessonDay, i) => (
-                <div className='weekday-card-container'>
+                <div className='weekday-card-container' key={i}>
                     <DropdownButton
                             title={lessonDay.day}
-                        >{weekdays.map(day => (
+                        >{weekdays.map((day, j) => (
                             <Dropdown.Item
                                 id='day'
+                                key={j}
                                 title={i}  // used to pass index. 
                                 className="weekdays-dropdown"
                                 onClick={(e) => this.handleChange(e, i)}

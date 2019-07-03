@@ -341,7 +341,8 @@ class AdminService {
             // });
     };
 
-    getLessonTeachers() {
+    getLessonTeachers(id) {
+        console.log('[AdminService] getLessonTeachers. id: ' + id);
         const requestOptions = {
             method: 'GET',
             mode: 'cors',
@@ -354,7 +355,13 @@ class AdminService {
 
         let result = {succes: false, errorStatus: null, errorMessage: ''};
 
-        return fetch(baseURL + '/api/lesson/')  // TODO: finish when back is done
+        return fetch(baseURL + '/api/lesson/teachers/' + id, requestOptions)
+            .then(response => {
+                console.log(response);
+                if (response.ok) result.succes = true;
+                result.errorStatus = response.status;
+                // return response.json();
+            })
     }
 
     assignTeacher(idLesson, idTeacher) {
@@ -381,6 +388,7 @@ class AdminService {
     }
 
     static createLesson(data) {
+        console.log('[AdminService] createLesson');
         const requestOptions = {
             method: 'POST',
             mode: 'cors',
@@ -394,6 +402,7 @@ class AdminService {
         let result = {success: false, errorStatus: '', errorMessage: ''};  
         return fetch(baseURL + '/api/lesson/create', requestOptions)
             .then(response => {
+                console.log(response);
                 if (response.ok) result.success = true;
                 else result.errorStatus = response.status;
                 return response.text();

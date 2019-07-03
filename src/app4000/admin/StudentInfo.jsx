@@ -1,47 +1,7 @@
 import React, {Component} from 'react';
 import {Button} from 'react-bootstrap';
 
-// 0: "Email" 1: "Nombre"
-// ​2: "Apellido"
-// ​3: "DNI"
-// ​4: "Sexo"
-// ​5: "Dirección"
-// ​6: "Fecha de nacimiento"
-// ​7: "Telefono"
-// ​8: "Foto"
-// ​9: "Plan Social"
-// ​10: "Numero de afiliado"
-// ​11: "Nombre"
-// ​12: "Apellido"
-// ​13: "Email"
-// ​14: "Telefono"
-// ​15: "Nombre"
-// ​16: "Apellido"
-// ​17: "Email"
-// ​18: "Telefono"
-// ​
-// 0: 1
-// 1: "student@gmail.com"
-// 2: ""
-// 3: "nombre student"
-// 4: "apellido student"
-// 5: 123123
-// 6: "m"
-// 7: ""
-// 8: null
-// 9: "nombre padre"
-// 10: "apellido padre"
-// 11: null
-// 12: "padre@padre.com"
-// 13: "nombre madre"
-// 14: "apellido madre"
-// 15: null
-// 16: "madre@madre.com"
-// 17: "plan social 1"
-// 18: "123123"
-// 19: "direccion 1"
-// 20: "12/03/91"
-// 21: "STUDENT"
+// TODO: show classes and payments
 class StudentInfo extends Component {
     constructor(props) {
         super(props);
