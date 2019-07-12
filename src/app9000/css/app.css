@@ -1,0 +1,35 @@
+.app-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.app-route-container {
+    display: flex;
+    
+}
+
+.appbar-container {
+    display: flex;
+
+}
+
+.contacts-container {
+    display: flex;
+    
+}
+
+.home-container {
+    display: flex;
+    
+}
+
+.login-container {
+    display: flex;
+    
+}
+
+.register-container {
+    display: flex;
+    
+}
+
