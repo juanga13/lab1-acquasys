@@ -25,7 +25,6 @@ class Messages extends Component {
     componentWillMount() {
         let headers = new Headers();
         headers.append("authorization", "Bearer " + localStorage.getItem("token"));
-        console.log(this.state.data);
         return fetch('http://ec2-3-82-218-146.compute-1.amazonaws.com:8080/api/message/all',
             {
                 headers: headers,
@@ -72,8 +71,8 @@ class Messages extends Component {
                                     <h6 class="card-subtitle mb-2 text-muted">{message.subject}</h6>
                                     <p class="card-text">{message.contents}</p>
                                 </div>
-                                <Button variant="primary" onClick={() => this.sendMessage(message.sender)}>
-                                    Responder
+                                <Button variant="primary" onClick={() => this.sendMessage(this.state.mode ? message.receiver : message.sender)}>
+                                    {this.state.mode ? "Nuevo mensaje" : "Responder"}
                                 </Button>
                             </Row>
                         </div>
@@ -114,7 +113,7 @@ class Messages extends Component {
                                         <Form.Control onChange={this.handleChange} placeholder=""/>
                                     </Col>
                                 </Form.Group>
-                                <Button variant="secondary" onClick={() => this.handleClose}>
+                                <Button variant="secondary" onClick={() =>  this.setState({show: false})}>
                                     Cancelar
                                 </Button>
                                 <Button variant="primary" type="submit" form="form1" onClick={event => this.handleSubmit(event)}>
@@ -147,11 +146,10 @@ class Messages extends Component {
             })
             .then(res => res.json())
             .then((data) => {
-                this.setState({messages: data})
+                this.setState({messages: data});
             })
             .catch(console.log);
-        this.setState({show: false})
-        this.componentWillMount();
+        this.componentWillMount().then( this.setState({show: false}));
     }
 
 

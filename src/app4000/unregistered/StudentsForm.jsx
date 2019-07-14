@@ -29,8 +29,9 @@ class StudentsForm extends Component {
         Object.keys(this.props.fields).forEach((type, index) => {
             const value = values[index];
             errors[type] = DataVerifier._verify(type, value);
-            if (errors[type] !== '') isValid = false; 
+            if (errors[type] !== '') isValid = false;
         });
+
         this.setState({...this.state, errors: errors});
         if (isValid) this.props.onAddConfirm(event, this.state.fields);  // props call
     };
@@ -43,13 +44,13 @@ class StudentsForm extends Component {
             <Row>
                 <Button onClick={this.handleSubmit}>Aceptar</Button>
             </Row>
-            <Input id='email'           title='Email'               value={this.props.fields.email}           onChange={this.props.handleChange} error={this.state.errors.email}            placeholder='' autoFocus/>
+            <Input id='email'           title='Email'     disabled  value={this.props.fields.email}           onChange={this.props.handleChange} error={this.state.errors.email}            placeholder='' autoFocus/>
             <Input id='password'        title='Contraseña'          value={this.props.fields.password}        onChange={this.props.handleChange} error={this.state.errors.password}         placeholder=''/>
             <Input id='name'            title='Nombre'              value={this.props.fields.name}            onChange={this.props.handleChange} error={this.state.errors.name}             placeholder=''/>
             <Input id='surname'         title='Apellido'            value={this.props.fields.surname}         onChange={this.props.handleChange} error={this.state.errors.surname}          placeholder=''/>
             <Input id='dni'             title='DNI'                 value={this.props.fields.dni}             onChange={this.props.handleChange} error={this.state.errors.dni}              placeholder=''/>
             <Input id='sex'             title='Sexo'                value={this.props.fields.sex}             onChange={this.props.handleChange} error={this.state.errors.sex}              placeholder='' />
-            <Input id='birthday'        title='Fecha de Nacimiento' value={this.props.fields.birthday}        onChange={this.props.handleChange} error={this.state.errors.birthday}         placeholder=''/>
+            <Input id='birthday'        title='Fecha de Nacimiento' value={this.props.fields.birthday}        onChange={this.props.handleChange} error={this.state.errors.birthday}         placeholder='"1990-10-10" '/>
             <Input id='address'         title='Direccion'           value={this.props.fields.address}         onChange={this.props.handleChange} error={this.state.errors.address}          placeholder=''/>
             <Input id='phone'           title='Telefono'            value={this.props.fields.phone}           onChange={this.props.handleChange} error={this.state.errors.phone}            placeholder=''/>
             <Input id='avatarUrl'       title='Foto de perfil'      value={this.props.fields.avatarUrl}       onChange={this.props.handleChange} error={this.state.errors.avatarUrl}        placeholder=''/>
