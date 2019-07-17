@@ -1,18 +1,23 @@
 .admin-container {
     display: flex;
     flex-direction: column;
-    /* background-image: url('../assets/background.jpg');
+    /* background-image: url('../background.jpg');
     background-size: cover; */
 }
 
 .admin-navbar-container {
     display: flex;
     flex-direction: column;
-    padding: 10px;
     align-self: center;
+    width: 100vh;
+    background: #cee7eb;
+    background-size: cover;
+    padding: 10px;
 }
 
 .admin-navbar-link {
+    height: 34px;
+    font-size: 14px;
     background-color: rgb(52, 151, 243);
     border-radius: 20px;
     color: #1c2a31;

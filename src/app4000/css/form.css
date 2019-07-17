@@ -12,6 +12,7 @@
     flex-direction: row;
     align-items: center;
     margin: 5px 0 0;
+
     /* justify-content: space-between; */    
 }
 
@@ -23,12 +24,12 @@
     margin: 10px 0 0;
 }
 
-.form-control {
+.form-control1 {
     max-width: 300px;
     margin: 10px 0 0;
 }
 
-.form-control-number {
+.form-control-number1 {
     max-width: 100px;
     margin: 10px 0 0;
 }
@@ -36,6 +37,7 @@
 .lesson-day-container {
     display: flex;
     flex-direction: column;
+    background: #ffffffcc;
     margin: 5px;
     padding: 10px;
     border-radius: 5px;

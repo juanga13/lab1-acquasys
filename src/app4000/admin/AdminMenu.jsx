@@ -22,29 +22,25 @@ class AdminMenu extends Component {
     // gets students, teachers and lessons
     componentWillMount() {
         AdminService.getUserInfo().then(x => {this.setState({data: x})});
-        AdminService.getPaymentAmount().then( x => {this.setState({paymentAmount: x.amount})})
         this.getStudentList();
         this.getTeachersList();
         this.getLessonsList();
-        this.getPaymentsList();
+        this.getPaymentsData();
     };
 
     getStudentList = () =>  AdminService.getAllStudents().then( x  => {this.setState({students: x})});
     getTeachersList = () => AdminService.getTeachers().then( x     => {this.setState({teachers: x})});
     getLessonsList = () =>  AdminService.getLessons().then( x      => {this.setState({lessons:  x})});
-    getPaymentsList = () =>  AdminService.getPayments().then( x      => {this.setState({payments:  x})});
-
-    handleChangePaymentAmount = (event, amount) => {
-        event.preventDefault();
-        console.log('changing fee amount from ' + this.state.paymentAmount + ' to ' + amount);
-        AdminService.setPaymentAmount(amount);
+    getPaymentsData = () => {
+        AdminService.getPaymentAmount().then( x => {this.setState({paymentAmount: x.amount})});
+        AdminService.getPayments().then( x      => {this.setState({payments:  x})});
     };
 
     render() {
         return (
             <div className='admin-container'>
                 <Navbar className='admin-navbar-container'>
-                    <NavLink className='nav-link admin-navbar-link' activeClassName='nav-link admin-navbar-link-active' to='/account/payment'>Abono</NavLink>
+                    <NavLink className='nav-link admin-navbar-link' activeClassName='nav-link admin-navbar-link-active' to='/account/payment'>Pagos</NavLink>
                     <NavLink className='nav-link admin-navbar-link' activeClassName='nav-link admin-navbar-link-active' to='/account/students'>Alumnos</NavLink>
                     <NavLink className='nav-link admin-navbar-link' activeClassName='nav-link admin-navbar-link-active' to='/account/teachers'>Profesores</NavLink>
                     <NavLink className='nav-link admin-navbar-link' activeClassName='nav-link admin-navbar-link-active' to='/account/lessons'>Clases</NavLink>
@@ -56,9 +52,8 @@ class AdminMenu extends Component {
                 <Route path='/account/payment'  render={() => (
                     <Payments
                         payments={this.state.payments} 
-                        amount={this.state.paymentAmount} 
-                        onChangeAmount={this.handleChangePaymentAmount} 
-                        updateList={this.getPaymentsList}
+                        amount={this.state.paymentAmount}
+                        updateList={this.getPaymentsData}
                     />)}
                 />
                 <Route path='/account/students' render={() => <Students students={this.state.students} updateList={this.getStudentList}/>}/>

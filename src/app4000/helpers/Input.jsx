@@ -2,12 +2,13 @@ import React from 'react';
 import {Form} from 'react-bootstrap';
 import '../css/form.css';
 
+// TODO: input control border is always red, why
 const Input = props => (
     <Form.Group className='form-group'>
         <Form.Label className='form-label' controlid={props.id}>{props.title}</Form.Label>
         <Form.Control
             className={
-                (props.type === 'number' ? 'form-control-number ' : 'form-control ')}
+                (props.type === 'number' ? 'form-control-number1 ' : 'form-control1 ')}
             id={props.id}
             type={props.type}
             pattern={(props.type === 'number') ? '[0-9]*' : ''}

@@ -46,7 +46,6 @@ class AdminService {
      * PAYMENTS
      * ====================================================== */
 
-     // TODO: 500 wait for facu
     static getPayments() {
         // console.log('getPayments');
         const requestOptions = {
@@ -86,8 +85,10 @@ class AdminService {
             body: JSON.stringify(paymentData),
         }
         let result = {success: false, errorStatus: '', errorMessage: ''};  
-        return fetch(baseURL + '/pay', requestOptions)
+        return fetch(baseURL + '/payment/pay', requestOptions)
             .then(response => {
+                console.log('adminservice setPayed');
+                console.log(response);
                 if (response.ok) result.success = true;
                 else result.errorStatus = response.status;
                 return response.text();
@@ -98,7 +99,6 @@ class AdminService {
             })
     };
 
-    // TODO: 500, wait for facu
     static getPaymentAmount() {
         // console.log('getPaymentAmount');
         const requestOptions = {
@@ -125,7 +125,6 @@ class AdminService {
         });
     }
 
-    // TODO: 500 wait for facu
     static setPaymentAmount(amount) {
         const requestOptions = {
             method: 'POST',

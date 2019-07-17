@@ -12,30 +12,43 @@ function ItemList(props) {
      *   (3) lessons  -> lessons:  {name: 'Clase', } 
      */
     if (props.type === 'payments') {
-        console.log('ItemList payments');
+        // console.log('ItemList payments');
         const payments = props.items;
-        console.log(payments);
+        // console.log(payments);
         return (<div className='list-container'>
             <Row className='list-item bold' key={1}>
                 <Col>Nombre y apellido</Col>
                 <Col>DNI</Col>
                 <Col>Fecha</Col>
                 <Col>Valor</Col>
-                <Col></Col><Col></Col>
+                <Col></Col>
+                {/* <Col></Col> */}
             </Row>
             {payments.map((payment, i) => {
                 payment.date = new Date(payment.date);
-                console.log(payment.date);
-                
-                return (<Row className='list-item' key={i+1}>
+                // console.log(payment);
+                // console.log(payment.date.getFullYear());
+                if (payment.payed) { return (<Row className='list-item' key={i+1}>
+                    <Col>{payment.student.name + ', ' + payment.student.surname}</Col>
+                    <Col>{payment.student.dni}</Col>
+                    <Col>{payment.date.getMonth() + ' del ' + payment.date.getFullYear()}</Col>
+                    <Col>{payment.amount}</Col>
+                    <Col>Este alumno ha pagado.</Col>
+                </Row>)} else {return (<Row className='list-item' key={i+1}>
                     <Col className=''>{payment.student.name + ', ' + payment.student.surname}</Col>
                     <Col>{payment.student.dni}</Col>
-                    <Col>{payment.date.getMonth() + ' del ' + payment.date.getYear()}</Col>
+                    <Col>{payment.date.getMonth() + ' del ' + payment.date.getFullYear()}</Col>
+
                     <Col>{payment.amount}</Col>
-                    <Button onClick={() => (props.onSetPayed(payment.id))}>
-                        Marcar como pagada</Button>
-                </Row>
-                )
+                    <Button onClick={() => {
+                        const newPayment = {
+                            studentId: payment.student.id,
+                            amount: payment.amount,
+                            date: payment.date,
+                        }
+                        props.onSetPayed(newPayment)   
+                    }}>Marcar como pagada</Button>
+                </Row>)}
             })}
         </div>)
     }
@@ -78,23 +91,31 @@ function ItemList(props) {
     } else if (props.type === 'lessons') {
         // TODO: por alguna razon no le aplica css a esto!
         const lessons = props.items;
+        console.log(lessons);
         return (<div className='list-container'>
             <Row className='list-item bold' key={0}>
                 <Col>Nombre</Col>
-                <Col>Dia</Col>
+                <Col>Dias</Col>
                 <Col></Col>
                 <Col></Col>
                 <Col></Col><Col></Col>
             </Row>
-            {lessons.map((lesson, i) => (
-                <div className='list-item' key={i+1}>
+            {lessons.map((lesson, i) => {
+                let days = '';
+                lesson.weekdays.map((weekday, j) => {
+                    if (j === lesson.weekdays.length - 1) days += (weekday.day + '.');
+                    else if (j === lesson.weekdays.length - 2) days += (weekday.day + ' y ');
+                    else days += (weekday.day + ', ');
+                });
+                // console.log(days);
+                return (<div className='list-item' key={i+1}>
                     <h6>{lesson.name}</h6>
-                    <h6>{lesson.weekday}</h6>
+                    <h6>{days}</h6>
                     <Button onClick={() => (props.onViewInfo(lesson.id))} className='btn btn-primary'>Ver</Button>
                     <Button onClick={() => (props.onEdit(lesson.id))} className='btn btn-secondary'>Editar</Button>
                     <Button onClick={() => (props.onDelete(lesson.id))} className='btn btn-danger'>Eliminar</Button>
-                </div>
-            ))}
+                </div>);
+            })}
         </div>)
     } else return null;
 }

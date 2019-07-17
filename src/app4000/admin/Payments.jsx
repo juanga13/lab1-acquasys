@@ -4,6 +4,7 @@ import ItemList from '../helpers/ItemList';
 import AdminService from '../network/AdminService';
 import Input from '../helpers/Input';
 import { Row, Button } from 'react-bootstrap';
+import '../css/main.css';
 
 class Payments extends Component {
     constructor(props) {
@@ -34,13 +35,14 @@ class Payments extends Component {
         const payments = this.props.payments;
         let filteredList = [];
         for (var key in payments) {
+            const date = new Date(payments[key].date);
             if(payments[key].student.name != null) {
                 if (payments[key].student.name.toLowerCase().includes(this.state.filter.toLowerCase())
                     || payments[key].student.surname.toLowerCase().includes(this.state.filter.toLowerCase())
                     || payments[key].student.dni.toString().includes(this.state.filter.toLowerCase())  // TODO: filter by dni
-                    || (payments[key].date.getDay()+"-"+payments[key].date.getMonth()).includes(this.state.filter.toLowerCase())
-                    || payments[key].date.getDay().includes(this.state.filter.toLowerCase())
-                    || payments[key].date.getMonth().includes(this.state.filter.toLowerCase())
+                    || (date.getDay()+"-"+payments[key].date.getMonth()).includes(this.state.filter.toLowerCase())
+                    || date.getDay().toString().includes(this.state.filter.toLowerCase())
+                    || date.getFullYear().toString().includes(this.state.filter.toLowerCase())
                 ) {
                     filteredList.push(payments[key]);
                 }
@@ -70,8 +72,13 @@ class Payments extends Component {
         return data;
     };
 
-    handleSetPayed = (id) => {
-        AdminService.setPayed(this._getPaymentData(id)).then(() => this.forceUpdate());
+    handleSetPayed = (paymentData) => {
+        // console.log('[Payments] handleSetPayed');
+        // console.log(paymentData);
+        AdminService.setPayed(paymentData).then((response) => {
+            // console.log(response)
+            if (response.success) this.props.updateList()
+        });
     };
 
     handleSetPaymentAmount = event => {
@@ -82,22 +89,26 @@ class Payments extends Component {
             // false so amount is a number
             if (amount < 0) this.setState({amountError: 'El valor del abono no puede ser negativo.'})
             else if (amount === this.props.amount) this.setState({amountError: ''})
-            else this.props.onChangeAmount(event, this.state.amount);
+            AdminService.setPaymentAmount(amount).then((response) => {
+                console.log('?');
+                console.log(this);
+                (response.success) && this.props.updateList()});
         } else this.setState({amountError: 'El valor del abono es invalido.'})
     };
 
     render() {
-        console.log('amount is: ' + this.state.amount);
+        // console.log(this.props.payments);
+        // console.log('amount is: ' + this.state.amount);
         return (
-            <div>
+            <div className='menu-container'>
                 <h6 className='text text-danger'>{this.state.amountError}</h6>
-                <Row>
+                <div className='payment-amount-container'>
                     <h6>Actual valor del abono: </h6>
-                    {this.props.amount}
+                    <h5 className='bold'>{this.props.amount}</h5>
                     <h6>, cambiarlo a: </h6>
                     <Input id='amount' value={this.state.amount} onChange={this.handleChange}/>
                     <Button onClick={this.handleSetPaymentAmount}>Cambiar</Button>
-                </Row>
+                </div>
                 <FilterBar
                     autoFocus 
                     placeholder='Nombre apellido dni o fecha' 
@@ -108,7 +119,7 @@ class Payments extends Component {
                 <ItemList
                     type='payments'
                     items={this._filterList()}
-                    onSetPayed={this.handleSetPayed}        
+                    onSetPayed={(paymentData) => this.handleSetPayed(paymentData)}        
                 />
 
             </div>
