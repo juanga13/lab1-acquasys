@@ -26,7 +26,8 @@ class AdminService {
             }).then(response => {
             return response.json();
         });
-    }
+    };
+    
     static getMyselfStudent() {
         let headers = new Headers();
         headers.append("authorization", "Bearer " + localStorage.getItem("token"));
@@ -39,7 +40,115 @@ class AdminService {
             }).then(response => {
             return response.json();
         });
+    };
+
+    /** ========================================================
+     * PAYMENTS
+     * ====================================================== */
+
+     // TODO: 500 wait for facu
+    static getPayments() {
+        // console.log('getPayments');
+        const requestOptions = {
+            method: "GET",
+            mode: "cors",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        };
+
+        let result = {succes: false, errorStatus: null, errorMessage: ''};
+
+        return fetch(baseURL + "/payment/payments", requestOptions)
+        .then(response => {
+            // console.log('getPayments');
+            if (response.ok) result.success = true;
+            else result.errorStatus = response.status;
+            // console.log(response);
+            return response.json();
+        })
+        // .then(json => {
+        //     console.log(json);
+        // })
+    };
+
+    // 
+    static setPayed(paymentData) {
+        const requestOptions = {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
+            body: JSON.stringify(paymentData),
+        }
+        let result = {success: false, errorStatus: '', errorMessage: ''};  
+        return fetch(baseURL + '/pay', requestOptions)
+            .then(response => {
+                if (response.ok) result.success = true;
+                else result.errorStatus = response.status;
+                return response.text();
+            })
+            .then(json => {
+                result.errorMessage = json;
+                return result;
+            })
+    };
+
+    // TODO: 500, wait for facu
+    static getPaymentAmount() {
+        // console.log('getPaymentAmount');
+        const requestOptions = {
+            method: 'GET',
+            mode: 'cors',
+            headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
+        };
+        
+        let result = {success: false, errorStatus: '', errorMessage: '', amount: 0};  
+        
+        return fetch(baseURL + "/payment/fee", requestOptions)
+        .then(response => {
+            // console.log('getPaymentAmount');
+            if (response.ok) result.success = true;
+            else result.errorStatus = response.status;
+            // console.log(response);
+            return response.json();
+        })
+        .then(json => {
+            // console.log(json);
+            if (result.success) result.amount = json;
+            else result.errorMessage = json.message;
+            return result;
+        });
     }
+
+    // TODO: 500 wait for facu
+    static setPaymentAmount(amount) {
+        const requestOptions = {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
+            body: JSON.stringify(amount),
+        };
+
+        let result = {success: false, errorStatus: '', errorMessage: ''};  
+        return fetch(baseURL + '/payment/fee', requestOptions)
+            .then(response => {
+                if (response.ok) result.success = true;
+                else result.errorStatus = response.status;
+                return response.text();
+            })
+            .then(myJson => {
+                result.errorMessage = myJson;
+                return result;
+            });
+    };
 
     /** ========================================================
      * STUDENTS

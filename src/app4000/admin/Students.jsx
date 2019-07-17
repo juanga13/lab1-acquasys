@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
 import FilterBar from '../helpers/FilterBar';
 import ItemList from '../helpers/ItemList';
-import { Button } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 import ReactModal from 'react-modal';
 import AdminService from '../network/AdminService';
 import StudentsForm from './StudentsForm';
 import StudentInfo from './StudentInfo';
 import '../css/main.css'
+import '../css/list.css'
+
 // ReactModal.setAppElement('root');  to get rid of 'App element is not defined' warning
 
 class Students extends Component {
@@ -132,8 +134,7 @@ class Students extends Component {
                 />
                 <ItemList
                     type='students'
-                    items={this._filterList()} 
-                    filter={this.state.filter}
+                    items={this._filterList()}
                     onViewInfo={this.handleViewInfo}
                     onEdit={this.handleEdit}
                     onDelete={this.handleDelete}    

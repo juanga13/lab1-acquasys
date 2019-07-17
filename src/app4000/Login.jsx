@@ -24,23 +24,37 @@ export default class Login extends Component {
     
     handleSubmit = event => {
         event.preventDefault();
-        this.handleValidation();
-        this.setState({loading: true, error: false, response: ''})
-        UserService.login(this.state.email, this.state.password)
-            .then(response => {
-                console.log(response);
-                if (response.success) {
-                    localStorage.setItem('token', response.token);
-                    localStorage.setItem('role', response.role);
-                } else this.setState({error: true, response: response.errorMessage});
-            }).then(() => {
-                this.setState({loading: false});
-                this.props.onLogin();
+        if (this._handleValidation()) {  // do request if inputs are valid
+            this.setState({loading: true, error: false, response: ''})
+            UserService.login(this.state.email, this.state.password)
+                .then(response => {
+                    console.log(response);
+                    if (response.success) {
+                        localStorage.setItem('token', response.token);
+                        localStorage.setItem('role', response.role);
+                    } else this.setState({error: true, response: response.errorMessage});
+                }).then(() => {
+                    this.setState({loading: false});
+                    this.props.onLogin();
             });
+        };
     };
 
-    handleValidation() {
-        
+    _handleValidation() {
+        const email = this.state.email;
+        const password = this.state.password;
+        let isFormValid = true;
+        // email verify
+        if (email.length === 0 || !email.includes('@') || !email.includes('.')) {
+            this.setState({errors: {...this.state.errors, email: 'El email es invalido.'}})
+            isFormValid = false;
+        }
+        // password verify
+        if (password.length < 6) {
+            this.setState({errors: {...this.state.errors, password: 'La contrasenia debe tener 6 caracteres o mas.'}});
+            isFormValid = false;
+        }
+        return isFormValid;
     };
 
     renderResponse = () => {return (this.state.error) 

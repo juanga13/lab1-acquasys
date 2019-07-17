@@ -6,6 +6,7 @@ import AdminService from '../network/AdminService';
 class StudentInfo extends Component {
     constructor(props) {
         super(props);
+        // console.log(props.data);
         this.dataValues = props.data;
         this.personalVariables = [
             'Email', 'DNI', 'Sexo', 'Dirección', 'Fecha de nacimiento',
@@ -37,7 +38,7 @@ class StudentInfo extends Component {
         ];
         console.log(this.dataKeys);
         console.log(this.dataValues);
-    }
+    };
 
     handleVerify = (e) => {
         e.preventDefault();
@@ -45,11 +46,19 @@ class StudentInfo extends Component {
         // this.props.onVerifyStudent(e, this.dataValues.id);
     };
 
-    render() {
-        
+    render() { 
         return (
             <div>
                 <Button onClick={e => this.props.onCloseModal(e)}>Cerrar</Button>
+                {(this.dataValues.verified) ? 
+                    <div>
+                        <h6 className='text text-success'>El alumno esta verificado!</h6>
+                    </div>
+                    : <div>
+                        <h6 className='text text-danger'>El alumno no esta verificado.</h6>
+                        <Button onClick={this.handleVerify}>Verificar alumno</Button>
+                    </div>
+                }
                 <h4>{'Datos sobre ' + this.dataValues['name'] + ' ' + this.dataValues['surname']}</h4>
                 {this.personalValues.map((name, index) => (
                     <div className='text-row-container'>
@@ -72,15 +81,6 @@ class StudentInfo extends Component {
                     </div>
                 ))}
                 <span className='horizontal-separator'/>
-                {(this.dataValues.verified) ? 
-                    <div>
-                        <h6 className='text text-success'>El alumno esta verificado!</h6>
-                    </div>
-                    : <div>
-                        <h6 className='text text-danger'>El alumno no esta verificado.</h6>
-                        <Button onClick={this.handleVerify}>Verificar alumno</Button>
-                    </div>
-                }
             </div>
         );
     };

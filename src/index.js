@@ -8,8 +8,8 @@ import {BrowserRouter as Router} from "react-router-dom";
 // import { Provider } from 'react-redux';
 // import store from './app/store'
 // import App from './app/components/App';
-// import App from './app4000/App';
-import App from './app9000/App';
+import App from './app4000/App';
+// import App from './app9000/App';
 import 'bootstrap/dist/css/bootstrap.css';
 
 
